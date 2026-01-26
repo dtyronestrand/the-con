@@ -20,7 +20,7 @@ const props = defineProps<Props>();
     position: absolute;
     width: 2rem;
     height:3rem;
-    background: var(--background);
+    background: oklch(0% 0 0);
 }
 .left-bottom{
     border-top-left-radius: 3.75rem;

@@ -3,7 +3,10 @@
         :class="classes"
         class="justify-end relative m-0 box-border flex w-[7.5rem] flex-row border-t-2 border-black pr-[0.75rem] pl-[0.75rem] text-right font-bold text-black"
         :style="{
-            backgroundColor: props.background,
+            backgroundColor: `rgba(from ${props.background} r g b )`,
+            borderColor:  props.background,
+            '--element-background': 
+props.background,
             '--element-height': elementHeight
         }"
     ></div>
@@ -32,7 +35,7 @@ const classes = computed(() => {
 });
 
 const elementHeight = computed(() => {
-    return props.height ? `${3 * props.height}rem` : '3rem';
+    return props.height ? `${4 * props.height}rem` : '4.5rem';
 });
 </script>
 
