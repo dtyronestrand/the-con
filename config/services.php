@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'graph' =>[
+        'client_id' => env('MICROSOFT_GRAPH_CLIENT_ID'),
+    'client_secret' => env('MICROSOFT_GRAPH_CLIENT_SECRET'),
+    'redirect' => env('MICROSOFT_GRAPH_REDIRECT_URI'),
+    ]
+
 ];
