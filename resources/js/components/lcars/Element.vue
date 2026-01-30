@@ -1,5 +1,6 @@
 <template>
     <div
+        @click="emit('buttonPressed')"
         :class="classes"
         class="justify-end relative m-0 box-border flex w-[7.5rem] flex-row border-t-2 border-black pr-[0.75rem] pl-[0.75rem] text-right font-bold text-black"
         :style="{
@@ -9,7 +10,10 @@
 props.background,
             '--element-height': elementHeight
         }"
-    ></div>
+    ><span class="mx-auto p-4 text-xl">
+    <slot/>
+    </span>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +28,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     button: true,
 });
+const emit = defineEmits(['buttonPressed']);
 const classes = computed(() => {
     let baseClasses = props.classList ? props.classList.join(' ') : '';
     if (props.button) {

@@ -16,6 +16,11 @@ export interface NavItem {
     icon?: LucideIcon;
     isActive?: boolean;
 }
+export interface Services {
+    id: number;
+    name: string;
+    url: string;
+}[]
 
 export type AppPageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
