@@ -10,6 +10,7 @@ class Service extends Model
     'name',
     'url',
     'icon',
+    'category_id',
  ];
 
     public function category(): BelongsTo

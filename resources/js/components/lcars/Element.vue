@@ -2,7 +2,7 @@
     <div
         @click="emit('buttonPressed')"
         :class="classes"
-        class="justify-end relative m-0 box-border flex w-[7.5rem] flex-row border-t-2 border-black pr-[0.75rem] pl-[0.75rem] text-right font-bold text-black"
+        class="justify-end relative m-0 box-border flex w-[7.5rem] flex-row border-t-2 border-black text-right font-bold text-black"
         :style="{
             backgroundColor: `rgba(from ${props.background} r g b )`,
             borderColor:  props.background,
@@ -10,7 +10,7 @@
 props.background,
             '--element-height': elementHeight
         }"
-    ><span class="mx-auto p-4 text-xl">
+    ><span class="mx-auto p-4 text-xl text-center">
     <slot/>
     </span>
     </div>

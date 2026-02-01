@@ -9,6 +9,11 @@ export interface BreadcrumbItem {
     title: string;
     href: string;
 }
+export interface Category {
+    id: number;
+    name: string;
+    services: Service[];
+}
 
 export interface NavItem {
     title: string;
@@ -16,12 +21,24 @@ export interface NavItem {
     icon?: LucideIcon;
     isActive?: boolean;
 }
-export interface Services {
+export interface Service {
     id: number;
     name: string;
     url: string;
-}[]
-
+}
+export interface Event {
+    id: number;
+webLink: string;
+subject: string;
+start: {
+    dateTime: string;
+}
+end: {
+    dateTime: string; }
+location: {
+    displayName: string;
+}
+}
 export type AppPageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
 > = T & {

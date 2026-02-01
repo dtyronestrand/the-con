@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\CalendarController;
 
 
-Route::get('/', [\App\Http\Controllers\ServiceController::class, 'index'])->name('home');
+Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->name('home');
 
 
 Route::get('dashboard', function () {

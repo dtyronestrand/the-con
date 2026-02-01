@@ -5,33 +5,38 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use Inertia\Inertia;
+use App\Models\Category;
 
 class ServiceController extends Controller
 {
-public function index()
-{
-    $services = Service::all();
-    return Inertia::render('Welcome', [
-        'services' => $services,
-    ]);
-}
  public function store(Request $request)
  {
     $validated = $request->validate([
+        'new_category' => 'nullable|string|max:255',
+        'category_id' => 'nullable|exists:categories,id',
         'name' => 'required|string|max:255',
         'url' => 'nullable|url|max:255',
         'icon' => 'nullable|string|max:255',
     ]);
+    if(!empty($validated['new_category'])) {
+        $category = Category::firstOrCreate(['name' => $validated['new_category']]);
+        $validated['category_id'] = $category->id;
+    } elseif (empty($validated['category_id'])) {
+        $defaultCategory = Category::firstOrCreate(['name' => "Default"]);
+        $validated['category_id'] = $defaultCategory->id;
+    }
 
-    $service = Service::create($validated);
+  Service::create($validated);
+    
 
-    return back()->with('success', 'Service created successfully.');
+    return redirect()->back()->with('success', 'Service created successfully.');
  }
 public function update(Request $request, $id)
  {
     $service = Service::findOrFail($id);
 
     $validated = $request->validate([
+        'category_id' => 'sometimes|nullable|exists:categories,id',
         'name' => 'sometimes|required|string|max:255',
         'url' => 'sometimes|nullable|url|max:255',
         'icon' => 'sometimes|nullable|string|max:255',
@@ -39,7 +44,7 @@ public function update(Request $request, $id)
 
     $service->update($validated);
 
-    return response()->json($service, 200);
+    return redirect()->back()->with('success', 'Service updated successfully.');
  }
 
  public function destroy($id)
@@ -47,6 +52,6 @@ public function update(Request $request, $id)
     $service = Service::findOrFail($id);
     $service->delete();
 
-    return response()->json(null, 204);
+    return redirect()->back()->with('success', 'Service deleted successfully.');
  }
 }

@@ -14,21 +14,19 @@ import { computed } from 'vue';
 interface Props {
     background?: string;
     classList?: string[];
-    button: boolean;
     target?: string;
 }
-const props = withDefaults(defineProps<Props>(), {
-    button: true,
-});
+const props = defineProps<Props>();
+
 const emit=defineEmits<{
     (e: 'click'): void;
 }>();
 const classes = computed(() => {
     let baseClasses = props.classList ? props.classList.join(' ') : '';
-    if (props.button) {
-        baseClasses +=
+  
+    baseClasses +=
             ' cursor-pointer hover:brightness-90 active:brightness-75';
-    }
+    
     return baseClasses;
 });
 
