@@ -1,44 +1,49 @@
 <template>
-    <div class="grid-container">
-    <div class="divider3">
-    <div class="flex">
-           <Elbow classList="left-bottom " background="var(--anakiwa)"/>
-           <BarWithTitle classList="top" :background="'var(--indigo)'">The Con</BarWithTitle><Bar classList="top" :background="'var(--blue)'"/><BarEnd classList="right decorated top" :background="'var(--indigo)'"/>
+    <div class="flex-container min-h-screen h-screen">
+<div class="top-bar flex flex-row">
+<Elbow classList="left-bottom " background="var(--anakiwa)"/>
+<BarWithTitle classList="top" :background="'var(--indigo)'">The Con</BarWithTitle><Bar classList="top" :background="'var(--blue)'"/><BarEnd classList="right decorated top" :background="'var(--indigo)'"/>
 </div>
-    </div>
-    <div class="header">
-        <Element background="var(--indigo)" :button="false" :height="2"/>
-       <Element background="var(--periwinkle)" :button="false"/>
-       <Element background="var(--blue)" :button="false"/>
-         <Element background="var(--anakiwa)" :button="false"/>
-     
-    </div>
-    <div class="divider1">
-        <Elbow classList="left-top" background="var(--indigo)" />
-        <Bar :background="'var(--blue)'"/><BarEnd classList="right decorated" :background="'var(--blue)'"/>
-    </div>
-    <div class="content1">
-    <CalendarWidget :isConnected="page.props.isConnected" :events="page.props.events"/>
-    <WeatherWidget />
-    </div>
-    <div class="divider2">
-    <Elbow classList="left-bottom" background="var(--anakiwa)" />
-    <Bar class="top"  background="var(--indigo)"/><BarEnd classList="right decorated top"  background="var(--indigo)"/>
-    </div>
-    <div class="body">
-        <Element @buttonPressed="showModal=true" background="var(--periwinkle)" :button="true">Add Service</Element>
-        <Element background="var(--indigo)" :button="false">Welcome</Element>
-        <Element background="var(--blue)" :button="false" :height="2"></Element>
-        <Element background="var(--anakiwa)" :button="false"></Element>
-        <Element background="var(--periwinkle)" :button="false" :height="2"></Element>
-    </div>
-    <div class="content2">
-       <ServiceContainer :categories="page.props.categories" :edit="showModal" @serviceAdded="edit = false"/>
-    </div>
-    <div class="foot">
-    <Elbow classList="left-top" background="var(--periwinkle)"/>
-    <Bar :background="'var(--anakiwa)'"/><BarEnd classList="right decorated" :background="'var(--anakiwa)'"/>
-    </div>
+<div class="top-content flex flex-row">
+<div class="flex flex-col">
+<Element background="var(--indigo)" :button="false" :height="2"></Element>
+<Element background="var(--blue)" :button="false"></Element>
+<Element background="var(--anakiwa)" :button="false"></Element>
+
+<Element background="var(--blue)" :button="false"></Element>
+<Element background="var(--anakiwa)" :button="false"></Element>
+</div>
+<div class="flex flex-row justify-evenly w-full">
+<WeatherWidget />
+<CalendarWidget :isConnected="page.props.isConnected" :events="page.props.events"/>
+</div>
+</div>
+<div class="bottom-bar flex flex-row">
+<Elbow classList="left-top" background="var(--periwinkle)"/>
+<Bar :background="'var(--anakiwa)'"/><BarEnd classList="right decorated" :background="'var(--anakiwa)'"/>
+</div>
+<div class="section-topper flex flex-row">
+<Elbow classList="left-bottom " background="var(--anakiwa)"/>
+<Bar classList="top" :background="'var(--indigo)'"></Bar><Bar classList="top" :background="'var(--blue)'"/><BarEnd classList="right decorated top" :background="'var(--indigo)'"/>
+</div>
+<div class="bottom-content flex flex-row">
+<div class="flex flex-col">
+<Element background="var(--indigo)" :button="true" @buttonPreed="showModal=true">Add Service</Element>
+<Element background="var(--blue)" :button="false"></Element>
+
+<Element background="var(--periwinkle)" :button="false"/>
+<Element background="var(--blue)" :button="false" :height="2"></Element>
+
+<Element background="var(--periwinkle)" :button="false" :height="2"></Element>
+</div>
+<div class="px-12">
+<ServiceContainer :categories="page.props.categories" :edit="showModal" @serviceAdded="edit=false"/>
+</div>
+</div>
+<div class="closer flex flex-row">
+<Elbow classList="left-top" background="var(--periwinkle)"/>
+<Bar :background="'var(--anakiwa)'"/><BarEnd classList="right decorated" :background="'var(--anakiwa)'"/>
+</div>
     </div>
 </template>
 
@@ -71,3 +76,9 @@ const showModal = ref(false);
 <style scoped>
 
 </style>
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+}

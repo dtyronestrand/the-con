@@ -2,17 +2,17 @@
     <div
         @click="emit('buttonPressed')"
         :class="classes"
-        class="justify-end relative m-0 box-border flex w-[7.5rem] flex-row border-t-2 border-black text-right font-bold text-black"
+        class="relative m-0 box-border flex w-30 grow flex-row justify-end border-t-2 border-black text-right font-bold text-black"
         :style="{
-            backgroundColor: `rgba(from ${props.background} r g b )`,
-            borderColor:  props.background,
-            '--element-background': 
-props.background,
-            '--element-height': elementHeight
+            backgroundColor: props.background,
+            borderColor: props.background,
+            height: elementHeight,
+            minHeight: elementHeight,
         }"
-    ><span class="mx-auto p-4 text-xl text-center">
-    <slot/>
-    </span>
+    >
+        <span class="mx-auto p-4 text-center text-xl">
+            <slot />
+        </span>
     </div>
 </template>
 
@@ -35,7 +35,6 @@ const classes = computed(() => {
         baseClasses +=
             ' cursor-pointer hover:brightness-90 active:brightness-75';
     }
-    baseClasses += ' h-[var(--element-height)]';
     return baseClasses;
 });
 
