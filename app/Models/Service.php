@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Service extends Model
 {
  protected $fillable = [
+    'id',
     'name',
     'url',
     'icon',

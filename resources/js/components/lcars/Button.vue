@@ -4,7 +4,10 @@
         :class="classes"
         class="justify-end relative m-0 box-border flex w-30 h-12 flex-row border
         my-4 pr-3 pl-3 text-right font-bold text-white  items-center"
-        :style="`background-color: rgba(from ${props.background || 'white'} R G B); border-color: ${props.background || 'white'};`"
+        :style="{
+            backgroundColor: resolvedBackground,
+            borderColor: resolvedBackground
+        }"
     ><slot/></button>
 
 </template>
@@ -30,6 +33,16 @@ const classes = computed(() => {
     return baseClasses;
 });
 
+const resolvedBackground = computed(() => {
+    if (!props.background) return 'white';
+    if (props.background.startsWith('var(')) {
+        const varName = props.background.match(/var\(([^)]+)\)/)?.[1];
+        if (varName) {
+            return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+        }
+    }
+    return props.background;
+});
 
 </script>
 

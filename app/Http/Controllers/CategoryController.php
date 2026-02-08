@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Inertia\Inertia;
+use App\Services\SyncService;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(SyncService $syncer)
     {
+        $syncer->run();
         $categories = Category::with('services')->get();
 
         return Inertia::render('Welcome', [

@@ -2,11 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use App\Http\Controllers\ServerConnectionController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\SyncController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
 
+Route::post('/settings/factory-reset', function() {
+    Schema::dropAllTables();
+    Artisan::call('migrate', ['--force' => true]);
+    session()->flush();
+    return redirect('/')->with('status', 'Factory reset successful. All data has been cleared.');
+});
 
-Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->name('home');
+Route::post('/sync', [SyncController::class, 'sync'])->name('sync.run');
+
+Route::post('/server/connect', [ServerConnectionController::class, 'connect'])->name('server.connect');
+
+Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->middleware('auth')->name('home');
 
 
 Route::get('dashboard', function () {

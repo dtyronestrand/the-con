@@ -220,6 +220,7 @@ return [
             'resources',
             'routes',
             'public/build',
+            'public',
         ],
 
         // File extensions to watch for changes

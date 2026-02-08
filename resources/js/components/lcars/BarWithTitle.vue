@@ -1,27 +1,31 @@
 <template>
-    <div :class="props.classList" class="relative text-black h-6 w-full m-0" :style="`background-color: ${props.background || 'var(--bahama-blue)'}`">
-    <span class="bg-black text-white uppercase m-0 ml-[0.83333333333333335rem] pl-[0.1666666666666667rem] pr-[0.1666666666666667rem] pb-[0.1666666666666667rem] inline-block text-4xl font-bold h-full">
-<slot/>
-    </span>
+    <div
+        :class="props.classList"
+        class="relative m-0 h-6 w-full text-black"
+        :style="`background-color: ${props.background || 'var(--bahama-blue)'}`"
+    >
+        <span
+            class="m-0 ml-[0.83333333333333335rem] inline-block h-full bg-black pr-[0.1666666666666667rem] pb-[0.1666666666666667rem] pl-[0.1666666666666667rem] text-xl font-bold text-white uppercase md:text-4xl"
+        >
+            <slot />
+        </span>
     </div>
 </template>
 
 <script setup lang="ts">
-interface Props{
+interface Props {
     background?: string;
-    classList?:string;
-    
+    classList?: string;
 }
 const props = defineProps<Props>();
 </script>
 
 <style scoped>
-div{
-    flex:1;
-    align-self:flex-end;
+div {
+    flex: 1;
+    align-self: flex-end;
 }
-.top{
-    align-self:flex-start;
+.top {
+    align-self: flex-start;
 }
-
 </style>

@@ -7,11 +7,16 @@ use App\Actions\Fortify\ResetUserPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
+use App\Models\AppSetting;
+use App\Models\User;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -28,6 +33,41 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+    
+        Fortify::authenticateUsing(function(Request $request) {
+                Log::info("Attempting login for: " . $request->email);
+      try {
+        $response = Http::timeout(2)->post('http://10.0.2.2:8000/api/login',[
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+        Log::info("API Status: " . $response->status());
+        if ($response->successful()){
+            $data = $response->json();
+            $user = User::updateOrCreate(
+                ['email' => $request->email],
+                ['name' =>'Synced User', 'password' => Hash::make($request->password)]
+            );
+
+            AppSetting::updateOrCreate(
+                ['key' => 'api_token'],
+                ['value' => $data['token']]
+             );
+             return $user;
+        } else {
+            Log::error("API Login Failed: " . $response->body());
+        
+        }
+        } catch (\Exception $e) {
+      Log::error("API Connection Error: " . $e->getMessage());
+        }
+        Log::info("Falling back to default authentication for: " . $request->email);
+        $user = User::where('email', $request->email)->first();
+        if ($user && Hash::check($request->password, $user->password)) {
+            return $user;
+        }
+      }  );
+
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();

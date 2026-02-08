@@ -26,9 +26,23 @@ class ServiceController extends Controller
         $validated['category_id'] = $defaultCategory->id;
     }
 
-  Service::create($validated);
-    
+  $localService = Service::create($validated);
 
+  try {
+    $token = \App\Models\AppSetting::where('key', 'api_token')->first()->value('value');
+
+    $response = \Illuminate\Support\Facades\Http::withToken($token)
+        ->post('http://10.0.2.2:8000/api/services/sync', $request->all());
+
+    if($response->successful()){
+        $serverData = $response->json('service');
+        $localService->update([
+            'id' => $serverData['id']]);
+    }
+    } catch (\Exception $e) {
+        // Log the error but don't fail the local creation
+        \Illuminate\Support\Facades\Log::error('Failed to sync new service: ' . $e->getMessage());
+  }
     return redirect()->back()->with('success', 'Service created successfully.');
  }
 public function update(Request $request, $id)
