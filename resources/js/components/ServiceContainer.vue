@@ -1,7 +1,11 @@
 <template>
     <div class="flex flex-row flex-wrap gap-4">
+       <div    v-for="category in props.categories"
+            :key="category.id"
+            class="service-category"
+        >
         <div
-            v-for="category in props.categories"
+         v-if="category.services.length && category.services.length > 0"
             class="service-container grow border-2 bg-gray-900"
             style="
                 min-height: 12.5rem;
@@ -13,38 +17,49 @@
                 >{{ category.name }}
             </BarWithTitle>
             <div class="mx-4 mt-2 flex flex-row flex-wrap gap-4">
-                <Button
+                <div
                     v-for="service in category.services"
                     :key="service.id"
-                    :classList="['round']"
-                    :background="getServiceColor(service.id)"
-                    :button="true"
-                    ><a
-                        :href="service.url"
-                        class="mx-auto text-xl text-black"
-                        >{{ service.name }}</a
-                    ></Button
+                    class="relative group"
                 >
+                    <Button
+                        :classList="['round']"
+                        :background="getServiceColor(service.id)"
+                        :button="true"
+                        ><a
+                            :href="service.url"
+                            class="mx-auto text-xl text-black"
+                            >{{ service.name }}</a
+                        ></Button
+                    >
+                    <button
+                        @click.prevent="editService(service)"
+                        class="absolute -top-2 -right-2 bg-gray-700 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Edit service"
+                    >
+                        ✎
+                    </button>
+                </div>
             </div>
         </div>
+        </div>
 
-        <!-- Modal outside the loop -->
+        <!-- Add/Edit Modal -->
         <div
-            v-if="showModal"
+            v-if="localShowModal"
             class="service-modal fixed top-1/2 left-1/2 z-50 flex w-max -translate-x-1/2 -translate-y-1/2 transform"
         >
             <Bracket
                 :classList="['left', 'hollow']"
                 background="var(--indigo)"
             />
-            <pre class="text-xs text-white">{{ form.data() }}</pre>
             <form
                 @submit.prevent="submit"
                 class="border border-black bg-black p-8"
             >
                 <button
                     type="button"
-                    @click="emit('closeModal')"
+                    @click="closeModal"
                     class="float-right mb-4 text-white"
                 >
                     ✕
@@ -117,12 +132,22 @@
                         required
                     />
                 </div>
-                <button
-                    type="submit"
-                    class="rounded bg-(--blue) px-4 py-2 text-white"
-                >
-                    Add Service
-                </button>
+                <div class="flex gap-4">
+                    <button
+                        type="submit"
+                        class="rounded bg-(--blue) px-4 py-2 text-white"
+                    >
+                        {{ editingService ? 'Update' : 'Add' }} Service
+                    </button>
+                    <button
+                        v-if="editingService"
+                        type="button"
+                        @click="deleteService"
+                        class="rounded bg-red-600 px-4 py-2 text-white"
+                    >
+                        Delete
+                    </button>
+                </div>
             </form>
             <Bracket
                 :classList="['right', 'hollow']"
@@ -130,9 +155,9 @@
             />
         </div>
         <div
-            v-if="showModal"
+            v-if="localShowModal"
             class="backdrop fixed inset-0 z-40"
-            @click="emit('closeModal')"
+            @click="closeModal"
         ></div>
     </div>
 </template>
@@ -144,7 +169,6 @@ import Button from '@/components/lcars/Button.vue';
 import type { Category } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
-
 const colors = [
     'var(--indigo)',
     'var(--blue)',
@@ -155,18 +179,20 @@ const colors = [
 ];
 const props = defineProps<{
     categories: Category[];
-    edit?: boolean;
+    showModal?: boolean;
 }>();
 const newCategory = ref(false);
-const showModal = ref(props.edit ?? false);
+const localShowModal = ref(props.showModal ?? false);
+const editingService = ref(null);
 const emit = defineEmits(['closeModal', 'serviceAdded']);
 // Watch for changes to the edit prop
 watch(
-    () => props.edit,
+    () => props.showModal,
     (newValue) => {
-        showModal.value = newValue ?? false;
+        localShowModal.value = newValue ?? false;
     },
 );
+
 const form = useForm({
     new_category: null,
     name: '',
@@ -183,26 +209,57 @@ const openModal = () => {
 };
 
 const closeModal = () => {
-    showModal.value = false;
+    localShowModal.value = false;
+    editingService.value = null;
     form.reset();
     form.clearErrors();
 };
 
+const editService = (service) => {
+    editingService.value = service;
+    form.name = service.name;
+    form.url = service.url;
+    form.category_id = service.category_id;
+    localShowModal.value = true;
+};
+
+const deleteService = () => {
+    if (confirm('Delete this service?')) {
+        form.delete(`/services/${editingService.value.id}`, {
+            onSuccess: () => {
+                emit('serviceAdded');
+                editingService.value = null;
+                closeModal();
+            },
+        });
+    }
+};
+
 const submit = () => {
-    // If we are making a new category, clear the old ID
     if (newCategory.value) {
         form.category_id = '';
     } else {
         form.new_category = null;
     }
 
-    form.post('/services', {
-        onSuccess: () => {
-            emit('serviceAdded');
-            newCategory.value = false;
-            closeModal();
-        },
-    });
+    if (editingService.value) {
+        form.put(`/services/${editingService.value.id}`, {
+            onSuccess: () => {
+                emit('serviceAdded');
+                editingService.value = null;
+                newCategory.value = false;
+                closeModal();
+            },
+        });
+    } else {
+        form.post('/services', {
+            onSuccess: () => {
+                emit('serviceAdded');
+                newCategory.value = false;
+                closeModal();
+            },
+        });
+    }
 };
 </script>
 

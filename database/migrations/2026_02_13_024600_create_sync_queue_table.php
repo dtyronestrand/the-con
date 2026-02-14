@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('sync_queue', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->nullable();
+            $table->string('model_name');
+            $table->uuid('model_uuid');
+            $table->json('payload');
+            $table->string('action'); // e.g., 'create', 'update', 'delete'
+            $table->timestamp('synced_at')->nullable();
             $table->timestamps();
-            $table->string('name');
-            $table->string('url')->nullable();
-            $table->string('icon')->nullable();
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('sync_queue');
     }
 };

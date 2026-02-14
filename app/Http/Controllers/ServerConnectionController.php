@@ -10,8 +10,9 @@ class ServerConnectionController extends Controller
 {
     public function connect(Request $request)
     {
-        // 1. Send credentials to the REMOTE server (port 8000)
-        $response = Http::post('http://127.0.0.1:8000/api/login', [
+        // 1. Send credentials to the REMOTE server
+        $apiUrl = rtrim(config('app.api_url', 'http://localhost'), '/');
+        $response = Http::post($apiUrl . '/api/login', [
             'email' => $request->email,
             'password' => $request->password,
         ]);

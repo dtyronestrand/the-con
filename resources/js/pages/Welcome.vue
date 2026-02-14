@@ -58,13 +58,13 @@
                     >Add Service</Element
                 >
                 <Element
-                    background="var(--blue)"
+                    background="var(--red-alert)"
                     :button="true"
                     @buttonPressed="factoryReset"
                     >Factory Reset</Element
                 >
 
-                <Element background="var(--periwinkle)" :button="false" />
+                <Element @click="logout" background="var(--periwinkle)" :button="true" >Logout</Element>
                 <Element
                     background="var(--blue)"
                     :button="false"
@@ -80,7 +80,7 @@
             <div class="px-12 text-white">
                 <ServiceContainer
                     :categories="page.props.categories"
-                    :edit="showModal"
+                    :showModal="showModal"
                     @closeModal="closeModal"
                     @serviceAdded="showModal = false"
                 />
@@ -115,7 +115,9 @@ const page = usePage<
         events: Event[];
     }
 >();
-
+const logout = () => {
+    router.post('/logout');
+};
 const factoryReset = () => {
     if (
         confirm(

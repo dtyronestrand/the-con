@@ -37,7 +37,8 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::authenticateUsing(function(Request $request) {
                 Log::info("Attempting login for: " . $request->email);
       try {
-        $response = Http::timeout(2)->post('http://10.0.2.2:8000/api/login',[
+        $apiUrl = rtrim(config('app.api_url', 'http://localhost'), '/');
+        $response = Http::timeout(2)->post($apiUrl . '/api/login',[
             'email' => $request->email,
             'password' => $request->password,
         ]);

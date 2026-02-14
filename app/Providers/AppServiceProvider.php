@@ -21,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->configureNativeDatabase();
+        
+        // Provide a fake request for native mode to prevent UrlGenerator errors
+        if (isset($_SERVER['NATIVEPHP_RUNNING'])) {
+            $this->app->instance('request', \Illuminate\Http\Request::create('http://127.0.0.1'));
+        }
     }
 
     protected function configureNativeDatabase(): void
@@ -36,12 +41,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-       $this->app->booted(function (){ if (!$this->app->runningInConsole() && file_exists(database_path('database.sqlite'))){
-            Artisan::call('migrate', ['--force' => true]);
-        }
-       });
         $this->configureDefaults();
-        $this->ensureNativeDatabase();
+        
+        if (isset($_SERVER['NATIVEPHP_RUNNING'])) {
+            $this->app->booted(function () {
+                Artisan::call('migrate', ['--force' => true]);
+            });
+        }
         
         Event::listen(
             SocialiteWasCalled::class,
@@ -49,28 +55,6 @@ class AppServiceProvider extends ServiceProvider
         );
     }
 
-    protected function ensureNativeDatabase(): void
-    {
-        if (isset($_SERVER['NATIVEPHP_RUNNING'])) {
-            $dbPath = storage_path('app/database.sqlite');
-            $needsMigration = !file_exists($dbPath);
-            
-            if ($needsMigration) {
-                touch($dbPath);
-            }
-            
-            try {
-                DB::connection()->getPdo();
-                DB::table('migrations')->exists();
-            } catch (\Exception $e) {
-                $needsMigration = true;
-            }
-            
-            if ($needsMigration) {
-                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-            }
-        }
-    }
 
     protected function configureDefaults(): void
     {

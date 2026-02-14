@@ -18,9 +18,9 @@ class SyncController extends Controller
             return back()->withErrors(['msg' => 'No API token found. Please login first.']);
         }
 
-        // 2. Call the Server (Use the Android IP 10.0.2.2 if testing on Emulator)
-        // In production, use your real domain.
-        $url = 'http://10.0.2.2:8000/api/sync/services'; 
+        // 2. Call the Server
+        $apiUrl = rtrim(env('API_URL'));
+        $url = $apiUrl . '/api/services/pull'; 
 
         $response = Http::withToken($tokenSetting->value)
                         ->timeout(10)

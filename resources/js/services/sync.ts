@@ -1,33 +1,36 @@
 import axios from 'axios';
 
 class SyncService {
-  private lastSync: string | null = localStorage.getItem('last_sync');
-  private apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-  private syncInterval: number | null = null;
+    private lastSync: string | null = localStorage.getItem('last_sync');
+    private apiUrl = import.meta.env.VITE_API_URL || 'http://10.0.0.91';
+    private syncInterval: number | null = null;
 
-  async pull() {
-    const { data } = await axios.get(`${this.apiUrl}/api/sync/pull`, {
-      params: { last_sync: this.lastSync }
-    });
-    
-    this.lastSync = data.synced_at;
-    localStorage.setItem('last_sync', data.synced_at);
-    return data;
-  }
+    async pull() {
+        const { data } = await axios.get(`${this.apiUrl}/api/sync/pull`, {
+            params: { last_sync: this.lastSync },
+        });
 
-  async push(changes: any) {
-    await axios.post(`${this.apiUrl}/api/sync/push`, changes);
-  }
+        this.lastSync = data.synced_at;
+        localStorage.setItem('last_sync', data.synced_at);
+        return data;
+    }
 
-  startAutoSync(intervalMinutes = 5) {
-    this.syncInterval = window.setInterval(() => {
-      this.pull().catch(console.error);
-    }, intervalMinutes * 60 * 1000);
-  }
+    async push(changes: any) {
+        await axios.post(`${this.apiUrl}/api/sync/push`, changes);
+    }
 
-  stopAutoSync() {
-    if (this.syncInterval) clearInterval(this.syncInterval);
-  }
+    startAutoSync(intervalMinutes = 5) {
+        this.syncInterval = window.setInterval(
+            () => {
+                this.pull().catch(console.error);
+            },
+            intervalMinutes * 60 * 1000,
+        );
+    }
+
+    stopAutoSync() {
+        if (this.syncInterval) clearInterval(this.syncInterval);
+    }
 }
 
 export default new SyncService();

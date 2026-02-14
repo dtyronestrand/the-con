@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('saved_locations', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->nullable();
             $table->timestamps();
             $table->string('name');
             $table->decimal('lat', 10, 8);

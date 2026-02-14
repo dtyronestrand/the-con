@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('app_settings', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->nullable();
             $table->string('key')->unique();
             $table->text('value')->nullable();
             $table->timestamps();
