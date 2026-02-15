@@ -132,7 +132,7 @@ return [
     ],
 
     'android' => [
-        'gradle_jdk_path' => env('NATIVEPHP_GRADLE_PATH'),
+        'gradle_jdk_path' => env('NATIVEPHP_GRADLE_PATH', '/opt/homebrew/Cellar/openjdk@17/17.0.18/libexec/openjdk.jdk/Contents/Home'),
         'android_sdk_path' => env('NATIVEPHP_ANDROID_SDK_LOCATION'),
         'emulator_path' => env('ANDROID_EMULATOR'),
         '7zip-location' => env('NATIVEPHP_7ZIP_LOCATION', 'C:\\Program Files\\7-Zip\\7z.exe'),

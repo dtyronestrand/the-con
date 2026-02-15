@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Models\Concerns\HasUuid;
+
 class AppSetting extends Model
 {
-    use HasUuids;
+   use HasUuid;
     protected $guarded = [];
-    public function uniqueIds(): array
-    {
-        return ['uuid'];
-    }
+
 }

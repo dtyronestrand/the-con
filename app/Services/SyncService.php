@@ -4,68 +4,149 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Models\AppSetting;
+use App\Models\SavedLocation;
 use App\Models\Category;
 use App\Models\Service;
+use App\Models\AppSetting;
+use Carbon\Carbon;
 
 class SyncService
 {
-    public function run()
+    protected $baseUrl;
+    protected $token;
+
+    public function __construct()
     {
-        // 1. Check if we have a token
-        $tokenSetting = AppSetting::where('key', 'api_token')->first();
-        if (!$tokenSetting) {
-            Log::info('Sync skipped: No API token found');
-            return;
+        $this->baseUrl = env('API_URL');
+    }
+
+    /**
+     * Set the auth token (retrieved from login).
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    public function sync()
+    {
+    
+         if(!$this->token) {
+            $this->token = AppSetting::where('key', 'api_token')->value('value');
+         }
+        if (!$this->token) {
+            Log::error('No API token available for sync.');
+            return false;
         }
 
-        // 2. Optimization: Don't sync if we just synced less than 1 minute ago
-        // (Prevents slowing down the app on every single refresh)
-        $lastSync = session('last_sync_time');
-        if ($lastSync && now()->diffInSeconds($lastSync) < 60) {
-            return;
-        }
+        // 1. Gather Local Changes (Records updated since last sync)
+        // For simplicity, we track the last successful sync time in AppSettings.
+        $lastSyncTime = AppSetting::where('key', 'last_sync_timestamp')->value('value');
+        
+        $payload = [
+            'last_synced_at' => $lastSyncTime,
+            'changes' => $this->gatherLocalChanges($lastSyncTime),
+        ];
 
+        // 2. Send to Server
         try {
-            // 3. Call API (Short timeout so app doesn't freeze if offline)
-            $apiUrl = rtrim(config('app.api_url', 'http://localhost:8000'), '/');
-            $response = Http::withToken($tokenSetting->value)
-                ->timeout(5) 
-                ->get($apiUrl . '/api/services/sync');
+            $response = Http::withToken($this->token)
+                ->post("{$this->baseUrl}/api/sync", $payload);
 
-            if ($response->successful()) {
-                $categories = $response->json();
-                Log::info('Sync successful, received ' . count($categories) . ' categories');
-
-                foreach ($categories as $catData) {
-                    Category::updateOrCreate(
-                        ['id' => $catData['id']],
-                        ['name' => $catData['name']]
-                    );
-
-                    if (isset($catData['services'])) {
-                        foreach ($catData['services'] as $serviceData) {
-                            Service::updateOrCreate(
-                                ['id' => $serviceData['id']],
-                                [
-                                    'name' => $serviceData['name'],
-                                    'url'  => $serviceData['url'],
-                                    'icon' => $serviceData['icon'],
-                                    'category_id' => $catData['id'],
-                                ]
-                            );
-                        }
-                    }
-                }
-                
-                // Update the last sync time
-                session(['last_sync_time' => now()]);
-            } else {
-                Log::warning('Sync failed with status: ' . $response->status());
+            if ($response->failed()) {
+                Log::error('Sync Request Failed: ' . $response->body());
+                return false;
             }
+
+            $serverData = $response->json();
+
+            // 3. Process Server Changes (Pull)
+            $this->processServerChanges($serverData['changes'] ?? []);
+
+            // 4. Update Last Sync Timestamp
+            AppSetting::updateOrCreate(
+                ['key' => 'last_sync_timestamp'],
+                ['value' => $serverData['timestamp']]
+            );
+
+            return true;
+
         } catch (\Exception $e) {
-            // If offline, just log it and move on. Do not crash the app.
-            Log::info("Sync skipped: " . $e->getMessage());
+            Log::error('Sync Exception: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    protected function gatherLocalChanges($lastSyncTime)
+    {
+        // If never synced, send everything.
+        // If synced before, send only records updated AFTER that time.
+        
+        $query = function($model) use ($lastSyncTime) {
+            return $lastSyncTime 
+                ? $model::where('updated_at', '>', $lastSyncTime)->get()
+                : $model::all();
+        };
+
+        return [
+            'categories' => $query(Category::class),
+            'services' => $query(Service::class)->map(function($service) {
+                // Ensure we send the category_uuid, not just the local ID
+                $service->category_uuid = $service->category?->uuid;
+                return $service;
+            }),
+            'saved_locations' => $query(SavedLocation::class),
+            'app_settings' => $query(AppSetting::class)->where('key', '!=', 'last_sync_timestamp'),
+        ];
+    }
+
+    protected function processServerChanges($changes)
+    {
+        // Similar to the server-side controller, but applying to SQLite
+        
+        if (!empty($changes['categories'])) {
+            foreach ($changes['categories'] as $record) {
+                $this->upsertLocal(Category::class, $record);
+            }
+        }
+
+        if (!empty($changes['services'])) {
+            foreach ($changes['services'] as $record) {
+                if (isset($record['category_uuid'])) {
+                    $cat = Category::where('uuid', $record['category_uuid'])->first();
+                    $record['category_id'] = $cat ? $cat->id : null;
+                }
+                $this->upsertLocal(Service::class, $record);
+            }
+        }
+
+        if (!empty($changes['saved_locations'])) {
+            foreach ($changes['saved_locations'] as $record) {
+                $this->upsertLocal(SavedLocation::class, $record);
+            }
+        }
+
+        if (!empty($changes['app_settings'])) {
+            foreach ($changes['app_settings'] as $record) {
+                $this->upsertLocal(AppSetting::class, $record);
+            }
+        }
+    }
+
+    protected function upsertLocal($modelClass, $data)
+    {
+        $uuid = $data['uuid'] ?? null;
+        if (!$uuid) return;
+
+        $existing = $modelClass::where('uuid', $uuid)->first();
+
+        if (!$existing) {
+            $modelClass::create($data);
+        } else {
+            // Last Write Wins (Simple version)
+            // Ideally, we check timestamps here too, but usually, 
+            // if the server sent it, it's the "truth".
+            $existing->update($data);
         }
     }
 }

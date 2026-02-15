@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index(SyncService $syncer)
     {
-        $syncer->run();
+        $syncer->sync();
         $categories = Category::with('services')->get();
 
         return Inertia::render('Welcome', [

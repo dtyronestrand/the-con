@@ -3,18 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Models\Concerns\HasUuid;
 class SavedLocation extends Model
 {
-    use HasUuids;
+    use HasUuid;
 protected $fillable = [
     'name',
     'lat',
     'lng',
     'grid_request_url',
 ];
-    public function uniqueIds(): array
-    {
-        return ['uuid'];
-    }
+
 }

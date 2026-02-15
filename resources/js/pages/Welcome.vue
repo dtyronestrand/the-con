@@ -107,7 +107,9 @@ import ServiceContainer from '@/components/ServiceContainer.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 import type { AppPageProps, Category, Event } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
 const page = usePage<
     AppPageProps & {
         categories: Category[];
@@ -115,6 +117,19 @@ const page = usePage<
         events: Event[];
     }
 >();
+onMounted(() => {
+    console.log('App Mounted: Initiating background sync');
+    runSync();
+    setInterval(runSync, 5 * 60 * 1000);
+});
+const runSync = async () => {
+    try {
+        await axios.post('/trigger-sync');
+        console.log('sync triggered successfully');
+    } catch (error) {
+        console.error('Error triggering sync:', error);
+}
+};
 const logout = () => {
     router.post('/logout');
 };

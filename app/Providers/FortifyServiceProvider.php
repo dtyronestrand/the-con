@@ -30,45 +30,76 @@ class FortifyServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     */
+ */
     public function boot(): void
     {
-    
-        Fortify::authenticateUsing(function(Request $request) {
-                Log::info("Attempting login for: " . $request->email);
-      try {
-        $apiUrl = rtrim(config('app.api_url', 'http://localhost'), '/');
-        $response = Http::timeout(2)->post($apiUrl . '/api/login',[
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
-        Log::info("API Status: " . $response->status());
-        if ($response->successful()){
-            $data = $response->json();
-            $user = User::updateOrCreate(
-                ['email' => $request->email],
-                ['name' =>'Synced User', 'password' => Hash::make($request->password)]
-            );
 
-            AppSetting::updateOrCreate(
-                ['key' => 'api_token'],
-                ['value' => $data['token']]
-             );
-             return $user;
-        } else {
-            Log::error("API Login Failed: " . $response->body());
-        
-        }
-        } catch (\Exception $e) {
-      Log::error("API Connection Error: " . $e->getMessage());
-        }
-        Log::info("Falling back to default authentication for: " . $request->email);
-        $user = User::where('email', $request->email)->first();
-        if ($user && Hash::check($request->password, $user->password)) {
-            return $user;
-        }
-      }  );
+        // CUSTOM AUTHENTICATION LOGIC
+        Fortify::authenticateUsing(function (Request $request) {
+            $validated = $request->validate([
+                Fortify::username() => 'required|string',
+                'password' => 'required|string',
+            ]);
 
+            $email = $validated[Fortify::username()];
+            $password = $validated['password'];
+
+            // 1. Try REMOTE Login (API)
+            // We do this first to ensure we have the latest data and token.
+            try {
+                $baseUrl = env('API_URL');
+                
+                // Short timeout (2s) so offline users don't wait long
+                $response = Http::timeout(2)->post("{$baseUrl}/api/login", [
+                    'email' => $email,
+                    'password' => $password,
+                ]);
+
+                if ($response->successful()) {
+                    $data = $response->json();
+                    $token = $data['token'];
+
+                    // A. Sync Remote Success to Local Database
+                    // This creates the user locally if they don't exist,
+                    // or updates their password if they changed it on the web.
+                    $user = User::updateOrCreate(
+                        ['email' => $email],
+                        [
+                            'name' => 'App User', // You can fetch real name if API sends it
+                            'password' => Hash::make($password),
+                            'email_verified_at' => now(),
+                        ]
+                    );
+
+                    // B. Save the API Token
+                    AppSetting::updateOrCreate(
+                        ['key' => 'api_token'],
+                        [
+                            'value' => $token,
+                            'uuid' => (string) Str::uuid()
+                        ]
+                    );
+
+                    Log::info("Login: Remote auth successful. Token saved.");
+                    return $user;
+                }
+            } catch (\Exception $e) {
+                Log::warning("Login: Remote auth failed (Offline?): " . $e->getMessage());
+            }
+
+            // 2. Fallback to LOCAL Login (SQLite)
+            // If we are here, either the API is down/offline, or the credentials failed remotely.
+            // We check if we have a local user with these credentials.
+            $user = User::where('email', $email)->first();
+
+            if ($user && Hash::check($password, $user->password)) {
+                Log::info("Login: Local auth successful (Offline mode).");
+                return $user;
+            }
+
+            // 3. Fail
+            return null;
+        });
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();

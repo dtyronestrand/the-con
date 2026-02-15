@@ -7,6 +7,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\SyncController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
 
 Route::post('/settings/factory-reset', function() {
     Schema::dropAllTables();
@@ -31,5 +32,8 @@ Route::get('/auth/outlook/callback', [CalendarController::class, 'handleProvider
 Route::post('/services', [\App\Http\Controllers\ServiceController::class, 'store'])->name('services.store');
 Route::put('/services/{id}', [\App\Http\Controllers\ServiceController::class, 'update'])->name('services.update');
 Route::delete('/services/{id}', [\App\Http\Controllers\ServiceController::class, 'destroy'])->name('services.destroy');
-
+Route::post('/trigger-sync', function(){
+    $exitCode = Artisan::call('sync:run');
+    return response()->json(['success' => $exitCode === 0, 'message' => 'Sync attempt finished']);
+});
 require __DIR__.'/settings.php';

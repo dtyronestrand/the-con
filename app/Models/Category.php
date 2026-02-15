@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Concerns\Syncable;
+use App\Models\Concerns\HasUuid;
+use Inertia\Testing\Concerns\Has;
+
 class Category extends Model
 {
-    use Syncable;
+    use HasUuid;
     protected $fillable = [
         'uuid',
         'name',
