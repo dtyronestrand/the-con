@@ -70,7 +70,12 @@ class FortifyServiceProvider extends ServiceProvider
                             'email_verified_at' => now(),
                         ]
                     );
-
+                    $etting = AppSetting::where('key', 'api_token')->first();
+                    if ($etting) {
+                        $etting->value = $token;
+                        $etting->uuid = (string) Str::uuid();
+                        $etting->save();
+                    } else {
                     // B. Save the API Token
                     AppSetting::updateOrCreate(
                         ['key' => 'api_token'],
@@ -79,7 +84,7 @@ class FortifyServiceProvider extends ServiceProvider
                             'uuid' => (string) Str::uuid()
                         ]
                     );
-
+                    }
                     Log::info("Login: Remote auth successful. Token saved.");
                     return $user;
                 }

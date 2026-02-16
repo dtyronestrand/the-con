@@ -96,7 +96,7 @@ class SyncService
                 return $service;
             }),
             'saved_locations' => $query(SavedLocation::class),
-            'app_settings' => $query(AppSetting::class)->where('key', '!=', 'last_sync_timestamp'),
+        
         ];
     }
 
