@@ -23,7 +23,7 @@ import { store } from '@/routes/register';
             v-bind="store.form()"
             :reset-on-success="['password', 'password_confirmation']"
             v-slot="{ errors, processing }"
-            class="flex flex-col gap-6"
+            class="flex text-white flex-col gap-6"
         >
             <div class="grid gap-6">
                 <div class="grid gap-2">
@@ -107,3 +107,9 @@ import { store } from '@/routes/register';
         </Form>
     </AuthBase>
 </template>
+<style scoped>
+input{
+    background: white;
+    color:black;
+}
+</style>
