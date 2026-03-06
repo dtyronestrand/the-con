@@ -30,7 +30,7 @@ class ServiceController extends Controller
 
   try {
     $token = \App\Models\AppSetting::where('key', 'api_token')->first()->value('value');
-    $apiUrl = rtrim(config('app.api_url', 'http://localhost'), '/');
+    $apiUrl = rtrim(config('app.api_url', 'http://10.0.0.91'), '/');
 
     $response = \Illuminate\Support\Facades\Http::withToken($token)
         ->post($apiUrl . '/api/services/sync', $request->all());
