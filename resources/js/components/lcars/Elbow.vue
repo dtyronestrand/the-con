@@ -1,7 +1,7 @@
 <template>
     <div
         :class="classList"
-        class="elbow h- relative m-0 min-h-18 w-19 min-w-19 border-t-2 border-black after:w-[1rem] md:w-38 md:min-w-38 after:md:w-[2rem]"
+        class="elbow h- relative m-0 min-h-18 w-19 min-w-19 border-2 border-black shadow-xl after:w-[1rem] md:w-38 md:min-w-38 after:md:w-[2rem]"
         :style="
             props.background ? `background-color: ${props.background}` : 'blue'
         "

@@ -2,7 +2,7 @@
     <div
         @click="emit('buttonPressed')"
         :class="classes"
-        class="relative m-0 box-border flex md:w-30 grow flex-row justify-end border-t-2 border-black text-right font-bold text-black w-15"
+        class="relative m-0 box-border flex md:w-30 grow flex-row justify-center align-center border-2 border-black shadow-xl text-right font-bold text-black w-15"
         :style="{
             backgroundColor: resolvedBackground,
             borderColor: resolvedBackground,
@@ -10,7 +10,7 @@
             minHeight: elementHeight,
         }"
     >
-        <span class="text-md mx-auto text-center md:text-xl">
+        <span class="text-md mx-auto place-self-center text-center md:text-lg">
             <slot />
         </span>
     </div>

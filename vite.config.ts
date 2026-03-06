@@ -2,7 +2,7 @@ import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
-import vueDevTools from '@vitejs/plugin-vue-devtools';
+import vueDevTools from 'vite-plugin-vue-devtools';
 import {nativephpMobile,nativephpHotFile} from './vendor/nativephp/mobile/resources/js/vite-plugin.js';
 import { defineConfig } from 'vite';
 

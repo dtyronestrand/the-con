@@ -12,28 +12,19 @@
             />
         </div>
         <div class="top-content flex flex-row">
-            <div class="flex flex-col">
-                <Element
-                    background="var(--indigo)"
-                    :button="false"
-                    :height="2"
-                ></Element>
-                <Element background="var(--blue)" :button="false"></Element>
-                <Element background="var(--anakiwa)" :button="false"></Element>
+           <div class="flex flex-col">
+<Element background="var(--indigo)" :button="false" :height="2"></Element>
+<Element background="var(--periwinkle)" :button="false"></Element>
+<Element background="var(--blue)" :button="true" @buttonPressed="topView = 'weather'">Weather and Calendar</Element>
+<Element background="var(--anakiwa)" :button="true" @buttonPressed="topView = 'todo'">To Do</Element>
 
-                <Element background="var(--blue)" :button="false"></Element>
-                <Element background="var(--anakiwa)" :button="false"></Element>
-            </div>
-            <div
-                class="flex h-full w-full flex-col items-center md:flex-row md:justify-center"
-            >
-                <WeatherWidget />
-                <CalendarWidget
-                    :isConnected="page.props.isConnected"
-                    :events="page.props.events"
-                />
-            </div>
-        </div>
+<Element background="var(--blue)" :button="false"></Element>
+<Element background="var(--anakiwa)" :button="false"></Element>
+</div>
+<WeatherAndCalendar v-if="topView === 'weather'" :isConnected="page.props.isConnected" :events="page.props.events"/>
+<Calendar v-else />
+</div>
+      
         <div class="bottom-bar flex flex-row">
             <Elbow classList="left-top" background="var(--periwinkle)" />
             <Bar :background="'var(--anakiwa)'" /><BarEnd
@@ -97,14 +88,14 @@
 </template>
 
 <script setup lang="ts">
-import CalendarWidget from '@/components/CalendarWidget.vue';
+
 import Bar from '@/components/lcars/Bar.vue';
 import BarEnd from '@/components/lcars/BarEnd.vue';
 import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Elbow from '@/components/lcars/Elbow.vue';
 import Element from '@/components/lcars/Element.vue';
 import ServiceContainer from '@/components/ServiceContainer.vue';
-import WeatherWidget from '@/components/WeatherWidget.vue';
+import WeatherAndCalendar from '@/components/WeatherAndCalendar.vue';
 import type { AppPageProps, Category, Event } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
@@ -114,13 +105,15 @@ const page = usePage<
     AppPageProps & {
         categories: Category[];
         isConnected: boolean;
-        events: Event[];
+        events: Event[] | undefined;
     }
 >();
+const topView = ref('weather');
 onMounted(() => {
     console.log('App Mounted: Initiating background sync');
     runSync();
     setInterval(runSync, 5 * 60 * 1000);
+    router.reload({only: ['events'], onSuccess: () => console.log('Events refreshed successfully')});
 });
 const runSync = async () => {
     try {
