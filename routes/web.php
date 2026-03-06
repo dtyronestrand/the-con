@@ -23,9 +23,8 @@ Route::post('/server/connect', [ServerConnectionController::class, 'connect'])->
 Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->middleware('auth')->name('home');
 
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::get('dashboard', [CalendarController::class, 'index'])->middleware('auth')->name('dashboard');
+
 
 Route::get('/auth/outlook', [CalendarController::class, 'redirectToProvider'])->name('auth.outlook');
 Route::get('/auth/outlook/callback', [CalendarController::class, 'handleProviderCallback'])->name('auth.outlook.callback');

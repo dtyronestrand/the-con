@@ -52,13 +52,13 @@ class CalendarController extends Controller
                 $events = [];
             }
 
-            return Inertia::render('Welcome', [
+            return Inertia::render('Dashboard', [
                 'isConnected' => $isConnected,
                 'events' => $events,
             ]);
         }
         
-        return Inertia::render('Welcome', [
+        return Inertia::render('Dashboard', [
             'isConnected' => $isConnected,
             'events' => $events,
         ]);

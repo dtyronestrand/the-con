@@ -26,6 +26,14 @@ export interface Service {
     name: string;
     url: string;
 }
+export interface Task {
+        name: string,
+        notes: string,
+        sub_tasks: Array<string>,
+        done: boolean,
+        id: number,
+        due_date: string
+}
 export interface Event {
     id: number;
 webLink: string;
