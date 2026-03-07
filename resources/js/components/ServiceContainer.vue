@@ -27,6 +27,7 @@
                         :background="getServiceColor(service.id)"
                         :button="true"
                         ><a
+                            target="_blank"
                             :href="service.url"
                             class="mx-auto text-xl text-black"
                             >{{ service.name }}</a
@@ -167,6 +168,7 @@ import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Bracket from '@/components/lcars/Bracket.vue';
 import Button from '@/components/lcars/Button.vue';
 import type { Category } from '@/types';
+import type { Service } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 const colors = [
@@ -180,10 +182,12 @@ const colors = [
 const props = defineProps<{
     categories: Category[];
     showModal?: boolean;
+    service?: Service;
 }>();
+const showModal = ref(props.showModal ?? false);
 const newCategory = ref(false);
 const localShowModal = ref(props.showModal ?? false);
-const editingService = ref(null);
+const editingService = ref<Service | null>(null);
 const emit = defineEmits(['closeModal', 'serviceAdded']);
 // Watch for changes to the edit prop
 watch(
@@ -194,11 +198,11 @@ watch(
 );
 
 const form = useForm({
-    new_category: null,
+    new_category: null as string | null,
     name: '',
     url: '',
     icon: '',
-    category_id: '',
+    category_id: null as number | null,
 });
 const getServiceColor = (serviceId: number) => {
     return colors[serviceId % colors.length];
@@ -215,7 +219,7 @@ const closeModal = () => {
     form.clearErrors();
 };
 
-const editService = (service) => {
+const editService = (service: Service) => {
     editingService.value = service;
     form.name = service.name;
     form.url = service.url;
@@ -224,7 +228,7 @@ const editService = (service) => {
 };
 
 const deleteService = () => {
-    if (confirm('Delete this service?')) {
+    if (editingService.value && confirm('Delete this service?')) {
         form.delete(`/services/${editingService.value.id}`, {
             onSuccess: () => {
                 emit('serviceAdded');
@@ -237,7 +241,7 @@ const deleteService = () => {
 
 const submit = () => {
     if (newCategory.value) {
-        form.category_id = '';
+        form.category_id = null;
     } else {
         form.new_category = null;
     }

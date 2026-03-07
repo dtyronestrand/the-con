@@ -4,7 +4,7 @@
     >
         <div class="top-bar flex flex-row">
             <Elbow classList="left-bottom " background="var(--anakiwa)" />
-            <BarWithTitle classList="top" :background="'var(--indigo)'"
+            <BarWithTitle classList="top text-4xl" :background="'var(--indigo)'"
                 >The Con</BarWithTitle
             ><Bar classList="top" :background="'var(--blue)'" /><BarEnd
                 classList="right decorated top"
@@ -18,20 +18,17 @@
                     :button="false"
                     :height="2"
                 ></Element>
-                <Element background="var(--blue)" :button="false"></Element>
-                <Element background="var(--anakiwa)" :button="false"></Element>
+                <Element background="var(--blue)" :button="true" @buttonPressed="topView='weather'">Weather</Element>
+                <Element background="var(--anakiwa)" :button="true" @buttonPressed="topView='todo'">To Do</Element>
 
                 <Element background="var(--blue)" :button="false"></Element>
                 <Element background="var(--anakiwa)" :button="false"></Element>
             </div>
             <div
-                class="flex h-full w-full flex-col items-center md:flex-row md:justify-center"
+                class="flex h-full w-full flex-col align-center items-center md:flex-row "
             >
-                <WeatherWidget />
-                <CalendarWidget
-                    :isConnected="page.props.isConnected"
-                    :events="page.props.events"
-                />
+          <Planner v-if="topView === 'todo'"/>
+          <WeatherWidget v-else />
             </div>
         </div>
         <div class="bottom-bar flex flex-row">
@@ -107,8 +104,10 @@ import ServiceContainer from '@/components/ServiceContainer.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 import type { AppPageProps, Category, Event } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
+import Planner from '@/components/todolist/Planner.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+
 
 const page = usePage<
     AppPageProps & {
@@ -122,6 +121,7 @@ onMounted(() => {
     runSync();
     setInterval(runSync, 5 * 60 * 1000);
 });
+const topView = ref<'todo' | 'weather'>('todo');
 const runSync = async () => {
     try {
         await axios.post('/trigger-sync');
