@@ -1,19 +1,61 @@
 <template>
-    <div class="h-[1rem] p-0 m-0 text-justify ">
+    <input :class="props.class" v-model="taskName" :disabled="props.disabled" :due="props.due" type="text" @blur="handleBlur" class="h-[1rem] p-0 m-0 text-justify ">
 
-    </div>
+    </input>
 </template>
 
 <script setup lang="ts">
+    import {ref, watch} from 'vue';
+    import {router, usePage} from "@inertiajs/vue3";
+    
+    interface Props {
+        taskName?: string;
+        class?: string;
+        disabled?: boolean;
+        due?: string;
+        done?: boolean;
+    }
+    const props = defineProps<Props>();
+    const page = usePage();
+    const taskName = ref(props.taskName || '');
+    const user = ref(page.props.auth.user);
+    watch(
+        ()=> [taskName.value, props.due, props.done] as const,
+        ([name, due, done]) => {
+            console.log('Component values:', {
+                taskName: name,
+                due,
+                done
+            });
+        },
+        { immediate: true }
+    );
 
+    const showModal = ref(false);
+
+    const handleBlur = () => {
+        if(taskName.value.trim()) {
+            router.post('/tasks/store', {
+                name: taskName.value,
+                due: props.due,
+                done: props.done,
+                user_id: user.value.id
+            }, {
+                onSuccess: () => {
+                    taskName.value = '';
+                }
+            })
+        }
+    }
 </script>
 
 <style scoped>
-input {
-      background: url("data:image/svg+xml,%3csvg width='500' height='500' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23999' stroke-width='150' d='M77 83h349v339H77z'/%3e%3c/svg%3e") no-repeat rgba(0,0,0,0) 99.9% 100%;
-  background-size: 16px;
-}
+
 .decorated {
-    border-left: 0.2rem solid 
+    border-left: 0.2rem solid var(--indigo);
+    padding-right: 0.5trem;
+    padding-left: 0.5rem;
+    border-right: 0.2rem solid var(--indigo);
+    caret-color: #fff;
 }
 </style>

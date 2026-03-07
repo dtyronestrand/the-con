@@ -5,6 +5,7 @@
         <BarWithTitle :classList="'text-2xl'" background="var(--indigo)" >
         <p> {{ day.format('dddd') }}<span class="pl-4">{{ day.format('D') }}</span></p>   
         </BarWithTitle>
+        <TaskInput class="w-full decorated mt-4" :due="day.format('YYYY-MM-DD')"/>
         </div>
         <CircleArrowRight class="text-white size-8"/>
         <div class="mr-12 -ml-16">
@@ -16,6 +17,7 @@
 <script setup lang="ts">
 import dayjs from'dayjs';
 import BarWithTitle from '../lcars/BarWithTitle.vue';
+import TaskInput from './tasks/TaskInput.vue';
 import {computed, watchEffect, ref} from "vue";
 import {CircleArrowLeft, CircleArrowRight} from 'lucide-vue-next'
 import {useDateState} from '../../composables/useDateState';

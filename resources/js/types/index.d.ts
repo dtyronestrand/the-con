@@ -27,6 +27,15 @@ export interface Service {
     url: string;
     category_id: number;
 }
+export interface Task {
+    name: string;
+    notes?: string;
+    sub_tasks?: Task[];
+    id: number;
+    done: boolean;
+    due: string | null;
+    attachments?: string[];
+}
 export interface Event {
     id: number;
 webLink: string;
