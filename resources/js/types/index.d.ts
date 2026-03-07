@@ -25,6 +25,7 @@ export interface Service {
     id: number;
     name: string;
     url: string;
+    category_id: number;
 }
 export interface Event {
     id: number;
