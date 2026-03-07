@@ -16,36 +16,7 @@ class CategoryController extends Controller
 
         return Inertia::render('Welcome', [
             'categories' => $categories,
-            'isConnected' => session()->has('outlook_token'),
-            'events' => Inertia::lazy(fn() => $this->fetchOutlookEvents()),
         ]);
-    }
-
-    protected function fetchOutlookEvents()
-    {
-        $isConnected = session()->has('outlook_token');
-        
-        if (!$isConnected) {
-            return [];
-        }
-
-        $token = session('outlook_token');
-        $startDateTime = \Carbon\Carbon::now()->toIso8601String();
-        $endDateTime = \Carbon\Carbon::now()->addDays(3)->toIso8601String();
-
-        $response = \Illuminate\Support\Facades\Http::withToken($token)
-            ->get('https://graph.microsoft.com/v1.0/me/calendarview', [
-                'startDateTime' => $startDateTime,
-                'endDateTime' => $endDateTime,
-                '$select' => 'subject,organizer,start,end',
-                '$orderby' => 'start/dateTime',
-            ]);
-
-        if ($response->successful()) {
-            return $response->json()['value'];
-        }
-
-        return [];
     }
 
     public function store(Request $request)

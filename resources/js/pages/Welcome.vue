@@ -94,14 +94,14 @@
 </template>
 
 <script setup lang="ts">
-
+import CalendarWidget from '@/components/CalendarWidget.vue';
 import Bar from '@/components/lcars/Bar.vue';
 import BarEnd from '@/components/lcars/BarEnd.vue';
 import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Elbow from '@/components/lcars/Elbow.vue';
 import Element from '@/components/lcars/Element.vue';
 import ServiceContainer from '@/components/ServiceContainer.vue';
-import WeatherAndCalendar from '@/components/WeatherAndCalendar.vue';
+import WeatherWidget from '@/components/WeatherWidget.vue';
 import type { AppPageProps, Category, Event } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import Planner from '@/components/todolist/Planner.vue';
@@ -113,15 +113,13 @@ const page = usePage<
     AppPageProps & {
         categories: Category[];
         isConnected: boolean;
-        events: Event[] | undefined;
+        events: Event[];
     }
 >();
-const topView = ref('weather');
 onMounted(() => {
     console.log('App Mounted: Initiating background sync');
     runSync();
     setInterval(runSync, 5 * 60 * 1000);
-    router.reload({only: ['events'], onSuccess: () => console.log('Events refreshed successfully')});
 });
 const topView = ref<'todo' | 'weather'>('todo');
 const runSync = async () => {

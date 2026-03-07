@@ -44,6 +44,6 @@ const handleSubmit = () => {
 
 <style scoped>
 .login {
-    background: radial-gradient(ellipse at center, #0f0f10 0%, #262329 100%, #030203 100%, #111118 100%);
+    background-image: linear-gradient(in oklch, var(--moonbeam), var(--gray));
 }
 </style>
