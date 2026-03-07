@@ -4,7 +4,7 @@
     >
         <div class="top-bar flex flex-row">
             <Elbow classList="left-bottom " background="var(--anakiwa)" />
-            <BarWithTitle classList="top" :background="'var(--indigo)'"
+            <BarWithTitle classList="top text-4xl" :background="'var(--indigo)'"
                 >The Con</BarWithTitle
             ><Bar classList="top" :background="'var(--blue)'" /><BarEnd
                 classList="right decorated top"
@@ -12,19 +12,25 @@
             />
         </div>
         <div class="top-content flex flex-row">
-           <div class="flex flex-col">
-<Element background="var(--indigo)" :button="false" :height="2"></Element>
-<Element background="var(--periwinkle)" :button="false"></Element>
-<Element background="var(--blue)" :button="true" @buttonPressed="topView = 'weather'">Weather and Calendar</Element>
-<Element background="var(--anakiwa)" :button="true" @buttonPressed="topView = 'todo'">To Do</Element>
+            <div class="flex flex-col">
+                <Element
+                    background="var(--indigo)"
+                    :button="false"
+                    :height="2"
+                ></Element>
+                <Element background="var(--blue)" :button="true" @buttonPressed="topView='weather'">Weather</Element>
+                <Element background="var(--anakiwa)" :button="true" @buttonPressed="topView='todo'">To Do</Element>
 
-<Element background="var(--blue)" :button="false"></Element>
-<Element background="var(--anakiwa)" :button="false"></Element>
-</div>
-<WeatherAndCalendar v-if="topView === 'weather'" :isConnected="page.props.isConnected" :events="page.props.events"/>
-<Calendar v-else />
-</div>
-      
+                <Element background="var(--blue)" :button="false"></Element>
+                <Element background="var(--anakiwa)" :button="false"></Element>
+            </div>
+            <div
+                class="flex h-full w-full flex-col align-center items-center md:flex-row "
+            >
+          <Planner v-if="topView === 'todo'"/>
+          <WeatherWidget v-else />
+            </div>
+        </div>
         <div class="bottom-bar flex flex-row">
             <Elbow classList="left-top" background="var(--periwinkle)" />
             <Bar :background="'var(--anakiwa)'" /><BarEnd
@@ -98,8 +104,10 @@ import ServiceContainer from '@/components/ServiceContainer.vue';
 import WeatherAndCalendar from '@/components/WeatherAndCalendar.vue';
 import type { AppPageProps, Category, Event } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
+import Planner from '@/components/todolist/Planner.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+
 
 const page = usePage<
     AppPageProps & {
@@ -115,6 +123,7 @@ onMounted(() => {
     setInterval(runSync, 5 * 60 * 1000);
     router.reload({only: ['events'], onSuccess: () => console.log('Events refreshed successfully')});
 });
+const topView = ref<'todo' | 'weather'>('todo');
 const runSync = async () => {
     try {
         await axios.post('/trigger-sync');

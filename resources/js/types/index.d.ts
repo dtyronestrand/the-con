@@ -25,6 +25,16 @@ export interface Service {
     id: number;
     name: string;
     url: string;
+    category_id: number;
+}
+export interface Task {
+    name: string;
+    notes?: string;
+    sub_tasks?: Task[];
+    id: number;
+    done: boolean;
+    due: string | null;
+    attachments?: string[];
 }
 export interface Task {
         name: string,

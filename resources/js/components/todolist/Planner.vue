@@ -1,0 +1,57 @@
+<template>
+    <CircleArrowLeft class="text-white ml-8 size-8"/>
+    <div class="w-full ml-4 week-container md:gap-4 md:grid md:grid-cols-5 md:grid-row-9 md:item-start flex-row flex-wrap items-center">
+        <div v-for="(day, index) in weekView" :key="day.format('YYYY-MM-DD')" :class="`day-${index}`" class="  col-span-1" >
+        <BarWithTitle :classList="'text-2xl'" background="var(--indigo)" >
+        <p> {{ day.format('dddd') }}<span class="pl-4">{{ day.format('D') }}</span></p>   
+        </BarWithTitle>
+        <TaskInput class="w-full decorated mt-4" :due="day.format('YYYY-MM-DD')"/>
+        </div>
+        <CircleArrowRight class="text-white size-8"/>
+        <div class="mr-12 -ml-16">
+        <BarWithTitle classList="text-2xl" background="var(--indigo)" >Someday</BarWithTitle>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import dayjs from'dayjs';
+import BarWithTitle from '../lcars/BarWithTitle.vue';
+import TaskInput from './tasks/TaskInput.vue';
+import {computed, watchEffect, ref} from "vue";
+import {CircleArrowLeft, CircleArrowRight} from 'lucide-vue-next'
+import {useDateState} from '../../composables/useDateState';
+import {usePage, useForm, router} from "@inertiajs/vue3";
+import Bar from '../lcars/Bar.vue';
+
+interface Props {
+    task?: {
+        name: string,
+        due: string,
+        notes: string,
+        done: boolean,
+        attachments: string[],
+        subtasks: {
+            name: string,
+            done: boolean,
+            notes: string,
+            attachments: string[],
+            due: string
+        }[]
+    }
+}
+const props = defineProps<Props>();
+const page = usePage();
+const {selectedYear, selectedMonth, selectedDate, setSelectedDate} = useDateState();
+
+const weekView = computed(()=> {
+    const selectedDay = dayjs(`${selectedYear.value}-${selectedMonth.value+1}-${selectedDate.value}`);
+    const startOfWeek = selectedDay.startOf('week').add(1, 'day'); // Start on Monday
+
+    return Array.from({length: 3}, (_, i) => startOfWeek.add(i, 'day'));
+})
+</script>
+
+<style scoped>
+
+</style>
