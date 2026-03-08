@@ -50,10 +50,14 @@
 </script>
 
 <style scoped>
-
+input:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px hsla(var(--indigo) H S L, 0.8);
+    outline-color: var(--indigo) ;
+}
 .decorated {
     border-left: 0.2rem solid var(--indigo);
-    padding-right: 0.5trem;
+    padding-right: 0.5rem;
     padding-left: 0.5rem;
     border-right: 0.2rem solid var(--indigo);
     caret-color: #fff;

@@ -1,6 +1,9 @@
 <template>
-    <CircleArrowLeft class="text-white ml-8 size-8"/>
-    <div class="w-full ml-4 week-container md:gap-4 md:grid md:grid-cols-5">
+    <div class="flex ml-8 items-center justify-center flex-col">
+    <CircleArrowLeft class="text-white size-8"/>
+         <CircleArrowRight class="text-white size-8"/>
+    </div>
+    <div class="w-full ml-4 mr-8 week-container md:gap-4 md:grid md:grid-cols-3">
         <div v-for="(day, index) in weekView" :key="day.format('YYYY-MM-DD')" :class="`day-${index}`" class="  col-span-1" >
         <BarWithTitle :classList="'text-2xl'" background="var(--indigo)" >
         <p> {{ day.format('dddd') }}<span class="pl-4">{{ day.format('D') }}</span></p>   
@@ -12,15 +15,20 @@
         </span>
         </span>
         </div>
-        <TaskInput class="w-full decorated ":disabled="false" :due="day.format('YYYY-MM-DD')"/>
+        <TaskInput class="w-full decorated ":disabled="false" :due-date="day.format('YYYY-MM-DD')"/>
         <span v-for="i in (8 - (props.tasks?.filter(task => task.due_date === day.format('YYYY-MM-DD')).length ?? 0) - 1)">
-        <TaskInput class="w-full decorated" :disabled="true" :due="day.format('YYYY-MM-DD')"/>
+        <TaskInput class="w-full " :disabled="true" :due="day.format('YYYY-MM-DD')"/>
         </span>
         </div>
-        
-        <CircleArrowRight class="text-white size-8"/>
-        <div class="mr-12 -ml-16">
+        <div class="">
         <BarWithTitle classList="text-2xl" background="var(--indigo)" >Someday</BarWithTitle>
+        <div v-for="task in somedayTasks" :key="task.id">
+        <Task :task="task" class="w-full h-[1rem] "/>
+        </div>
+        <TaskInput class="w-full decorated " :disabled="false" :due_date="null"/>
+        <span v-for="i in (8 - somedayTasks.length - 1)">
+        <TaskInput class="w-full " :disabled="true" :due_date="null"/>
+        </span>
         </div>
     </div>
 </template>
@@ -43,7 +51,7 @@ interface Props {
 const props = defineProps<Props>();
 const page = usePage();
 const {selectedYear, selectedMonth, selectedDate, setSelectedDate} = useDateState();
-
+const somedayTasks = computed(() => props.tasks?.filter(task => !task.due_date) ?? []);
 const weekView = computed(()=> {
     const selectedDay = dayjs(`${selectedYear.value}-${selectedMonth.value+1}-${selectedDate.value}`);
     const startOfWeek = selectedDay.startOf('week').add(1, 'day'); // Start on Monday

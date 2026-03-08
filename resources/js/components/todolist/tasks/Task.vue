@@ -1,5 +1,5 @@
 <template>
-<div :class="{done: props.task.done}" class="text-white col-span-2 h-[1rem] p-0 m-0 group border-b border-(--indigo) cursor-pointer"><p @click="openModal(props.task)" role="button" >{{ props.task.name }} </p><Checkmark :checked="checkedValue" type="checkbox"   class="opacity-0 group-hover:opacity-100" @updateChecked="handleTaskStatus"/></div>
+<div :class="{done: props.task.done}" class="flex flex-row justify-between text-white col-span-2 group border-b border-(--indigo) cursor-pointer"><p @click="openModal(props.task)" role="button" >{{ props.task.name }} </p><Checkmark :checked="checkedValue" type="checkbox"   class="opacity-0 group-hover:opacity-100" @updateChecked="handleTaskStatus"/></div>
                 <!-- Modal -->
               <TaskModal v-if="selectedTask" :task="selectedTask" @close="closeModal" @updateTask="handleTask"/>
               

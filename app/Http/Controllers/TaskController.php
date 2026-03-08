@@ -78,28 +78,26 @@ class TaskController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
-
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'user_id' => 'required|exists:users,id',
             'notes' => 'nullable|string',
-            'done' => 'boolean',
+            'done' => 'nullable|boolean',
             'due_date' => 'nullable|date',
-            'sub_tasks' => 'nullable|array',
+            'sub_tasks' => 'nullable|string',
             'attachments' => 'nullable|array',
         ]);
 
         $task = Task::findOrFail($id);
 
         $task->update([
-            'name' => $request->name,
-            'user_id' => $request->user_id,
-            'notes' => $request->notes ?? null,
-            'done' => $request->done ?? false,
-            'due_date' => $request->due_date ?? null,
-            'sub_tasks' => $request->sub_tasks ?? [],
-            'attachments' => $request->attachments ?? [],
+            'name' => $validatedData['name'],
+            'user_id' => $validatedData['user_id'],
+            'notes' => $validatedData['notes'] ?? null,
+            'done' => $validatedData['done'] ?? false,
+            'due_date' => $validatedData['due_date'] ?? null,
+            'sub_tasks' => isset($validatedData['sub_tasks']) ? json_decode($validatedData['sub_tasks'], true) : [],
+            'attachments' => $validatedData['attachments'] ?? [],
         ]);
 
         return back()->with('success', 'Task updated successfully.');
