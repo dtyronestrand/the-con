@@ -50,14 +50,12 @@ const taskToUpdate = ref(props.task ? { ...props.task } : null);
 
 const addSubtask = () => {
   if (taskToUpdate.value) {
-    taskToUpdate.value.sub_tasks.push({ name: '', done: false });
+    (taskToUpdate.value.sub_tasks ??= []).push({ name: '', done: false, id: Date.now(), due: null });
   }
 };
 
 const removeSubtask = (index: number) => {
-  if (taskToUpdate.value) {
-    taskToUpdate.value.sub_tasks.splice(index, 1);
-  }
+  taskToUpdate.value?.sub_tasks?.splice(index, 1);
 };
 
 const saveForm = () => {
