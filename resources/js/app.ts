@@ -18,10 +18,11 @@ createInertiaApp({
             import.meta.glob<DefineComponent>('./pages/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .component('QuillEditor', QuillEditor)
-            .mount(el);
+       const app = createApp({ render: () => h(App, props) })
+            .use(plugin);
+
+            app.component('QuillEditor', QuillEditor)
+            app.mount(el);
     },
     progress: {
         color: '#4B5563',

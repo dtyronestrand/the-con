@@ -5,7 +5,17 @@
         <BarWithTitle :classList="'text-2xl'" background="var(--indigo)" >
         <p> {{ day.format('dddd') }}<span class="pl-4">{{ day.format('D') }}</span></p>   
         </BarWithTitle>
-        <TaskInput class="w-full decorated mt-4" :due="day.format('YYYY-MM-DD')"/>
+        <div v-if="props.tasks && props.tasks.length > 0">
+        <span v-for="(task, taskIndex) in props.tasks" :key="task.id">
+        <div v-if="task.due === day.format('YYY-MM-DD')">
+        <Task :task="task" class="w-full decorated mt-4"/>
+        </div>
+        </span>
+        <TaskInput class="w-full decorated mt-4":disabled="false" :due="day.format('YYYY-MM-DD')"/>
+        <span v-for="i in (8 - props.tasks.filter(task => task.due === day.format('YYY-MM-DD')).length-1))">
+        <TaskInput :disabled="true" :due="day.format('YYYY-MM-DD')"/>
+        </span>
+        </div>
         </div>
         <CircleArrowRight class="text-white size-8"/>
         <div class="mr-12 -ml-16">
@@ -18,6 +28,7 @@
 import dayjs from'dayjs';
 import BarWithTitle from '../lcars/BarWithTitle.vue';
 import TaskInput from './tasks/TaskInput.vue';
+import Task from './tasks/Task.vue';
 import {computed, watchEffect, ref} from "vue";
 import {CircleArrowLeft, CircleArrowRight} from 'lucide-vue-next'
 import {useDateState} from '../../composables/useDateState';
@@ -25,7 +36,8 @@ import {usePage, useForm, router} from "@inertiajs/vue3";
 import Bar from '../lcars/Bar.vue';
 
 interface Props {
-    task?: {
+    tasks?: {
+        id: number,
         name: string,
         due: string,
         notes: string,
@@ -38,7 +50,7 @@ interface Props {
             attachments: string[],
             due: string
         }[]
-    }
+    }[]
 }
 const props = defineProps<Props>();
 const page = usePage();
