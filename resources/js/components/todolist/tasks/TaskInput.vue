@@ -1,5 +1,5 @@
 <template>
-    <input :class="props.class" v-model="taskName" :disabled="props.disabled" :due="props.due" type="text" @blur="handleBlur" class="h-[1rem] p-0 m-0 text-justify ">
+    <input :class="props.class" v-model="taskName" :disabled="props.disabled" :due="props.due" type="text" @blur="handleBlur" class="h-[1rem] p-0 m-0 text-white text-justify ">
 
     </input>
 </template>

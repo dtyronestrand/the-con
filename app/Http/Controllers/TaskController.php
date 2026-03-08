@@ -54,9 +54,7 @@ class TaskController extends Controller
         $task->save();
 
 
-        return back([
-            'user_id' => $request->user()->id,
-        ])->with('success', 'Task created successfully.');
+        return back()->with('success', 'Task created successfully.');
     }
 
     /**
