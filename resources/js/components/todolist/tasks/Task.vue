@@ -1,5 +1,5 @@
 <template>
-<div :class="{done: props.task.done}" class="text-white col-span-2 flex justify-between group border-b border-base-content/10 cursor-pointer"><p @click="openModal(props.task)" role="button" >{{ props.task.name }} </p><Checkmark :checked="checkedValue" type="checkbox"   class="opacity-0 group-hover:opacity-100" @updateChecked="handleTaskStatus"/></div>
+<div :class="{done: props.task.done}" class="text-white col-span-2 h-[1rem] p-0 m-0 group border-b border-(--indigo) cursor-pointer"><p @click="openModal(props.task)" role="button" >{{ props.task.name }} </p><Checkmark :checked="checkedValue" type="checkbox"   class="opacity-0 group-hover:opacity-100" @updateChecked="handleTaskStatus"/></div>
                 <!-- Modal -->
               <TaskModal v-if="selectedTask" :task="selectedTask" @close="closeModal" @updateTask="handleTask"/>
               
@@ -25,7 +25,7 @@ const page = usePage();
 
 const checkedValue = computed(() => props.task.done);
 const handleTaskStatus = () => {
-    const updatedTask = {...props.task, done: !props.task.done, due: props.task.due};
+    const updatedTask = {...props.task, done: !props.task.done, due: props.task.due_date};
     handleTask(updatedTask);
 }
 const emit = defineEmits(['taskStatus']);
@@ -33,7 +33,7 @@ const handleTask = (updatedTask: Task) => {
    const requestData = {
         id: updatedTask.id,
         name: updatedTask.name,
-        due: updatedTask.due,
+        due_date: updatedTask.due_date,
         notes: updatedTask.notes,
         sub_tasks: JSON.stringify(updatedTask.sub_tasks || []),
         user_id: page.props.auth.user.id,

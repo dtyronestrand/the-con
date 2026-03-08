@@ -1,20 +1,20 @@
 <template>
     <CircleArrowLeft class="text-white ml-8 size-8"/>
-    <div class="w-full ml-4 week-container md:gap-4 md:grid md:grid-cols-5 md:grid-row-9 md:item-start flex-row flex-wrap items-center">
+    <div class="w-full ml-4 week-container md:gap-4 md:grid md:grid-cols-5">
         <div v-for="(day, index) in weekView" :key="day.format('YYYY-MM-DD')" :class="`day-${index}`" class="  col-span-1" >
         <BarWithTitle :classList="'text-2xl'" background="var(--indigo)" >
         <p> {{ day.format('dddd') }}<span class="pl-4">{{ day.format('D') }}</span></p>   
         </BarWithTitle>
         <div v-if="props.tasks && props.tasks.length > 0">
         <span v-for="(task, taskIndex) in props.tasks" :key="task.id">
-        <div v-if="task.due === day.format('YYY-MM-DD')">
-        <Task :task="task" class="w-full decorated mt-4"/>
-        </div>
+        <span v-if="task.due_date === day.format('YYYY-MM-DD')">
+        <Task :task="task" class="w-full h-[1rem] "/>
+        </span>
         </span>
         </div>
-        <TaskInput class="w-full decorated mt-4":disabled="false" :due="day.format('YYYY-MM-DD')"/>
-        <span v-for="i in (8 - (props.tasks?.filter(task => task.due === day.format('YYYY-MM-DD')).length ?? 0) - 1)">
-        <TaskInput :disabled="true" :due="day.format('YYYY-MM-DD')"/>
+        <TaskInput class="w-full decorated ":disabled="false" :due="day.format('YYYY-MM-DD')"/>
+        <span v-for="i in (8 - (props.tasks?.filter(task => task.due_date === day.format('YYYY-MM-DD')).length ?? 0) - 1)">
+        <TaskInput class="w-full decorated" :disabled="true" :due="day.format('YYYY-MM-DD')"/>
         </span>
         </div>
         
@@ -35,23 +35,10 @@ import {CircleArrowLeft, CircleArrowRight} from 'lucide-vue-next'
 import {useDateState} from '../../composables/useDateState';
 import {usePage, useForm, router} from "@inertiajs/vue3";
 import Bar from '../lcars/Bar.vue';
+import type { Task as TaskType } from '@/types';
 
 interface Props {
-    tasks?: {
-        id: number,
-        name: string,
-        due: string,
-        notes: string,
-        done: boolean,
-        attachments: string[],
-        subtasks: {
-            name: string,
-            done: boolean,
-            notes: string,
-            attachments: string[],
-            due: string
-        }[]
-    }[]
+    tasks?: TaskType[];
 }
 const props = defineProps<Props>();
 const page = usePage();
