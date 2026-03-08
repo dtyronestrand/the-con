@@ -33,7 +33,7 @@ export interface Task {
     sub_tasks?: Task[];
     id: number;
     done: boolean;
-    due: string | null;
+    due_date: string | null;
     attachments?: string[];
 }
 export interface Event {

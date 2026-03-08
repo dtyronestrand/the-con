@@ -50,7 +50,7 @@ const taskToUpdate = ref(props.task ? { ...props.task } : null);
 
 const addSubtask = () => {
   if (taskToUpdate.value) {
-    (taskToUpdate.value.sub_tasks ??= []).push({ name: '', done: false, id: Date.now(), due: null });
+    (taskToUpdate.value.sub_tasks ??= []).push({ name: '', done: false, id: Date.now(), due_date: null });
   }
 };
 

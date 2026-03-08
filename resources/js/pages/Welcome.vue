@@ -27,7 +27,7 @@
             <div
                 class="flex h-full w-full flex-col ml-12 align-center items-center md:flex-row "
             >
-          <Planner v-if="topView === 'todo'"/>
+          <Planner :tasks="(page.props.auth.user.tasks as Task[])" v-if="topView === 'todo'"/>
           <WeatherWidget v-else />
             </div>
         </div>
@@ -102,7 +102,7 @@ import Elbow from '@/components/lcars/Elbow.vue';
 import Element from '@/components/lcars/Element.vue';
 import ServiceContainer from '@/components/ServiceContainer.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
-import type { AppPageProps, Category, Event } from '@/types';
+import type { AppPageProps, Category, Event, Task } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import Planner from '@/components/todolist/Planner.vue';
 import { ref, onMounted } from 'vue';

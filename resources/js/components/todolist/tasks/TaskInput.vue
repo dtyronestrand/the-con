@@ -37,7 +37,7 @@
         if(taskName.value.trim()) {
             router.post('/tasks/store', {
                 name: taskName.value,
-                due: props.due,
+                due_date: props.due,
                 done: props.done,
                 user_id: user.value.id
             }, {
