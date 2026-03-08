@@ -25,7 +25,7 @@
                 <Element background="var(--anakiwa)" :button="false"></Element>
             </div>
             <div
-                class="flex h-full w-full flex-col ml-12 align-center items-center md:flex-row "
+                class="flex h-full w-full "
             >
           <Planner :tasks="(page.props.auth.user.tasks as Task[])" v-if="topView === 'todo'"/>
           <WeatherWidget v-else />
