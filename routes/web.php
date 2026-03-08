@@ -26,7 +26,7 @@ Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->mid
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
-Route::post('/tasks', [\App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');
+Route::post('/tasks/store', [\App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');
 Route::put('/tasks/{id}', [\App\Http\Controllers\TaskController::class, 'update'])->name('tasks.update');
 Route::delete('/tasks/{id}', [\App\Http\Controllers\TaskController::class, 'destroy'])->name('tasks.destroy');
 Route::get('/auth/outlook', [CalendarController::class, 'redirectToProvider'])->name('auth.outlook');
