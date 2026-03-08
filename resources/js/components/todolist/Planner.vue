@@ -11,12 +11,13 @@
         <Task :task="task" class="w-full decorated mt-4"/>
         </div>
         </span>
+        </div>
         <TaskInput class="w-full decorated mt-4":disabled="false" :due="day.format('YYYY-MM-DD')"/>
-        <span v-for="i in (8 - props.tasks.filter(task => task.due === day.format('YYY-MM-DD')).length-1))">
+        <span v-for="i in (8 - (props.tasks?.filter(task => task.due === day.format('YYYY-MM-DD')).length ?? 0) - 1)">
         <TaskInput :disabled="true" :due="day.format('YYYY-MM-DD')"/>
         </span>
         </div>
-        </div>
+        
         <CircleArrowRight class="text-white size-8"/>
         <div class="mr-12 -ml-16">
         <BarWithTitle classList="text-2xl" background="var(--indigo)" >Someday</BarWithTitle>
