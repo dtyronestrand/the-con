@@ -1,9 +1,8 @@
 <template>
-  <div v-if="task" class="fixed inset-0 bg-opacity-10 flex items-center justify-center z-50" @click="closeModal">
-    <div class="p-6 rounded-lg max-w-md w-full mx-4" @click.stop>
+  <div v-if="task" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50" @click="closeModal">
+    <div class="p-6 bg-black border border-(--blue) rounded-xl rounded-lg max-w-md w-full h-auto text-white mx-4" @click.stop>
       <form @submit.prevent="saveForm" class="space-y-4">
-        <input v-if="taskToUpdate" v-model="taskToUpdate.name" type="text" class="input input-bordered w-full" placeholder="Task Name" />
-        
+        <input v-if="taskToUpdate" v-model="taskToUpdate.name" type="text" class="decorated w-full" placeholder="Task Name" />
         <div v-if="taskToUpdate">
           <div class="flex justify-between items-center mb-2">
             <p>Subtasks</p>
@@ -27,8 +26,8 @@
         </div>
         
         <div class="flex gap-2">
-          <button type="submit" class="btn btn-success flex-1">Save</button>
-          <button @click="closeModal" type="button" class="btn btn-error">Cancel</button>
+          <Button type="submit" background="var(--indigo)" classList="left-round ">Save</Button>
+          <Button @click="closeModal" type="button" background="var(--red-alert)" classList="right-round">Cancel</Button>
         </div>
       </form>
     </div>
@@ -38,7 +37,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import type { Task } from '@/types';
+import Button from '../../lcars/Button.vue';
 
 interface Props {
   task?: Task | null;
@@ -72,5 +73,16 @@ const closeModal = () => {
 </script>
 
 <style scoped>
-
+input:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px hsla(var(--indigo) H S L, 0.8);
+    outline-color: var(--indigo) ;
+}
+.decorated {
+    border-left: 0.2rem solid var(--indigo);
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    border-right: 0.2rem solid var(--indigo);
+    caret-color: #fff;
+}
 </style>
