@@ -1,9 +1,9 @@
 <template>
-    <div class="flex ml-8 items-center justify-center flex-col">
-    <CircleArrowLeft class="text-white size-8"/>
-         <CircleArrowRight class="text-white size-8"/>
+    <div class="flex ml-8 items-center justify-between flex-row mb-4">
+    <Button @click="() => setSelectedDate(selectedYear, selectedMonth, selectedDate - 1)" background="var(--anakiwa)" classList="left-round text-black text-4xl text-center size-8">-</Button>
+         <Button @click="() => setSelectedDate(selectedYear, selectedMonth, selectedDate + 1)" background="var(--periwinkle)" classList="right-round justify-end text-black text-4xl text-center size-8">+</Button>
     </div>
-    <div class="w-full ml-4 mr-8 week-container md:gap-4 md:grid md:grid-cols-3">
+    <div class="w-full ml-4 mr-8 week-container px-[2rem] md:gap-4 md:grid md:grid-cols-3">
         <div v-for="(day, index) in weekView" :key="day.format('YYYY-MM-DD')" :class="`day-${index}`" class="  col-span-1" >
         <BarWithTitle :classList="'text-2xl'" background="var(--indigo)" >
         <p> {{ day.format('dddd') }}<span class="pl-4">{{ day.format('D') }}</span></p>   
@@ -42,7 +42,7 @@ import {computed, watchEffect, ref} from "vue";
 import {CircleArrowLeft, CircleArrowRight} from 'lucide-vue-next'
 import {useDateState} from '../../composables/useDateState';
 import {usePage, useForm, router} from "@inertiajs/vue3";
-import Bar from '../lcars/Bar.vue';
+import Button from '../lcars/Button.vue';
 import type { Task as TaskType } from '@/types';
 
 interface Props {
@@ -54,10 +54,10 @@ const {selectedYear, selectedMonth, selectedDate, setSelectedDate} = useDateStat
 const somedayTasks = computed(() => props.tasks?.filter(task => !task.due_date) ?? []);
 const weekView = computed(()=> {
     const selectedDay = dayjs(`${selectedYear.value}-${selectedMonth.value+1}-${selectedDate.value}`);
-    const startOfWeek = selectedDay.startOf('week').add(1, 'day'); // Start on Monday
 
-    return Array.from({length: 3}, (_, i) => startOfWeek.add(i, 'day'));
+    return Array.from({length: 3}, (_, i) => selectedDay.add(i, 'day'));
 })
+
 </script>
 
 <style scoped>

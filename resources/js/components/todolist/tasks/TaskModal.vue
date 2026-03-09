@@ -1,6 +1,6 @@
 <template>
-  <div v-if="task" class="fixed inset-0 bg-base-300 bg-opacity-10 flex items-center justify-center z-50" @click="closeModal">
-    <div class="bg-base-100 p-6 rounded-lg max-w-md w-full mx-4" @click.stop>
+  <div v-if="task" class="fixed inset-0 bg-opacity-10 flex items-center justify-center z-50" @click="closeModal">
+    <div class="p-6 rounded-lg max-w-md w-full mx-4" @click.stop>
       <form @submit.prevent="saveForm" class="space-y-4">
         <input v-if="taskToUpdate" v-model="taskToUpdate.name" type="text" class="input input-bordered w-full" placeholder="Task Name" />
         
