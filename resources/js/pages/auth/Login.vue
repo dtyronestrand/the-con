@@ -43,7 +43,5 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-.login {
-    background-image: linear-gradient(in oklch, var(--moonbeam), var(--gray));
-}
+
 </style>

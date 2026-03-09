@@ -120,7 +120,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="p-4 bg-black rounded-lg shadow-md max-w-sm">
+    <div class="p-4 px-[2rem] bg-black rounded-lg shadow-md max-w-sm">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-bold text-white">
                 {{ locationName }}

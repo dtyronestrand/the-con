@@ -2,8 +2,8 @@
     <button type="button"
         @click="$emit('click')"
         :class="classes"
-        class="justify-end relative m-0 box-border flex w-30 h-12 flex-row border
-        my-4 pr-3 pl-3 text-right font-bold text-white  items-center"
+        class="relative m-0 box-border flex w-30 h-12 flex-row border
+        my-4 pr-3 pl-3  font-bold "
         :style="{
             backgroundColor: resolvedBackground,
             borderColor: resolvedBackground
@@ -16,7 +16,7 @@
 import { computed } from 'vue';
 interface Props {
     background?: string;
-    classList?: string[];
+    classList?: string;
     target?: string;
 }
 const props = defineProps<Props>();
@@ -25,7 +25,7 @@ const emit=defineEmits<{
     (e: 'click'): void;
 }>();
 const classes = computed(() => {
-    let baseClasses = props.classList ? props.classList.join(' ') : '';
+    let baseClasses = props.classList ? props.classList + ' ' : '';
   
     baseClasses +=
             ' cursor-pointer hover:brightness-90 active:brightness-75';
