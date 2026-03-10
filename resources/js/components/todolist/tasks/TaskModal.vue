@@ -28,6 +28,7 @@
         <div class="flex gap-2">
           <Button type="submit" background="var(--indigo)" classList="left-round ">Save</Button>
           <Button @click="closeModal" type="button" background="var(--red-alert)" classList="right-round">Cancel</Button>
+          <Trash2 @click="deleteTask"/>
         </div>
       </form>
     </div>
@@ -36,11 +37,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import {Trash2} from 'lucide-vue-next';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import type { Task } from '@/types';
 import Button from '../../lcars/Button.vue';
-
+import { router } from '@inertiajs/vue3';
 interface Props {
   task?: Task | null;
 }
@@ -66,6 +68,13 @@ const saveForm = () => {
     closeModal();
   }
 };
+const deleteTask = () =>{
+  router.delete(`/tasks/${taskToUpdate.value?.id}`, {
+    onSuccess: () => {
+      closeModal();
+    }
+  })
+}
 
 const closeModal = () => {
   emit('close');

@@ -10,14 +10,14 @@
         </BarWithTitle>
         <div v-if="props.tasks && props.tasks.length > 0">
         <span v-for="(task, taskIndex) in props.tasks" :key="task.id">
-        <span v-if="task.due_date === day.format('YYYY-MM-DD')">
+        <span v-if="dayjs(task.due_date).format('YYYY-MM-DD') === day.format('YYYY-MM-DD')">
         <Task :task="task" class="w-full h-[1rem] "/>
         </span>
         </span>
         </div>
-        <TaskInput class="w-full decorated ":disabled="false" :due-date="day.format('YYYY-MM-DD')"/>
-        <span v-for="i in (8 - (props.tasks?.filter(task => task.due_date === day.format('YYYY-MM-DD')).length ?? 0) - 1)">
-        <TaskInput class="w-full " :disabled="true" :due="day.format('YYYY-MM-DD')"/>
+        <TaskInput class="w-full decorated ":disabled="false" :due_date="day.format('YYYY-MM-DD')"/>
+        <span v-for="i in (8 - (props.tasks?.filter(task => task.due_date && dayjs(task.due_date).format('YYYY-MM-DD') === day.format('YYYY-MM-DD')).length ?? 0) - 1)">
+        <TaskInput class="w-full " :disabled="true" :due_date="day.format('YYYY-MM-DD')"/>
         </span>
         </div>
         <div class="">
