@@ -27,7 +27,10 @@ class ClearTodayDueDates extends Command
      */
     public function handle()
     {
-     $updatedCount = Task::whereDate('due_date', Carbon::today())->update(['due_date' => null]);
+    
+     $updatedCount = Task::whereDate('due_date', Carbon::today())
+         ->where('done', false)
+         ->update(['due_date' => null]);
      $this->info("Cleared due dates for {$updatedCount} tasks.");
     }
 }
