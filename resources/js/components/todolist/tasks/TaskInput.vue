@@ -13,7 +13,6 @@
         class?: string;
         disabled?: boolean;
         due_date?: string | null;
-        due_date?: string | null;
         done?: boolean;
     }
     const props = defineProps<Props>();
@@ -22,7 +21,7 @@
     const user = ref(page.props.auth.user);
     watch(
         ()=> [taskName.value, props.due_date, props.done] as const,
-        ([name, due, done]) => {
+        ([name, due_date, done]) => {
             console.log('Component values:', {
                 taskName: name,
                 due_date,
@@ -38,7 +37,6 @@
         if(taskName.value.trim()) {
             router.post('/tasks/store', {
                 name: taskName.value,
-                due_date: props.due_date,
                 due_date: props.due_date,
                 done: props.done,
                 user_id: user.value.id
