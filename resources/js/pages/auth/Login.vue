@@ -3,12 +3,10 @@
     <h1 class="text-5xl text-(--blue) font-bold">Login</h1>
         <div class="flex w-100 h-100 flex-row gap-4 bg-black rounded-[1.5rem]">
             <Bracket :classList="['left', 'hollow']" background="var(--blue)" />
-            <Form ref="formRef" action="/login" method="post"
-                class="flex w-full flex-col items-center justify-center gap-4"
-            >
+            <form class="flex w-full flex-col items-center justify-center gap-4">
                 <label for="email" class="self-start text-white">Email:</label>
                 <input
-                 name="email"
+                    v-model="form.email"
                     type="email"
                     placeholder="Email"
                     class="w-full rounded border border-gray-300 p-2 text-white"
@@ -16,14 +14,13 @@
                 <label for="password" class="self-start text-white"
                     >Password:</label>
                 <input
-                 name="password"
+                    v-model="form.password"
                     type="password"
                     placeholder="Password"
                     class="w-full rounded border border-gray-300 p-2 text-white"
                 />
-             <Button @click="handleSubmit" background="var(--blue)" :classList="['round']">Login</Button>
-                  
-            </Form>
+                <Button @click="handleSubmit" background="var(--blue)" classList="round">Login</Button>
+            </form>
             <Bracket :classList="['right', 'hollow']" background="var(--blue)" />
         </div>
     </div>
@@ -32,13 +29,17 @@
 <script setup lang="ts">
 import Bracket from '@/components/lcars/Bracket.vue';
 import Button from '@/components/lcars/Button.vue';
-import {Form} from '@inertiajs/vue3';
-import {ref} from 'vue';
+import {useForm} from '@inertiajs/vue3';
 
-const formRef = ref();
+const form = useForm({
+   email: '',
+   password: ''
+});
 
 const handleSubmit = () => {
-   formRef.value.submit();
+   form.post('/login', {
+      onSuccess: () => form.reset()
+   });
 }
 </script>
 
