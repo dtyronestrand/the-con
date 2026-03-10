@@ -21,6 +21,7 @@ class Task extends Model
 
     protected $casts =[
         'done' => 'boolean',
+        'due_date' => 'date',
         'sub_tasks' => 'json',
         'attachments' => 'json',
     ];
