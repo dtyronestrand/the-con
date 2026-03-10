@@ -12,6 +12,7 @@ use SocialiteProviders\Manager\SocialiteWasCalled;
 use SocialiteProviders\Graph\GraphExtendSocialite;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (app()->isProduction()) {
+            URL::forceScheme('https');
+        }
+        
         $this->configureDefaults();
         
         if (isset($_SERVER['NATIVEPHP_RUNNING'])) {
