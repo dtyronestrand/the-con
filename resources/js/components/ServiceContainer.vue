@@ -6,7 +6,7 @@
         >
         <div
          v-if="category.services.length && category.services.length > 0"
-            class="service-container grow border-2 bg-gray-900"
+            class="service-container grow border-2 bg-slate-800"
             style="
                 min-height: 12.5rem;
                 min-width: 25rem;
@@ -23,7 +23,7 @@
                     class="relative group"
                 >
                     <Button
-                        :classList="['round']"
+                        classList="round"
                         :background="getServiceColor(service.id)"
                         :button="true"
                         ><a
@@ -279,7 +279,12 @@ input {
     background-color: rgba(from var(--indigo) R G B/0.4);
     color: white;
 }
+.service-category {
+    max-width: 40vw;
+    border: 1px solid var(--indigo);
+}
+
 .service-container {
-    border-color: var(--indigo);
+    max-width: 30vw;
 }
 </style>
