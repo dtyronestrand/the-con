@@ -86,11 +86,13 @@
 
 <script setup lang="ts">
 import type { Task } from '@/types';
+
 import { router } from '@inertiajs/vue3';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { Trash2 } from 'lucide-vue-next';
 import { ref } from 'vue';
+
 import Button from '../../lcars/Button.vue';
 interface Props {
     task?: Task | null;

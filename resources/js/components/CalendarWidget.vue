@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { Event } from '@/types'; // Define Event type as per your data structure
 import { format, parseISO } from 'date-fns'; // Optional: for nice date formatting
 import { computed } from 'vue';
+
+import type { Event } from '@/types'; // Define Event type as per your data structure
 const props = defineProps<{
     isConnected: boolean;
     events: Event[];

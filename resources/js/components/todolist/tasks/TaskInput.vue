@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-    import {ref, watch} from 'vue';
     import {router, usePage} from "@inertiajs/vue3";
+    import {ref, watch} from 'vue';
     
     interface Props {
         taskName?: string;

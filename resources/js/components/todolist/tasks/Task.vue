@@ -23,10 +23,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Task } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
+
+import type { Task } from '@/types';
+
 import { useDateState } from '../../../composables/useDateState';
+
 import Checkmark from './Checkmark.vue';
 import TaskModal from './TaskModal.vue';
 
