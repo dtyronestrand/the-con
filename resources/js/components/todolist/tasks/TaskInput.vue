@@ -1,7 +1,7 @@
 <template>
     <input :class="props.class" v-model="taskName" :disabled="props.disabled" type="text" @blur="handleBlur" class="h-[1rem] p-0 m-0 text-white text-justify ">
 
-    </input>
+   
 </template>
 
 <script setup lang="ts">
