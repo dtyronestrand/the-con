@@ -3,6 +3,7 @@ import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import vue from 'eslint-plugin-vue';
 
+
 export default defineConfigWithVueTs(
     vue.configs['flat/essential'],
     vueTsConfigs.recommended,
@@ -12,6 +13,7 @@ export default defineConfigWithVueTs(
     {
         plugins: {
             import: importPlugin,
+       
         },
         settings: {
             'import/resolver': {
@@ -23,23 +25,13 @@ export default defineConfigWithVueTs(
         },
         rules: {
             'vue/block-lang': ['error', {
-                script: { allowNoLang: true },
+                script: { "lang": "ts" },
                 style: { allowNoLang: true },
                 template: { allowNoLang: true }
             }],
             'vue/multi-word-component-names': 'off',
             '@typescript-eslint/no-explicit-any': 'off',
-            'import/order': [
-                'error',
-                {
-                    groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-                    'newlines-between': 'always',
-                    alphabetize: {
-                        order: 'asc',
-                        caseInsensitive: true,
-                    },
-                },
-            ],
+           
         },
     },
     prettier,

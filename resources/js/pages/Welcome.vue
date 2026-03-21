@@ -39,7 +39,12 @@
                     :tasks="page.props.auth.user.tasks as Task[]"
                     v-if="topView === 'todo'"
                 />
-                <WeatherWidget v-else />
+                <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <WeatherWidget class="col-span-1" />
+                <div class="col-span-1 md:col-span-1 lg:col-span-2">
+                <StickyNoteWidget :notes="page.props.stickyNotes" />
+                </div>
+                </div>
             </div>
         </div>
         <div class="bottom-bar flex flex-row">
@@ -122,6 +127,7 @@ import Element from '@/components/lcars/Element.vue';
 import ServiceContainer from '@/components/ServiceContainer.vue';
 import Planner from '@/components/todolist/Planner.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
+import StickyNoteWidget from '@/components/StickyNoteWidget.vue';
 import type { AppPageProps, Category, Event, Task } from '@/types';
 
 const page = usePage<
@@ -129,7 +135,9 @@ const page = usePage<
         categories: Category[];
         isConnected: boolean;
         events: Event[];
+        stickyNotes: any[];
     }
+
 >();
 onMounted(() => {
     console.log('App Mounted: Initiating background sync');

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\StickyNote;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 use App\Services\SyncService;
 
 class CategoryController extends Controller
@@ -13,9 +15,10 @@ class CategoryController extends Controller
     {
         $syncer->sync();
         $categories = Category::with('services')->get();
-    
+        $stickyNotes = StickyNote::where('user_id', Auth::id())->get();
         return Inertia::render('Welcome', [
             'categories' => $categories,
+            'stickyNotes' => $stickyNotes,
         ]);
     }
 
