@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    public function stickNotes()
+    {
+        return $this->hasMany(StickyNote::class);
+    }
 }
