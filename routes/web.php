@@ -38,4 +38,7 @@ Route::post('/trigger-sync', function(){
     $exitCode = Artisan::call('sync:run');
     return response()->json(['success' => $exitCode === 0, 'message' => 'Sync attempt finished']);
 });
+Route::post('/sticky-notes', [\App\Http\Controllers\StickyNoteController::class, 'store'])->name('sticky-notes.store');
+Route::put('/sticky-notes/{stickyNote}', [\App\Http\Controllers\StickyNoteController::class, 'update'])->name('sticky-notes.update');
+Route::delete('/sticky-notes/{stickyNote}', [\App\Http\Controllers\StickyNoteController::class, 'destroy'])->name('sticky-notes.destroy');
 require __DIR__.'/settings.php';

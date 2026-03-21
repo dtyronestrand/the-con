@@ -13,7 +13,7 @@ class CategoryController extends Controller
     {
         $syncer->sync();
         $categories = Category::with('services')->get();
-
+    
         return Inertia::render('Welcome', [
             'categories' => $categories,
         ]);
