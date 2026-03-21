@@ -24,7 +24,7 @@ export default defineConfigWithVueTs(
         rules: {
             'vue/block-lang':['error', {
                 allowNoLang: true,
-            }]
+            }],
             'vue/multi-word-component-names': 'off',
             '@typescript-eslint/no-explicit-any': 'off',
             'import/order': [
