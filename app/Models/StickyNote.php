@@ -17,4 +17,9 @@ class StickyNote extends Model
         'width',
         'height',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
 }

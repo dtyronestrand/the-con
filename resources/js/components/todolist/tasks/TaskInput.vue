@@ -31,7 +31,7 @@
         { immediate: true }
     );
 
-    const showModal = ref(false);
+    
 
     const handleBlur = () => {
         if(taskName.value.trim()) {
