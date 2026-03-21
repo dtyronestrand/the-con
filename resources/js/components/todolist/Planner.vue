@@ -96,13 +96,16 @@
 </template>
 
 <script setup lang="ts">
-import type { Task as TaskType } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import { computed } from 'vue';
+
+import type { Task as TaskType } from '@/types';
+
 import { useDateState } from '../../composables/useDateState';
 import BarWithTitle from '../lcars/BarWithTitle.vue';
 import Button from '../lcars/Button.vue';
+
 import Task from './tasks/Task.vue';
 import TaskInput from './tasks/TaskInput.vue';
 

@@ -22,8 +22,10 @@ export default defineConfigWithVueTs(
             },
         },
         rules: {
-            'vue/block-lang':['error', {
-                allowNoLang: true,
+            'vue/block-lang': ['error', {
+                script: { allowNoLang: true },
+                style: { allowNoLang: true },
+                template: { allowNoLang: true }
             }],
             'vue/multi-word-component-names': 'off',
             '@typescript-eslint/no-explicit-any': 'off',

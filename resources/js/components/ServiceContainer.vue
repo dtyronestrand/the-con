@@ -165,12 +165,13 @@
 </template>
 
 <script setup lang="ts">
+import { useForm } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
+
 import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Bracket from '@/components/lcars/Bracket.vue';
 import Button from '@/components/lcars/Button.vue';
 import type { Category, Service } from '@/types';
-import { useForm } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
 const colors = [
     'var(--indigo)',
     'var(--blue)',

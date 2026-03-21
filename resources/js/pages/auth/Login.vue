@@ -40,9 +40,10 @@
 </template>
 
 <script setup lang="ts">
+import { router, useForm } from '@inertiajs/vue3';
+
 import Bracket from '@/components/lcars/Bracket.vue';
 import Button from '@/components/lcars/Button.vue';
-import { router, useForm } from '@inertiajs/vue3';
 
 const form = useForm({
     email: '',

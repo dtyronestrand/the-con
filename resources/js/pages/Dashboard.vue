@@ -92,6 +92,8 @@
 </template>
 
 <script setup lang="ts">
+import { usePage } from '@inertiajs/vue3';
+
 import CalendarWidget from '@/components/CalendarWidget.vue';
 import Bar from '@/components/lcars/Bar.vue';
 import BarEnd from '@/components/lcars/BarEnd.vue';
@@ -100,7 +102,6 @@ import Elbow from '@/components/lcars/Elbow.vue';
 import Element from '@/components/lcars/Element.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 import type { AppPageProps, Category, Event } from '@/types';
-import { usePage } from '@inertiajs/vue3';
 const page = usePage<
     AppPageProps & {
         categories: Category[];

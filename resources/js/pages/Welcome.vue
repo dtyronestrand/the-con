@@ -110,6 +110,10 @@
 </template>
 
 <script setup lang="ts">
+import { router, usePage } from '@inertiajs/vue3';
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
 import Bar from '@/components/lcars/Bar.vue';
 import BarEnd from '@/components/lcars/BarEnd.vue';
 import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
@@ -119,9 +123,6 @@ import ServiceContainer from '@/components/ServiceContainer.vue';
 import Planner from '@/components/todolist/Planner.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 import type { AppPageProps, Category, Event, Task } from '@/types';
-import { router, usePage } from '@inertiajs/vue3';
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
 
 const page = usePage<
     AppPageProps & {
