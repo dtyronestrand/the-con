@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import Bracket from '@/components/lcars/Bracket.vue';
 import Button from '@/components/lcars/Button.vue';
-import {useForm} from '@inertiajs/vue3';
+import {useForm, router} from '@inertiajs/vue3';
 
 const form = useForm({
    email: '',
@@ -38,7 +38,8 @@ const form = useForm({
 
 const handleSubmit = () => {
    form.post('/login', {
-      onSuccess: () => form.reset()
+      onSuccess: () => router.get('/')
+
    });
 }
 </script>
