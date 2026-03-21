@@ -6,6 +6,7 @@
         <div class="flex h-100 w-100 flex-row gap-4 rounded-[1.5rem] bg-black">
             <Bracket :classList="['left', 'hollow']" background="var(--blue)" />
             <form
+                @submit.prevent="handleSubmit"
                 class="flex w-full flex-col items-center justify-center gap-4"
             >
                 <label for="email" class="self-start text-white">Email:</label>
@@ -25,7 +26,7 @@
                     class="w-full rounded border border-gray-300 p-2 text-white"
                 />
                 <Button
-                    @click="handleSubmit"
+                   type="submit"
                     background="var(--blue)"
                     classList="round"
                     >Login</Button
