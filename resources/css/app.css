@@ -150,7 +150,7 @@
         background: oklch(0% 0 0);
         scroll-behavior: smooth;
         overscroll-behavior: auto;
-        overflow-x:hidden;
+        overflow-x: hidden;
         padding-left: 1rem;
         padding-right: 1rem;
     }
@@ -199,7 +199,6 @@
 
     .body {
         grid-area: body;
-      
     }
 
     .content2 {

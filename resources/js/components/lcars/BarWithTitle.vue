@@ -5,7 +5,7 @@
         :style="`background-color: ${props.background || 'var(--bahama-blue)'}`"
     >
         <span
-            class="m-0 ml-[0.83333333333333335rem] inline-block h-full bg-black pr-[0.1666666666666667rem] pb-[0.1666666666666667rem] pl-[0.1666666666666667rem] font-bold text-white uppercase "
+            class="m-0 ml-[0.83333333333333335rem] inline-block h-full bg-black pr-[0.1666666666666667rem] pb-[0.1666666666666667rem] pl-[0.1666666666666667rem] font-bold text-white uppercase"
         >
             <slot />
         </span>

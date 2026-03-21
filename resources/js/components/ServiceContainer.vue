@@ -1,48 +1,49 @@
 <template>
     <div class="flex flex-row flex-wrap gap-4">
-       <div    v-for="category in props.categories"
+        <div
+            v-for="category in props.categories"
             :key="category.id"
             class="service-category"
         >
-        <div
-         v-if="category.services.length && category.services.length > 0"
-            class="service-container grow border-2 bg-slate-800"
-            style="
-                min-height: 12.5rem;
-                min-width: 25rem;
-                border-color: var(--indigo);
-            "
-        >
-            <BarWithTitle classList="top" :background="'var(--indigo)'"
-                >{{ category.name }}
-            </BarWithTitle>
-            <div class="mx-4 mt-2 flex flex-row flex-wrap gap-4">
-                <div
-                    v-for="service in category.services"
-                    :key="service.id"
-                    class="relative group"
-                >
-                    <Button
-                        classList="round"
-                        :background="getServiceColor(service.id)"
-                        :button="true"
-                        ><a
-                            target="_blank"
-                            :href="service.url"
-                            class="mx-auto text-xl text-black"
-                            >{{ service.name }}</a
-                        ></Button
+            <div
+                v-if="category.services.length && category.services.length > 0"
+                class="service-container grow border-2 bg-slate-800"
+                style="
+                    min-height: 12.5rem;
+                    min-width: 25rem;
+                    border-color: var(--indigo);
+                "
+            >
+                <BarWithTitle classList="top" :background="'var(--indigo)'"
+                    >{{ category.name }}
+                </BarWithTitle>
+                <div class="mx-4 mt-2 flex flex-row flex-wrap gap-4">
+                    <div
+                        v-for="service in category.services"
+                        :key="service.id"
+                        class="group relative"
                     >
-                    <button
-                        @click.prevent="editService(service)"
-                        class="absolute -top-2 -right-2 bg-gray-700 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                        title="Edit service"
-                    >
-                        ✎
-                    </button>
+                        <Button
+                            classList="round"
+                            :background="getServiceColor(service.id)"
+                            :button="true"
+                            ><a
+                                target="_blank"
+                                :href="service.url"
+                                class="mx-auto text-xl text-black"
+                                >{{ service.name }}</a
+                            ></Button
+                        >
+                        <button
+                            @click.prevent="editService(service)"
+                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-700 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                            title="Edit service"
+                        >
+                            ✎
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
 
         <!-- Add/Edit Modal -->
@@ -167,8 +168,7 @@
 import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Bracket from '@/components/lcars/Bracket.vue';
 import Button from '@/components/lcars/Button.vue';
-import type { Category } from '@/types';
-import type { Service } from '@/types';
+import type { Category, Service } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 const colors = [

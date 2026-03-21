@@ -18,17 +18,28 @@
                     :button="false"
                     :height="2"
                 ></Element>
-                <Element background="var(--blue)" :button="true" @buttonPressed="topView='weather'">Weather</Element>
-                <Element background="var(--anakiwa)" :button="true" @buttonPressed="topView='todo'">To Do</Element>
+                <Element
+                    background="var(--blue)"
+                    :button="true"
+                    @buttonPressed="topView = 'weather'"
+                    >Weather</Element
+                >
+                <Element
+                    background="var(--anakiwa)"
+                    :button="true"
+                    @buttonPressed="topView = 'todo'"
+                    >To Do</Element
+                >
 
                 <Element background="var(--blue)" :button="false"></Element>
                 <Element background="var(--anakiwa)" :button="false"></Element>
             </div>
-            <div
-                class="flex h-full w-full flex flex-col"
-            >
-          <Planner :tasks="(page.props.auth.user.tasks as Task[])" v-if="topView === 'todo'"/>
-          <WeatherWidget v-else />
+            <div class="flex h-full w-full flex-col">
+                <Planner
+                    :tasks="page.props.auth.user.tasks as Task[]"
+                    v-if="topView === 'todo'"
+                />
+                <WeatherWidget v-else />
             </div>
         </div>
         <div class="bottom-bar flex flex-row">
@@ -61,7 +72,12 @@
                     >Factory Reset</Element
                 >
 
-                <Element @click="logout" background="var(--periwinkle)" :button="true" >Logout</Element>
+                <Element
+                    @click="logout"
+                    background="var(--periwinkle)"
+                    :button="true"
+                    >Logout</Element
+                >
                 <Element
                     background="var(--blue)"
                     :button="false"
@@ -94,20 +110,18 @@
 </template>
 
 <script setup lang="ts">
-import CalendarWidget from '@/components/CalendarWidget.vue';
 import Bar from '@/components/lcars/Bar.vue';
 import BarEnd from '@/components/lcars/BarEnd.vue';
 import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Elbow from '@/components/lcars/Elbow.vue';
 import Element from '@/components/lcars/Element.vue';
 import ServiceContainer from '@/components/ServiceContainer.vue';
+import Planner from '@/components/todolist/Planner.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 import type { AppPageProps, Category, Event, Task } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
-import Planner from '@/components/todolist/Planner.vue';
-import { ref, onMounted } from 'vue';
 import axios from 'axios';
-
+import { onMounted, ref } from 'vue';
 
 const page = usePage<
     AppPageProps & {
@@ -128,7 +142,7 @@ const runSync = async () => {
         console.log('sync triggered successfully');
     } catch (error) {
         console.error('Error triggering sync:', error);
-}
+    }
 };
 const logout = () => {
     router.post('/logout');

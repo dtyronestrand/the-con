@@ -2,7 +2,7 @@
     <div
         @click="emit('buttonPressed')"
         :class="classes"
-        class="relative m-0 box-border flex md:w-30 grow flex-row justify-end border-t-2 border-black text-right font-bold text-black w-15"
+        class="relative m-0 box-border flex w-15 grow flex-row justify-end border-t-2 border-black text-right font-bold text-black md:w-30"
         :style="{
             backgroundColor: resolvedBackground,
             borderColor: resolvedBackground,
@@ -47,7 +47,9 @@ const resolvedBackground = computed(() => {
     if (props.background.startsWith('var(')) {
         const varName = props.background.match(/var\(([^)]+)\)/)?.[1];
         if (varName) {
-            return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+            return getComputedStyle(document.documentElement)
+                .getPropertyValue(varName)
+                .trim();
         }
     }
     return props.background;
