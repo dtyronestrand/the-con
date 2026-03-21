@@ -1,7 +1,7 @@
 <template>
     <button
         type="button"
-        @click="$emit('click')"
+        @click="emit('click')"
         :class="classes"
         class="relative m-0 my-4 box-border justify-center text-white items-center flex h-12 w-30 flex-row border pr-3 pl-3 font-bold"
         :style="{
