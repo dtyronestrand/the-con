@@ -1,7 +1,7 @@
 <template>
  <div 
         class="relative shadow-md rounded-md p-3 flex flex-col group overflow-hidden"
-        :style="{ backgroundColor: form.color, width: form.width + 'px', height: form.height + 'px', resize: 'both' }"
+        :style="{ backgroundColor: form.color, color:form.color === 'var(--indigo)' ? 'white' : 'black', width: form.width + 'px', height: form.height + 'px', resize: 'both' }"
         @mouseup="onResize"
     >
         <div class="flex justify-between items-center mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -45,7 +45,7 @@ const form = useForm({
     height: props.note.height,
 });
 
-const colors = ['var(--indigo)', 'var(--anakiwa)', 'var(--blue)', 'var(--periwinle)'];
+const colors = ['var(--indigo)', 'var(--anakiwa)', 'var(--blue)', 'var(--periwinkle)'];
 
 const saveNote = debounce(()=> {
     form.put(`/sticky-notes/${props.note.id}`, {
