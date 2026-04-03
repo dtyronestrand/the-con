@@ -28,8 +28,6 @@ import { computed, ref } from 'vue';
 
 import type { Task } from '@/types';
 
-import { useDateState } from '../../../composables/useDateState';
-
 import Checkmark from './Checkmark.vue';
 import TaskModal from './TaskModal.vue';
 
@@ -38,8 +36,6 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-const { selectedYear, selectedMonth, selectedDate, setSelectedDate } =
-    useDateState();
 const selectedTask = ref<Task | null>(null);
 const page = usePage();
 
@@ -52,7 +48,7 @@ const handleTaskStatus = () => {
     };
     handleTask(updatedTask);
 };
-const emit = defineEmits(['taskStatus']);
+
 const handleTask = (updatedTask: Task) => {
     const requestData = {
         id: updatedTask.id,
@@ -80,23 +76,6 @@ const openModal = (task: Task) => {
 
 const closeModal = () => {
     selectedTask.value = null;
-};
-
-const addSubtask = () => {
-    if (selectedTask.value) {
-        selectedTask.value.sub_tasks = selectedTask.value.sub_tasks || [];
-        selectedTask.value.sub_tasks.push();
-    }
-};
-
-const removeSubtask = (index: number) => {
-    if (selectedTask.value && selectedTask.value.sub_tasks) {
-        selectedTask.value.sub_tasks.splice(index, 1);
-    }
-};
-
-const submitForm = () => {
-    closeModal();
 };
 </script>
 

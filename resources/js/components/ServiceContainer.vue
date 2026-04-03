@@ -185,7 +185,6 @@ const props = defineProps<{
     showModal?: boolean;
     service?: Service;
 }>();
-const showModal = ref(props.showModal ?? false);
 const newCategory = ref(false);
 const localShowModal = ref(props.showModal ?? false);
 const editingService = ref<Service | null>(null);
@@ -207,10 +206,6 @@ const form = useForm({
 });
 const getServiceColor = (serviceId: number) => {
     return colors[serviceId % colors.length];
-};
-const openModal = () => {
-    form.reset();
-    showModal.value = true;
 };
 
 const closeModal = () => {
