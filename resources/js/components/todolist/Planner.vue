@@ -60,7 +60,7 @@
                 :due_date="day.format('YYYY-MM-DD')"
             />
             <span
-                v-for="i in Math.max(0, 8 -
+                v-for="(_, i) in 8 -
                 (props.tasks?.filter(
                     (task) =>
                         task.due_date &&
@@ -89,7 +89,10 @@
                 :disabled="false"
                 :due_date="null"
             />
-            <span v-for="i in Math.max(0, 8 - somedayTasks.length - 1)">
+            <span
+                v-for="(_, i) in 8 - somedayTasks.length - 1"
+                :key="'someday-placeholder-' + i"
+            >
                 <TaskInput class="w-full" :disabled="true" :due_date="null" />
             </span>
         </div>
