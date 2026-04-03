@@ -1,40 +1,34 @@
 <template>
-    <div class="flex flex-col h-full">
-        <div class="flex items-center justify-between mb-4">
+    <div class="flex h-full flex-col">
+        <div class="mb-4 flex items-center justify-between">
             <h2 class="text-lg font-semibold dark:text-white">Quick Notes</h2>
-            <button @click="addNote" class="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+            <button
+                @click="addNote"
+                class="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+            >
                 + New Note
             </button>
         </div>
-        
-        <div class="flex flex-wrap gap-4 items-start">
-            <StickyNoteItem 
-                v-for="note in notes" 
-                :key="note.id" 
-                :note="note" 
-            />
+
+        <div class="flex flex-wrap items-start gap-4">
+            <StickyNoteItem v-for="note in notes" :key="note.id" :note="note" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import {router} from '@inertiajs/vue3';
-import StickyNoteItem from "@/components/StickyNoteItem.vue";
+import StickyNoteItem from '@/components/StickyNoteItem.vue';
+import { router } from '@inertiajs/vue3';
 
 defineProps<{
-    notes: any[]
+    notes: any[];
 }>();
-
-
 
 const addNote = () => {
     router.post('/sticky-notes/', {
         preserveScroll: true,
-   
     });
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
