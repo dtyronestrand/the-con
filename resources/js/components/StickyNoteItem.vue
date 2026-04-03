@@ -4,16 +4,24 @@
         :style="{ backgroundColor: form.color, color:form.color === 'var(--indigo)' ? 'white' : 'black', width: form.width + 'px', height: form.height + 'px', resize: 'both' }"
         @mouseup="onResize"
     >
-        <div class="flex justify-between items-center mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div class="flex justify-between items-center mb-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
             <div class="flex space-x-1">
                 <button 
                     v-for="c in colors" :key="c"
                     @click="form.color = c"
-                    class="w-4 h-4 rounded-full border border-black/10"
+                    class="w-4 h-4 rounded-full border border-black/10 focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-500"
                     :style="{ backgroundColor: c }"
+                    :aria-label="`Set note color to ${c}`"
+                    :title="`Set note color to ${c}`"
                 ></button>
             </div>
-            <button @click="deleteNote" @mouseup.stop class="text-red-500 hover:text-red-700">
+            <button
+                @click="deleteNote"
+                @mouseup.stop
+                class="text-red-500 hover:text-red-700 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 rounded-sm p-0.5"
+                aria-label="Delete note"
+                title="Delete note"
+            >
                 <Trash2 :size="16" />
             </button>
         </div>
