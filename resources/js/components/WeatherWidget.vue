@@ -1,22 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
-const weather = ref([]);
+const weather = ref<any[]>([]);
 const loading = ref(true);
-const error = ref(null);
+const error = ref<string | null>(null);
 const locationName = ref('Current Location');
 const showManualInput = ref(false);
 const manualLocation = ref('');
-const selectedPeriod = ref(null);
-const dialogRef = ref(null);
+const selectedPeriod = ref<any | null>(null);
 
-function closeModal() {
-    if (dialogRef.value) {
-        dialogRef.value.close();
-    }
-    selectedPeriod.value = null;
-}
 const searchLocation = async () => {
     if (!manualLocation.value.trim()) return;
 
@@ -47,7 +40,7 @@ const searchLocation = async () => {
         } else {
             error.value = 'Location not found. Please try a different search.';
         }
-    } catch (err) {
+    } catch {
         error.value = 'Failed to search location.';
     } finally {
         loading.value = false;
@@ -72,7 +65,7 @@ const getUserLocation = () => {
             fetchWeather(position.coords.latitude, position.coords.longitude);
         },
         // Error Callback
-        (err) => {
+        (err: GeolocationPositionError) => {
             console.error(err);
             loading.value = false;
             switch (err.code) {
@@ -97,7 +90,7 @@ const getUserLocation = () => {
 };
 
 // 2. Fetch weather using the coordinates we just found
-const fetchWeather = async (lat, lon) => {
+const fetchWeather = async (lat: number, lon: number) => {
     try {
         // Pass the coordinates to your Laravel controller
         const response = await axios.get('/api/weather', {

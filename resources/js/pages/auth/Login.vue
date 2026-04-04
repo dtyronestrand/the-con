@@ -25,10 +25,7 @@
                     placeholder="Password"
                     class="w-full rounded border border-gray-300 p-2 text-white"
                 />
-                <Button
-                   type="submit"
-                    background="var(--blue)"
-                    classList="round"
+                <Button type="submit" background="var(--blue)" classList="round"
                     >Login</Button
                 >
             </form>
