@@ -8,7 +8,7 @@ interface Props {
     background?: string;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 </script>
 
 <style scoped>

@@ -43,7 +43,7 @@
                 </p>
             </BarWithTitle>
             <div v-if="props.tasks && props.tasks.length > 0">
-                <span v-for="task in props.tasks" :key="task.id">
+                <span v-for="(task, taskIndex) in props.tasks" :key="task.id">
                     <span
                         v-if="
                             dayjs(task.due_date).format('YYYY-MM-DD') ===
@@ -60,15 +60,14 @@
                 :due_date="day.format('YYYY-MM-DD')"
             />
             <span
-                v-for="(_, i) in 8 -
+                v-for="i in Math.max(0, 8 -
                 (props.tasks?.filter(
                     (task) =>
                         task.due_date &&
                         dayjs(task.due_date).format('YYYY-MM-DD') ===
                             day.format('YYYY-MM-DD'),
                 ).length ?? 0) -
-                1"
-                :key="'placeholder-' + day.format('YYYY-MM-DD') + '-' + i"
+                1)"
             >
                 <TaskInput
                     class="w-full"
@@ -89,10 +88,7 @@
                 :disabled="false"
                 :due_date="null"
             />
-            <span
-                v-for="(_, i) in 8 - somedayTasks.length - 1"
-                :key="'someday-placeholder-' + i"
-            >
+            <span v-for="i in Math.max(0, 8 - somedayTasks.length - 1)">
                 <TaskInput class="w-full" :disabled="true" :due_date="null" />
             </span>
         </div>
@@ -100,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePage } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import { computed } from 'vue';
 
@@ -116,6 +113,7 @@ interface Props {
     tasks?: TaskType[];
 }
 const props = defineProps<Props>();
+const page = usePage();
 const { selectedYear, selectedMonth, selectedDate, setSelectedDate } =
     useDateState();
 const somedayTasks = computed(
