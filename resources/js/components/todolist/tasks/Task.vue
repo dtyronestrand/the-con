@@ -48,6 +48,7 @@ const handleTaskStatus = () => {
     };
     handleTask(updatedTask);
 };
+
 const handleTask = (updatedTask: Task) => {
     const requestData = {
         id: updatedTask.id,
@@ -75,6 +76,26 @@ const openModal = (task: Task) => {
 
 const closeModal = () => {
     selectedTask.value = null;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const addSubtask = () => {
+    if (selectedTask.value) {
+        selectedTask.value.sub_tasks = selectedTask.value.sub_tasks || [];
+        selectedTask.value.sub_tasks.push();
+    }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const removeSubtask = (index: number) => {
+    if (selectedTask.value && selectedTask.value.sub_tasks) {
+        selectedTask.value.sub_tasks.splice(index, 1);
+    }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const submitForm = () => {
+    closeModal();
 };
 </script>
 

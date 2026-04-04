@@ -1,37 +1,28 @@
 <template>
-    <div
-        class="group relative flex flex-col overflow-hidden rounded-md p-3 shadow-md"
-        :style="{
-            backgroundColor: form.color,
-            color: form.color === 'var(--indigo)' ? 'white' : 'black',
-            width: form.width + 'px',
-            height: form.height + 'px',
-            resize: 'both',
-        }"
+ <div
+        class="relative shadow-md rounded-md p-3 flex flex-col group overflow-hidden"
+        :style="{ backgroundColor: form.color, color:form.color === 'var(--indigo)' ? 'white' : 'black', width: form.width + 'px', height: form.height + 'px', resize: 'both' }"
         @mouseup="onResize"
     >
-        <div
-            class="mb-2 flex items-center justify-between opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100"
-        >
+        <div class="flex justify-between items-center mb-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
             <div class="flex space-x-1">
                 <button
-                    v-for="c in colors"
-                    :key="c"
+                    v-for="c in colors" :key="c"
                     @click="form.color = c"
-                    class="h-4 w-4 rounded-full border border-black/10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 focus-visible:outline-none"
+                    class="w-4 h-4 rounded-full border border-black/10 focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-blue-500"
                     :style="{ backgroundColor: c }"
-                    :aria-label="`Set color to ${c}`"
-                    :title="`Set color to ${c}`"
+                    :aria-label="`Set note color to ${c}`"
+                    :title="`Set note color to ${c}`"
                 ></button>
             </div>
             <button
                 @click="deleteNote"
                 @mouseup.stop
-                class="rounded text-red-500 hover:text-red-700 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+                class="text-red-500 hover:text-red-700 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 rounded-sm p-0.5"
                 aria-label="Delete note"
                 title="Delete note"
             >
-                <Trash2 :size="16" aria-hidden="true" />
+                <Trash2 :size="16" />
             </button>
         </div>
 
@@ -47,14 +38,14 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
-import { QuillEditor } from '@vueup/vue-quill';
+import {watch} from 'vue';
+import {useForm} from '@inertiajs/vue3';
+import {debounce} from 'lodash';
+import {QuillEditor} from '@vueup/vue-quill';
+import {Trash2} from 'lucide-vue-next';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import { debounce } from 'lodash';
-import { Trash2 } from 'lucide-vue-next';
-import { watch } from 'vue';
 
-const props = defineProps<{ note: any }>();
+const props = defineProps<{note:any}>();
 const form = useForm({
     content: props.note.content,
     color: props.note.color,
@@ -62,17 +53,12 @@ const form = useForm({
     height: props.note.height,
 });
 
-const colors = [
-    'var(--indigo)',
-    'var(--anakiwa)',
-    'var(--blue)',
-    'var(--periwinkle)',
-];
+const colors = ['var(--indigo)', 'var(--anakiwa)', 'var(--blue)', 'var(--periwinkle)'];
 
-const saveNote = debounce(() => {
+const saveNote = debounce(()=> {
     form.put(`/sticky-notes/${props.note.id}`, {
-        preserveScroll: true,
-    });
+        preserveScroll: true
+    })
 }, 500);
 
 const deleteNote = () => {
@@ -82,8 +68,8 @@ const deleteNote = () => {
     });
 };
 
-watch(() => form.content, saveNote);
-watch(() => form.color, saveNote);
+watch(()=> form.content, saveNote);
+watch(()=> form.color, saveNote);
 
 const onResize = (event: Event) => {
     if (!event.currentTarget) return;
@@ -103,8 +89,7 @@ const onResize = (event: Event) => {
 </script>
 
 <style scoped>
-:deep(.ql-toolbar),
-:deep(.ql-container) {
+:deep(.ql-toolbar), :deep(.ql-container) {
     border: none !important;
 }
 </style>

@@ -8,7 +8,7 @@ const error = ref<string | null>(null);
 const locationName = ref('Current Location');
 const showManualInput = ref(false);
 const manualLocation = ref('');
-const selectedPeriod = ref<any | null>(null);
+const selectedPeriod = ref<any>(null);
 
 const searchLocation = async () => {
     if (!manualLocation.value.trim()) return;
@@ -65,8 +65,7 @@ const getUserLocation = () => {
             fetchWeather(position.coords.latitude, position.coords.longitude);
         },
         // Error Callback
-        (err: GeolocationPositionError) => {
-            console.error(err);
+        (err) => {
             loading.value = false;
             switch (err.code) {
                 case err.PERMISSION_DENIED:
@@ -90,7 +89,7 @@ const getUserLocation = () => {
 };
 
 // 2. Fetch weather using the coordinates we just found
-const fetchWeather = async (lat: number, lon: number) => {
+const fetchWeather = async (lat, lon) => {
     try {
         // Pass the coordinates to your Laravel controller
         const response = await axios.get('/api/weather', {
