@@ -11,21 +11,32 @@
             >
                 <label for="email" class="self-start text-white">Email:</label>
                 <input
+                    id="email"
                     v-model="form.email"
                     type="email"
                     placeholder="Email"
+                    required
+                    autofocus
+                    autocomplete="username"
                     class="w-full rounded border border-gray-300 p-2 text-white"
                 />
                 <label for="password" class="self-start text-white"
                     >Password:</label
                 >
                 <input
+                    id="password"
                     v-model="form.password"
                     type="password"
                     placeholder="Password"
+                    required
+                    autocomplete="current-password"
                     class="w-full rounded border border-gray-300 p-2 text-white"
                 />
-                <Button type="submit" background="var(--blue)" classList="round"
+                <Button
+                    type="submit"
+                    background="var(--blue)"
+                    classList="round"
+                    :disabled="form.processing"
                     >Login</Button
                 >
             </form>
