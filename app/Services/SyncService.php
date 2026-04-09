@@ -111,9 +111,16 @@ class SyncService
         }
 
         if (!empty($changes['services'])) {
+            $categoryUuids = collect($changes['services'])
+                ->pluck('category_uuid')
+                ->filter()
+                ->unique();
+
+            $categories = Category::whereIn('uuid', $categoryUuids)->get()->keyBy('uuid');
+
             foreach ($changes['services'] as $record) {
                 if (isset($record['category_uuid'])) {
-                    $cat = Category::where('uuid', $record['category_uuid'])->first();
+                    $cat = $categories->get($record['category_uuid']);
                     $record['category_id'] = $cat ? $cat->id : null;
                 }
                 $this->upsertLocal(Service::class, $record);
