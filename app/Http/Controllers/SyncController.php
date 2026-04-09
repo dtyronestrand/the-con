@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Http;
 use App\Models\AppSetting;
 use App\Models\Category;
 use App\Models\Service;
+use Illuminate\Support\Facades\Http;
 
 class SyncController extends Controller
 {
@@ -14,45 +14,66 @@ class SyncController extends Controller
         // 1. Get the saved Token
         $tokenSetting = AppSetting::where('key', 'api_token')->first();
 
-        if (!$tokenSetting) {
+        if (! $tokenSetting) {
             return back()->withErrors(['msg' => 'No API token found. Please login first.']);
         }
 
         // 2. Call the Server
         $apiUrl = rtrim(env('API_URL'));
-        $url = $apiUrl . '/api/services/pull'; 
+        $url = $apiUrl.'/api/services/pull';
 
         $response = Http::withToken($tokenSetting->value)
-                        ->timeout(10)
-                        ->get($url);
+            ->timeout(10)
+            ->get($url);
 
         if ($response->failed()) {
-            return back()->withErrors(['msg' => 'Sync failed: ' . $response->status()]);
+            return back()->withErrors(['msg' => 'Sync failed: '.$response->status()]);
         }
 
         // 3. Process the Data
         $categories = $response->json();
 
-        foreach ($categories as $catData) {
-            // Save the Category
-            Category::updateOrCreate(
-                ['id' => $catData['id']], // Match by ID
-                ['name' => $catData['name']]
-            );
+        $categoriesToUpsert = [];
+        $servicesToUpsert = [];
 
-            // Save the Services belonging to this Category
+        foreach ($categories as $catData) {
+            $categoriesToUpsert[] = [
+                'id' => $catData['id'],
+                'uuid' => (string) \Illuminate\Support\Str::uuid(),
+                'name' => $catData['name'],
+            ];
+
             if (isset($catData['services'])) {
                 foreach ($catData['services'] as $serviceData) {
-                    Service::updateOrCreate(
-                        ['id' => $serviceData['id']], // Match by ID
-                        [
-                            'name' => $serviceData['name'],
-                            'url'  => $serviceData['url'],
-                            'icon' => $serviceData['icon'],
-                            'category_id' => $catData['id'], // Ensure connection
-                        ]
-                    );
+                    $servicesToUpsert[] = [
+                        'id' => $serviceData['id'],
+                        'uuid' => (string) \Illuminate\Support\Str::uuid(),
+                        'name' => $serviceData['name'],
+                        'url' => $serviceData['url'],
+                        'icon' => $serviceData['icon'],
+                        'category_id' => $catData['id'],
+                    ];
                 }
+            }
+        }
+
+        if (! empty($categoriesToUpsert)) {
+            foreach (array_chunk($categoriesToUpsert, 1000) as $chunk) {
+                Category::upsert(
+                    $chunk,
+                    ['id'], // Match by ID
+                    ['name'] // Update name
+                );
+            }
+        }
+
+        if (! empty($servicesToUpsert)) {
+            foreach (array_chunk($servicesToUpsert, 1000) as $chunk) {
+                Service::upsert(
+                    $chunk,
+                    ['id'], // Match by ID
+                    ['name', 'url', 'icon', 'category_id'] // Update these columns
+                );
             }
         }
 
