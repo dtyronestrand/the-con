@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Task;
+use Illuminate\Console\Command;
+
 class ClearDone extends Command
 {
     /**
@@ -25,12 +26,10 @@ class ClearDone extends Command
      */
     public function handle()
     {
-        $updatedCount = Task::where('done', true)
+        $deletedCount = Task::where('done', true)
             ->whereNull('due_date')
-            ->get();
-        foreach($updatedCount as $task) {
-            $task->delete();
-        }
-        $this->info("Cleared done status for {$updatedCount->count()} tasks.");
+            ->delete();
+
+        $this->info("Cleared done status for {$deletedCount} tasks.");
     }
 }
