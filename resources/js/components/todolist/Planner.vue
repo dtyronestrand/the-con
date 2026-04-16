@@ -11,7 +11,8 @@
             "
             background="var(--anakiwa)"
             classList="left-round text-black text-4xl text-center size-8"
-            >-</Button
+            aria-label="Previous day"
+            ><span aria-hidden="true">-</span></Button
         >
         <Button
             @click="
@@ -24,7 +25,8 @@
             "
             background="var(--periwinkle)"
             classList="right-round justify-end text-black text-4xl text-center size-8"
-            >+</Button
+            aria-label="Next day"
+            ><span aria-hidden="true">+</span></Button
         >
     </div>
     <div
