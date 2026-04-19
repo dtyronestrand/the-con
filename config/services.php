@@ -35,10 +35,16 @@ return [
         ],
     ],
 
-    'graph' =>[
+    'graph' => [
         'client_id' => env('MICROSOFT_GRAPH_CLIENT_ID'),
-    'client_secret' => env('MICROSOFT_GRAPH_CLIENT_SECRET'),
-    'redirect' => env('MICROSOFT_GRAPH_REDIRECT_URI'),
-    ]
+        'client_secret' => env('MICROSOFT_GRAPH_CLIENT_SECRET'),
+        'redirect' => env('MICROSOFT_GRAPH_REDIRECT_URI'),
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI', '/auth/google/callback'),
+    ],
 
 ];

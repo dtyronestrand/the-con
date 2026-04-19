@@ -37,6 +37,7 @@
             <div class="flex h-full w-full flex-col">
                 <Planner
                     :tasks="page.props.auth.user.tasks as Task[]"
+                    :is-google-connected="page.props.isGoogleConnected"
                     v-if="topView === 'todo'"
                 />
                 <div
@@ -137,6 +138,7 @@ const page = usePage<
     AppPageProps & {
         categories: Category[];
         isConnected: boolean;
+        isGoogleConnected: boolean;
         events: Event[];
         stickyNotes: any[];
     }
