@@ -93,13 +93,13 @@
     --background: oklch(0 0 0);
     --gradient-start: var(--moonbeam);
     --gradient-end: var(--gray);
-    --anakiwa: oklch(69.41% 0.16 262.86);
-    --moonbeam: oklch(95.58% 0.021 271.2);
+    --anakiwa: oklch(88% 0.1 260);
+    --moonbeam: oklch(95% 0.03 260);
     --red-alert: oklch(54.69% 0.202 22.94);
-    --indigo: oklch(56.79% 0.237 263);
-    --cosmic: oklch(60.76% 0.156 305.32);
-    --periwinkle: oklch(78.28% 0.112 255.87);
-    --blue: oklch(49.1% 0.287 266.98);
+    --indigo: oklch(40% 0.2 265);
+    --cosmic: oklch(25% 0.15 270);
+    --periwinkle: oklch(75% 0.18 260);
+    --blue: oklch(55% 0.25 260);
     --gray: oklch(44.81% 0.039 284.71);
 }
 
