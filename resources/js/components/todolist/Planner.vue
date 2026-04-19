@@ -1,31 +1,41 @@
 <template>
     <div class="mb-4 ml-8 flex flex-row items-center justify-between">
-        <Button
-            @click="
-                () =>
-                    setSelectedDate(
-                        selectedYear,
-                        selectedMonth,
-                        selectedDate - 1,
-                    )
-            "
-            background="var(--anakiwa)"
-            classList="left-round text-black text-4xl text-center size-8"
-            >-</Button
-        >
-        <Button
-            @click="
-                () =>
-                    setSelectedDate(
-                        selectedYear,
-                        selectedMonth,
-                        selectedDate + 1,
-                    )
-            "
-            background="var(--periwinkle)"
-            classList="right-round justify-end text-black text-4xl text-center size-8"
-            >+</Button
-        >
+        <div class="flex items-center gap-4">
+            <Button
+                @click="
+                    () =>
+                        setSelectedDate(
+                            selectedYear,
+                            selectedMonth,
+                            selectedDate - 1,
+                        )
+                "
+                background="var(--anakiwa)"
+                classList="left-round text-black text-4xl text-center size-8"
+                >-</Button
+            >
+            <Button
+                @click="
+                    () =>
+                        setSelectedDate(
+                            selectedYear,
+                            selectedMonth,
+                            selectedDate + 1,
+                        )
+                "
+                background="var(--periwinkle)"
+                classList="right-round justify-end text-black text-4xl text-center size-8"
+                >+</Button
+            >
+        </div>
+        <div v-if="!isGoogleConnected" class="mr-8">
+            <a
+                href="/auth/google"
+                class="rounded bg-(--indigo) px-4 py-2 text-white transition-colors hover:bg-(--periwinkle) hover:text-black"
+            >
+                Connect Google Calendar
+            </a>
+        </div>
     </div>
     <div
         class="week-container mr-8 ml-4 w-full px-[2rem] md:grid md:grid-cols-3 md:gap-4"
@@ -100,8 +110,10 @@
 </template>
 
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
+import axios from 'axios';
 import dayjs from 'dayjs';
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 
 import type { Task as TaskType } from '@/types';
 
@@ -114,6 +126,7 @@ import TaskInput from './tasks/TaskInput.vue';
 
 interface Props {
     tasks?: TaskType[];
+    isGoogleConnected?: boolean;
 }
 const props = defineProps<Props>();
 const { selectedYear, selectedMonth, selectedDate, setSelectedDate } =
@@ -127,6 +140,33 @@ const weekView = computed(() => {
     );
 
     return Array.from({ length: 3 }, (_, i) => selectedDay.add(i, 'day'));
+});
+
+const syncGoogleTasks = async () => {
+    if (!props.isGoogleConnected) return;
+
+    const selectedDay = dayjs(
+        `${selectedYear.value}-${selectedMonth.value + 1}-${selectedDate.value}`,
+    );
+
+    try {
+        await axios.post('/google/sync-tasks', {
+            start_date: selectedDay.format('YYYY-MM-DD'),
+            end_date: selectedDay.add(6, 'day').format('YYYY-MM-DD'),
+        });
+        // Reload page to get updated tasks
+        router.reload({ only: ['auth'] });
+    } catch (e) {
+        console.error('Failed to sync google calendar', e);
+    }
+};
+
+watch([selectedYear, selectedMonth, selectedDate], () => {
+    syncGoogleTasks();
+});
+
+onMounted(() => {
+    syncGoogleTasks();
 });
 </script>
 
