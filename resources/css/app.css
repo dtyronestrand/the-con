@@ -70,6 +70,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
     *,
     ::after,
     ::before,
@@ -80,6 +81,7 @@
 }
 
 @layer utilities {
+
     body,
     html {
         --font-sans:
@@ -145,6 +147,7 @@
     * {
         @apply border-border outline-ring/50;
     }
+
     body {
         @apply text-foreground;
         background: oklch(0% 0 0);
@@ -154,6 +157,7 @@
         padding-left: 1rem;
         padding-right: 1rem;
     }
+
     .grid-container {
         display: grid;
         width: 100vw;
@@ -211,6 +215,7 @@
         grid-area: foot;
         display: flex;
     }
+
     .divider3 {
         grid-area: divider3;
     }
