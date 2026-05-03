@@ -1,3 +1,6 @@
 ## 2024-05-14 - Keyboard Accessibility in Interactive Elements
 **Learning:** Relying solely on `group-hover:opacity-100` to show interactive elements hides them from keyboard users who cannot hover. Additionally, icon-only buttons need `aria-label` and `title` attributes to be perceivable by screen reader users and to display tooltips.
 **Action:** When adding hover states that reveal actionable elements, ensure there is a corresponding `focus-within:opacity-100` state. Always use accessible names (`aria-label`, `title`) and clear `focus-visible` styling on icon-only buttons.
+## 2026-05-03 - Focus Visible States for Icon Buttons
+**Learning:** Icon-only buttons with text symbols (like '✎' or '✕') require three levels of accessibility: visually hidden labels for screen readers (`aria-label`), hidden text content for screen readers (`<span aria-hidden="true">`), and explicit `focus-visible` utility classes to ensure keyboard navigation works when standard `group-hover` states are used.
+**Action:** Always add `aria-label`, wrap text symbols in `<span aria-hidden="true">`, and implement `focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2` on any icon-only button to ensure keyboard accessibility.
