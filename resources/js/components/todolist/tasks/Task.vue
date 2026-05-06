@@ -1,15 +1,23 @@
 <template>
     <div
         :class="{ done: props.task.done }"
-        class="group col-span-2 flex cursor-pointer flex-row justify-between border-b border-(--indigo) text-white"
+        class="group col-span-2 flex flex-row justify-between border-b border-(--indigo) text-white"
     >
-        <p @click="openModal(props.task)" role="button">
+        <p
+            @click="openModal(props.task)"
+            @keydown.enter="openModal(props.task)"
+            @keydown.space.prevent="openModal(props.task)"
+            role="button"
+            tabindex="0"
+            class="cursor-pointer focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+        >
             {{ props.task.name }}
         </p>
         <Checkmark
             :checked="checkedValue"
             type="checkbox"
-            class="opacity-0 group-hover:opacity-100"
+            class="opacity-0 group-hover:opacity-100 focus-within:opacity-100"
+            :aria-label="`Mark '${props.task.name}' as ${props.task.done ? 'incomplete' : 'complete'}`"
             @updateChecked="handleTaskStatus"
         />
     </div>
