@@ -15,21 +15,24 @@
                     type="text"
                     class="decorated w-full"
                     placeholder="Task Name"
+                    aria-label="Task Name"
                 />
                 <div v-if="taskToUpdate">
                     <div class="mb-2 flex items-center justify-between">
                         <p>Subtasks</p>
                         <button
                             @click.prevent="addSubtask"
-                            class="btn btn-sm btn-success"
+                            class="btn btn-sm btn-success focus-visible:ring-2 focus-visible:outline-none"
+                            aria-label="Add subtask"
+                            title="Add subtask"
                         >
-                            +
+                            <span aria-hidden="true">+</span>
                         </button>
                     </div>
                     <div
                         v-for="(subtask, index) in taskToUpdate.sub_tasks"
                         :key="index"
-                        class="group mb-2 flex items-center"
+                        class="group mb-2 flex items-center focus-within:opacity-100"
                     >
                         <input
                             v-model="subtask.name"
@@ -37,18 +40,22 @@
                             :class="{ 'line-through': subtask.done }"
                             class="input mr-2 w-full border-none"
                             placeholder="Subtask Name"
+                            :aria-label="`Subtask ${index + 1} name`"
                         />
                         <input
-                            class="mr-2 opacity-0 group-hover:opacity-100"
+                            class="mr-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 focus-visible:opacity-100"
                             :checked="subtask.done"
                             @change="subtask.done = !subtask.done"
                             type="checkbox"
+                            :aria-label="`Mark ${subtask.name || 'subtask'} as done`"
                         />
                         <button
                             @click.prevent="removeSubtask(index)"
-                            class="btn btn-sm btn-error"
+                            class="btn btn-sm btn-error focus-visible:ring-2 focus-visible:outline-none"
+                            aria-label="Remove subtask"
+                            title="Remove subtask"
                         >
-                            -
+                            <span aria-hidden="true">-</span>
                         </button>
                     </div>
                 </div>
@@ -77,7 +84,15 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 @click="deleteTask" />
+                    <button
+                        type="button"
+                        @click="deleteTask"
+                        class="rounded text-red-500 hover:text-red-700 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+                        aria-label="Delete task"
+                        title="Delete task"
+                    >
+                        <Trash2 aria-hidden="true" />
+                    </button>
                 </div>
             </form>
         </div>
