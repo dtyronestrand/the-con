@@ -1,3 +1,6 @@
 ## 2024-05-14 - Keyboard Accessibility in Interactive Elements
 **Learning:** Relying solely on `group-hover:opacity-100` to show interactive elements hides them from keyboard users who cannot hover. Additionally, icon-only buttons need `aria-label` and `title` attributes to be perceivable by screen reader users and to display tooltips.
 **Action:** When adding hover states that reveal actionable elements, ensure there is a corresponding `focus-within:opacity-100` state. Always use accessible names (`aria-label`, `title`) and clear `focus-visible` styling on icon-only buttons.
+## 2026-05-22 - Keyboard Accessibility for Custom Checkboxes and Div Buttons
+**Learning:** Custom checkboxes using `display: none` are completely removed from the accessibility tree, making keyboard navigation impossible. Elements styled to look like buttons (e.g., `<p role="button">`) require explicit `tabindex="0"` and keyboard event handlers (`@keydown.enter`, `@keydown.space.prevent`) to be functional for keyboard users.
+**Action:** Use visually hidden utility classes (e.g., `opacity-0 absolute w-px h-px`) instead of `display: none` for custom inputs, and always pair `role="button"` with keyboard event listeners and focus-visible styling.
