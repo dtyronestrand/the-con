@@ -21,9 +21,11 @@
                         <p>Subtasks</p>
                         <button
                             @click.prevent="addSubtask"
-                            class="btn btn-sm btn-success"
+                            class="btn btn-sm btn-success focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-1 focus-visible:ring-offset-black focus-visible:outline-none"
+                            aria-label="Add Subtask"
+                            title="Add Subtask"
                         >
-                            +
+                            <span aria-hidden="true">+</span>
                         </button>
                     </div>
                     <div
@@ -35,20 +37,23 @@
                             v-model="subtask.name"
                             type="text"
                             :class="{ 'line-through': subtask.done }"
-                            class="input mr-2 w-full border-none"
+                            class="input mr-2 w-full border-none focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                             placeholder="Subtask Name"
                         />
                         <input
-                            class="mr-2 opacity-0 group-hover:opacity-100"
+                            class="mr-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-white"
                             :checked="subtask.done"
                             @change="subtask.done = !subtask.done"
                             type="checkbox"
+                            :aria-label="`Mark ${subtask.name || 'subtask'} as done`"
                         />
                         <button
                             @click.prevent="removeSubtask(index)"
-                            class="btn btn-sm btn-error"
+                            class="btn btn-sm btn-error focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-black focus-visible:outline-none"
+                            aria-label="Remove Subtask"
+                            title="Remove Subtask"
                         >
-                            -
+                            <span aria-hidden="true">-</span>
                         </button>
                     </div>
                 </div>
@@ -77,7 +82,15 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 @click="deleteTask" />
+                    <button
+                        @click="deleteTask"
+                        type="button"
+                        class="rounded text-red-500 hover:text-red-700 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1 focus-visible:ring-offset-black focus-visible:outline-none"
+                        aria-label="Delete Task"
+                        title="Delete Task"
+                    >
+                        <Trash2 aria-hidden="true" />
+                    </button>
                 </div>
             </form>
         </div>
