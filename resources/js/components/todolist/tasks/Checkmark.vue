@@ -53,7 +53,13 @@ function updateDone() {
         visibility: hidden;
     }
     input {
-        display: none;
+        opacity: 0;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+    }
+    input:focus-visible ~ span {
+        box-shadow: 0 0 0 2px white;
     }
     input:checked ~ span {
         background: #cccccc;
