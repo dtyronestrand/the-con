@@ -4,6 +4,7 @@
             type="checkbox"
             :checked="isChecked"
             :id="props.fieldId"
+            :aria-label="props.ariaLabel"
             @input="updateDone"
         />
         <span></span>
@@ -16,6 +17,7 @@ import { ref } from 'vue';
 interface Props {
     fieldId?: string;
     checked: boolean;
+    ariaLabel?: string;
 }
 
 const props = defineProps<Props>();
@@ -53,7 +55,15 @@ function updateDone() {
         visibility: hidden;
     }
     input {
-        display: none;
+        opacity: 0;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+    }
+    input:focus-visible ~ span {
+        box-shadow:
+            0 0 0 2px var(--indigo),
+            0 0 0 4px rgba(255, 255, 255, 0.5);
     }
     input:checked ~ span {
         background: #cccccc;
