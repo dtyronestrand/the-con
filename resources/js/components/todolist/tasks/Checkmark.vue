@@ -5,8 +5,10 @@
             :checked="isChecked"
             :id="props.fieldId"
             @input="updateDone"
+            aria-label="Toggle task completion"
+            class="visually-hidden"
         />
-        <span></span>
+        <span class="checkmark-box"></span>
     </label>
 </template>
 
@@ -52,8 +54,15 @@ function updateDone() {
         transform: rotate(45deg);
         visibility: hidden;
     }
-    input {
-        display: none;
+    .visually-hidden {
+        opacity: 0;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+    }
+    input:focus-visible ~ span {
+        outline: 2px solid var(--color-indigo-500, #6366f1);
+        outline-offset: 2px;
     }
     input:checked ~ span {
         background: #cccccc;
