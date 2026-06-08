@@ -28,7 +28,8 @@ const emit = defineEmits<{
 const classes = computed(() => {
     let baseClasses = props.classList ? props.classList + ' ' : '';
 
-    baseClasses += ' cursor-pointer hover:brightness-90 active:brightness-75';
+    baseClasses +=
+        ' cursor-pointer hover:brightness-90 active:brightness-75 disabled:opacity-50 disabled:cursor-not-allowed';
 
     return baseClasses;
 });
