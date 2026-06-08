@@ -22,6 +22,7 @@
                         <button
                             @click.prevent="addSubtask"
                             class="btn btn-sm btn-success"
+                            aria-label="Add subtask"
                         >
                             +
                         </button>
@@ -39,7 +40,7 @@
                             placeholder="Subtask Name"
                         />
                         <input
-                            class="mr-2 opacity-0 group-hover:opacity-100"
+                            class="mr-2 opacity-0 group-hover:opacity-100 focus:opacity-100 focus-visible:opacity-100"
                             :checked="subtask.done"
                             @change="subtask.done = !subtask.done"
                             type="checkbox"
@@ -47,6 +48,7 @@
                         <button
                             @click.prevent="removeSubtask(index)"
                             class="btn btn-sm btn-error"
+                            aria-label="Remove subtask"
                         >
                             -
                         </button>
@@ -77,7 +79,14 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 @click="deleteTask" />
+                    <button
+                        type="button"
+                        @click="deleteTask"
+                        aria-label="Delete task"
+                        class="rounded p-1 text-red-500 hover:text-red-700 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+                    >
+                        <Trash2 aria-hidden="true" />
+                    </button>
                 </div>
             </form>
         </div>
