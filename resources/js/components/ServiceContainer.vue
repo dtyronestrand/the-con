@@ -37,6 +37,7 @@
                         <button
                             @click.prevent="editService(service)"
                             class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-700 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                            aria-label="Edit service"
                             title="Edit service"
                         >
                             ✎
@@ -63,6 +64,8 @@
                     type="button"
                     @click="closeModal"
                     class="float-right mb-4 text-white"
+                    aria-label="Close modal"
+                    title="Close modal"
                 >
                     ✕
                 </button>
@@ -94,6 +97,8 @@
                             class="text-3xl text-white"
                             type="button"
                             @click="newCategory = !newCategory"
+                            aria-label="Add new category"
+                            title="Add new category"
                         >
                             +
                         </button>
