@@ -5,6 +5,8 @@
             :checked="isChecked"
             :id="props.fieldId"
             @input="updateDone"
+            aria-label="Toggle completion"
+            class="sr-only"
         />
         <span></span>
     </label>
@@ -52,8 +54,9 @@ function updateDone() {
         transform: rotate(45deg);
         visibility: hidden;
     }
-    input {
-        display: none;
+    input:focus-visible ~ span {
+        outline: 2px solid #cccccc;
+        outline-offset: 2px;
     }
     input:checked ~ span {
         background: #cccccc;
