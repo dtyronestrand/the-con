@@ -21,7 +21,7 @@
                     <div
                         v-for="service in category.services"
                         :key="service.id"
-                        class="group relative"
+                        class="group relative focus-within:opacity-100"
                     >
                         <Button
                             classList="round"
@@ -36,10 +36,11 @@
                         >
                         <button
                             @click.prevent="editService(service)"
-                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-700 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-700 text-white opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-blue-500"
                             title="Edit service"
+                            aria-label="Edit service"
                         >
-                            ✎
+                            <span aria-hidden="true">✎</span>
                         </button>
                     </div>
                 </div>
@@ -62,9 +63,10 @@
                 <button
                     type="button"
                     @click="closeModal"
-                    class="float-right mb-4 text-white"
+                    class="float-right mb-4 text-white focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
+                    aria-label="Close modal"
                 >
-                    ✕
+                    <span aria-hidden="true">✕</span>
                 </button>
                 <div class="mb-4">
                     <label for="service-category" class="mb-2 block text-white"
@@ -91,11 +93,13 @@
                             </option>
                         </select>
                         <button
-                            class="text-3xl text-white"
+                            class="text-3xl text-white focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
                             type="button"
                             @click="newCategory = !newCategory"
+                            aria-label="Toggle new category input"
+                            title="Toggle new category input"
                         >
-                            +
+                            <span aria-hidden="true">+</span>
                         </button>
                     </div>
                     <input
