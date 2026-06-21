@@ -21,9 +21,11 @@
                         <p>Subtasks</p>
                         <button
                             @click.prevent="addSubtask"
-                            class="btn btn-sm btn-success"
+                            class="btn btn-sm btn-success focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:outline-none"
+                            aria-label="Add subtask"
+                            title="Add subtask"
                         >
-                            +
+                            <span aria-hidden="true">+</span>
                         </button>
                     </div>
                     <div
@@ -46,9 +48,11 @@
                         />
                         <button
                             @click.prevent="removeSubtask(index)"
-                            class="btn btn-sm btn-error"
+                            class="btn btn-sm btn-error focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+                            aria-label="Remove subtask"
+                            title="Remove subtask"
                         >
-                            -
+                            <span aria-hidden="true">-</span>
                         </button>
                     </div>
                 </div>
@@ -63,7 +67,7 @@
                     />
                 </div>
 
-                <div class="flex gap-2">
+                <div class="flex items-center gap-2">
                     <Button
                         type="submit"
                         background="var(--indigo)"
@@ -77,7 +81,15 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 @click="deleteTask" />
+                    <button
+                        type="button"
+                        @click.prevent="deleteTask"
+                        class="rounded p-2 text-red-500 hover:bg-red-500/10 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+                        aria-label="Delete task"
+                        title="Delete task"
+                    >
+                        <Trash2 aria-hidden="true" />
+                    </button>
                 </div>
             </form>
         </div>
