@@ -21,9 +21,11 @@
                         <p>Subtasks</p>
                         <button
                             @click.prevent="addSubtask"
-                            class="btn btn-sm btn-success"
+                            class="btn btn-sm btn-success focus-visible:ring-2 focus-visible:outline-none"
+                            aria-label="Add subtask"
+                            title="Add subtask"
                         >
-                            +
+                            <span aria-hidden="true">+</span>
                         </button>
                     </div>
                     <div
@@ -39,16 +41,18 @@
                             placeholder="Subtask Name"
                         />
                         <input
-                            class="mr-2 opacity-0 group-hover:opacity-100"
+                            class="mr-2 opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 focus-visible:opacity-100"
                             :checked="subtask.done"
                             @change="subtask.done = !subtask.done"
                             type="checkbox"
                         />
                         <button
                             @click.prevent="removeSubtask(index)"
-                            class="btn btn-sm btn-error"
+                            class="btn btn-sm btn-error focus-visible:ring-2 focus-visible:outline-none"
+                            aria-label="Remove subtask"
+                            title="Remove subtask"
                         >
-                            -
+                            <span aria-hidden="true">-</span>
                         </button>
                     </div>
                 </div>
@@ -77,7 +81,14 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 @click="deleteTask" />
+                    <button
+                        @click.prevent="deleteTask"
+                        aria-label="Delete task"
+                        title="Delete task"
+                        class="rounded p-1 hover:bg-white/10 focus-visible:ring-2 focus-visible:outline-none"
+                    >
+                        <Trash2 aria-hidden="true" />
+                    </button>
                 </div>
             </form>
         </div>
