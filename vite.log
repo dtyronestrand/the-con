@@ -1,0 +1,30 @@
+
+> @ dev /app
+> vite
+
+4:05:53 AM [vite] (client) info: Types generated for actions, routes, form variants
+  Plugin: @laravel/vite-plugin-wayfinder
+
+  VITE v7.3.6  ready in 3317 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  Vue DevTools: Open http://localhost:5173/__devtools__/ as a separate window
+  ➜  Vue DevTools: Press Alt(⌥)+Shift(⇧)+D in App to toggle the Vue DevTools
+
+  LARAVEL v12.49.0  plugin v2.1.0
+
+  ➜  APP_URL: http://localhost:8000
+(!) Failed to run dependency scan. Skipping dependency pre-bundling. Error: The following dependencies are imported but could not be resolved:
+
+  @inertiajs/core (imported by /app/resources/js/components/TextLink.vue?id=0)
+
+Are they installed?
+    at file:///app/node_modules/.pnpm/vite@7.3.6_@types+node@22.20.0_jiti@2.7.0_lightningcss@1.32.0/node_modules/vite/dist/node/chunks/config.js:31983:33
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///app/node_modules/.pnpm/vite@7.3.6_@types+node@22.20.0_jiti@2.7.0_lightningcss@1.32.0/node_modules/vite/dist/node/chunks/config.js:34191:15
+4:09:03 AM [vite] (client) ✨ new dependencies optimized: vue, @inertiajs/vue3, @vueup/vue-quill, laravel-vite-plugin/inertia-helpers
+4:16:51 AM [vite] (client) ✨ new dependencies optimized: class-variance-authority, lucide-vue-next, @vueuse/core, reka-ui, clsx, tailwind-merge
+4:16:51 AM [vite] (client) ✨ optimized dependencies changed. reloading
+4:16:57 AM [vite] (client) ✨ new dependencies optimized: axios, dayjs, lodash
+4:16:57 AM [vite] (client) ✨ optimized dependencies changed. reloading
