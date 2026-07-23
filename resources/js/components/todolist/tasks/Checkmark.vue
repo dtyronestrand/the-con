@@ -4,9 +4,13 @@
             type="checkbox"
             :checked="isChecked"
             :id="props.fieldId"
+            :aria-label="props.ariaLabel"
+            class="peer sr-only"
             @input="updateDone"
         />
-        <span></span>
+        <span
+            class="peer-focus-visible:ring-2 peer-focus-visible:ring-white peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-gray-900"
+        ></span>
     </label>
 </template>
 
@@ -16,9 +20,12 @@ import { ref } from 'vue';
 interface Props {
     fieldId?: string;
     checked: boolean;
+    ariaLabel?: string;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    ariaLabel: 'Toggle checkbox',
+});
 const isChecked = ref(props.checked);
 const emit = defineEmits(['updateChecked']);
 function updateDone() {
@@ -51,9 +58,6 @@ function updateDone() {
         width: 4px;
         transform: rotate(45deg);
         visibility: hidden;
-    }
-    input {
-        display: none;
     }
     input:checked ~ span {
         background: #cccccc;
