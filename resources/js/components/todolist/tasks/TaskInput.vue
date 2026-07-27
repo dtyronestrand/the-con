@@ -5,7 +5,10 @@
         :disabled="props.disabled"
         type="text"
         @blur="handleBlur"
+        @keydown.enter="handleBlur"
         class="m-0 h-[1rem] p-0 text-justify text-white"
+        aria-label="New task"
+        placeholder="Add new task..."
     />
 </template>
 
@@ -36,7 +39,13 @@ watch(
     { immediate: true },
 );
 
-const handleBlur = () => {
+const handleBlur = (e?: Event) => {
+    if (e && e.type === 'keydown') {
+        const target = e.target as HTMLInputElement;
+        target.blur();
+        return;
+    }
+
     if (taskName.value.trim()) {
         router.post(
             '/tasks/store',
