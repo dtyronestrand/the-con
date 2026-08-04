@@ -5,6 +5,7 @@
             :checked="isChecked"
             :id="props.fieldId"
             @input="updateDone"
+            aria-label="Toggle task completion"
         />
         <span></span>
     </label>
@@ -28,38 +29,47 @@ function updateDone() {
 </script>
 
 <style scoped>
-:root {
-    label {
-        position: relative;
-    }
-    span {
-        width: 15px;
-        height: 15px;
-        border: 1px solid #cccccc;
-        display: inline-block;
-        border-radius: 50%;
-        transition: all linear 0.3s;
-    }
-    span:after {
-        content: '';
-        position: absolute;
-        top: -1px;
-        left: 6px;
-        border-bottom: 2px solid #ffffff;
-        border-right: 2px solid #ffffff;
-        height: 9px;
-        width: 4px;
-        transform: rotate(45deg);
-        visibility: hidden;
-    }
-    input {
-        display: none;
-    }
-    input:checked ~ span {
-        background: #cccccc;
-    }
-    input:checked ~ span:after {
-        visibility: visible;
-    }
+label {
+    position: relative;
+}
+span {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #cccccc;
+    display: inline-block;
+    border-radius: 50%;
+    transition: all linear 0.3s;
+}
+span:after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 6px;
+    border-bottom: 2px solid #ffffff;
+    border-right: 2px solid #ffffff;
+    height: 9px;
+    width: 4px;
+    transform: rotate(45deg);
+    visibility: hidden;
+}
+input {
+    opacity: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+input:focus-visible ~ span {
+    outline: 2px solid var(--indigo, #6366f1);
+    outline-offset: 2px;
+}
+input:checked ~ span {
+    background: #cccccc;
+}
+input:checked ~ span:after {
+    visibility: visible;
 }
 </style>
