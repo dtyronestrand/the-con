@@ -77,7 +77,14 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 @click="deleteTask" />
+                    <button
+                        type="button"
+                        aria-label="Delete task"
+                        @click="deleteTask"
+                        class="rounded p-2 text-red-400 transition-colors hover:bg-red-500/20 hover:text-red-500 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:outline-none"
+                    >
+                        <Trash2 aria-hidden="true" />
+                    </button>
                 </div>
             </form>
         </div>
