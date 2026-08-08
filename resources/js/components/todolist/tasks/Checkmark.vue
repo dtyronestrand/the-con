@@ -4,6 +4,7 @@
             type="checkbox"
             :checked="isChecked"
             :id="props.fieldId"
+            :aria-label="props.ariaLabel || 'Toggle task status'"
             @input="updateDone"
         />
         <span></span>
@@ -16,6 +17,7 @@ import { ref } from 'vue';
 interface Props {
     fieldId?: string;
     checked: boolean;
+    ariaLabel?: string;
 }
 
 const props = defineProps<Props>();
@@ -53,7 +55,19 @@ function updateDone() {
         visibility: hidden;
     }
     input {
-        display: none;
+        opacity: 0;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+    input:focus-visible ~ span {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
     }
     input:checked ~ span {
         background: #cccccc;
