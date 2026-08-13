@@ -1,15 +1,22 @@
 <template>
     <div
         :class="{ done: props.task.done }"
-        class="group col-span-2 flex cursor-pointer flex-row justify-between border-b border-(--indigo) text-white"
+        class="group col-span-2 flex cursor-pointer flex-row justify-between border-b border-(--indigo) text-white focus-within:ring-2 focus-within:ring-(--indigo) focus-within:outline-hidden"
     >
-        <p @click="openModal(props.task)" role="button">
+        <p
+            @click="openModal(props.task)"
+            @keydown.enter="openModal(props.task)"
+            @keydown.space.prevent="openModal(props.task)"
+            role="button"
+            tabindex="0"
+            class="focus-visible:outline-hidden"
+        >
             {{ props.task.name }}
         </p>
         <Checkmark
             :checked="checkedValue"
             type="checkbox"
-            class="opacity-0 group-hover:opacity-100"
+            class="opacity-0 group-focus-within:opacity-100 group-hover:opacity-100"
             @updateChecked="handleTaskStatus"
         />
     </div>
