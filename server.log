@@ -1,0 +1,62 @@
+
+   INFO  Server running on [http://127.0.0.1:8000].
+
+  Press Ctrl+C to stop the server
+
+  2026-08-15 04:21:49 / .......................................... ~ 500.54ms
+  2026-08-15 04:21:50 /login ....................................... ~ 0.06ms
+  2026-08-15 04:21:50 /build/assets/app-DzQFCpGD.css ............... ~ 0.07ms
+  2026-08-15 04:21:50 /build/assets/Button-BnFiWWPF.css ............ ~ 0.58ms
+  2026-08-15 04:21:50 /build/assets/Login-Cv-sYOEO.js .............. ~ 0.07ms
+  2026-08-15 04:21:50 /build/assets/Button-CiN6qcxQ.js ............. ~ 0.56ms
+  2026-08-15 04:21:50 /build/assets/_plugin-vue_export-helper-DlAUqK2U.js  ~ 0.97ms
+  2026-08-15 04:21:50 /build/assets/app-C4FCjcKR.js ................ ~ 1.09ms
+  2026-08-15 04:21:51 /build/assets/Button-BnFiWWPF.css ............ ~ 0.19ms
+  2026-08-15 04:21:52 /register .................................... ~ 0.15ms
+  2026-08-15 04:21:52 /build/assets/Register-vkCSJJ6E.css .......... ~ 0.07ms
+  2026-08-15 04:21:52 /build/assets/app-DzQFCpGD.css ............... ~ 0.45ms
+  2026-08-15 04:21:52 /build/assets/Register-BjSy-vD8.js ........... ~ 0.10ms
+  2026-08-15 04:21:52 /build/assets/InputError.vue_vue_type_script_setup_true_lang-pdwQ_Id3.js  ~ 0.59ms
+  2026-08-15 04:21:52 /build/assets/TextLink.vue_vue_type_script_setup_true_lang-D-y-K-Cu.js  ~ 0.69ms
+  2026-08-15 04:21:52 /build/assets/index-5YnLWu7Q.js .............. ~ 0.82ms
+  2026-08-15 04:21:52 /build/assets/Input.vue_vue_type_script_setup_true_lang-DbfpIFcR.js  ~ 1.23ms
+  2026-08-15 04:21:52 /build/assets/app-C4FCjcKR.js ................ ~ 1.36ms
+  2026-08-15 04:21:52 /build/assets/Label.vue_vue_type_script_setup_true_lang-CYgE-gIc.js  ~ 1.16ms
+  2026-08-15 04:21:52 /build/assets/Spinner.vue_vue_type_script_setup_true_lang-CFQKYXNs.js  ~ 0.18ms
+  2026-08-15 04:21:52 /build/assets/AuthLayout.vue_vue_type_script_setup_true_lang-BR11JriI.js  ~ 0.27ms
+  2026-08-15 04:21:52 /build/assets/index-Dlmq6UvA.js .............. ~ 0.36ms
+  2026-08-15 04:21:52 /build/assets/useForwardExpose-CSWUR1nA.js ... ~ 0.86ms
+  2026-08-15 04:21:52 /build/assets/createLucideIcon-Bapd4aIf.js ... ~ 0.23ms
+  2026-08-15 04:21:52 /build/assets/_plugin-vue_export-helper-DlAUqK2U.js  ~ 0.38ms
+  2026-08-15 04:21:52 /build/assets/Register-vkCSJJ6E.css .......... ~ 0.05ms
+  2026-08-15 04:21:53 /register .................................. ~ 502.01ms
+  2026-08-15 04:21:54 / ............................................ ~ 0.06ms
+  2026-08-15 04:21:54 /build/assets/WeatherWidget-B_uWXO7Y.css ..... ~ 0.13ms
+  2026-08-15 04:21:54 /build/assets/Welcome-B9sqUmik.js ............ ~ 0.36ms
+  2026-08-15 04:21:54 /build/assets/WeatherWidget-B5vtGPDI.js ...... ~ 0.73ms
+  2026-08-15 04:21:54 /build/assets/Welcome-DRJ46dZw.css ........... ~ 0.06ms
+  2026-08-15 04:21:54 /build/assets/Button-BnFiWWPF.css ............ ~ 0.46ms
+  2026-08-15 04:21:54 /build/assets/Button-CiN6qcxQ.js ............. ~ 0.84ms
+  2026-08-15 04:21:54 /trigger-sync .............................. ~ 500.46ms
+  2026-08-15 04:21:54 /_boost/browser-logs ......................... ~ 0.05ms
+  2026-08-15 04:21:54 /_boost/browser-logs ......................... ~ 0.05ms
+  2026-08-15 04:21:54 / .......................................... ~ 500.60ms
+  2026-08-15 04:21:54 /build/assets/app-DzQFCpGD.css ............... ~ 0.10ms
+  2026-08-15 04:21:54 /build/assets/WeatherWidget-B_uWXO7Y.css ..... ~ 0.56ms
+  2026-08-15 04:21:54 /build/assets/Button-BnFiWWPF.css ............ ~ 0.81ms
+  2026-08-15 04:21:54 /build/assets/Welcome-DRJ46dZw.css ........... ~ 1.24ms
+  2026-08-15 04:21:54 /build/assets/Welcome-B9sqUmik.js ............ ~ 0.52ms
+  2026-08-15 04:21:54 /build/assets/app-C4FCjcKR.js ................ ~ 2.20ms
+  2026-08-15 04:21:54 /build/assets/WeatherWidget-B5vtGPDI.js ...... ~ 1.61ms
+  2026-08-15 04:21:54 /build/assets/Button-CiN6qcxQ.js ............. ~ 1.84ms
+  2026-08-15 04:21:54 /build/assets/_plugin-vue_export-helper-DlAUqK2U.js  ~ 2.23ms
+  2026-08-15 04:21:54 /build/assets/createLucideIcon-Bapd4aIf.js ... ~ 0.83ms
+  2026-08-15 04:21:54 /build/assets/WeatherWidget-B_uWXO7Y.css ..... ~ 0.06ms
+  2026-08-15 04:21:54 /build/assets/Button-BnFiWWPF.css ............ ~ 0.33ms
+  2026-08-15 04:21:54 /build/assets/Welcome-DRJ46dZw.css ........... ~ 0.43ms
+  2026-08-15 04:21:54 /trigger-sync ................................ ~ 0.07ms
+  2026-08-15 04:21:55 /_boost/browser-logs ......................... ~ 0.05ms
+  2026-08-15 04:21:56 /_boost/browser-logs ......................... ~ 0.14ms
+  2026-08-15 04:21:56 /tasks/store ................................. ~ 0.19ms
+  2026-08-15 04:21:56 / ............................................ ~ 0.06ms
+  2026-08-15 04:21:56 /_boost/browser-logs ......................... ~ 0.05ms

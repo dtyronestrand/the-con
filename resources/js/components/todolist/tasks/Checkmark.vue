@@ -1,12 +1,16 @@
 <template>
-    <label>
+    <label class="flex items-center">
         <input
             type="checkbox"
             :checked="isChecked"
             :id="props.fieldId"
             @input="updateDone"
+            class="peer sr-only"
         />
-        <span></span>
+        <span
+            class="peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 peer-focus-visible:ring-offset-1 peer-focus-visible:ring-offset-(--indigo)"
+        ></span>
+        <span class="sr-only">Toggle task status</span>
     </label>
 </template>
 
@@ -51,9 +55,6 @@ function updateDone() {
         width: 4px;
         transform: rotate(45deg);
         visibility: hidden;
-    }
-    input {
-        display: none;
     }
     input:checked ~ span {
         background: #cccccc;
