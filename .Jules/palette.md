@@ -1,3 +1,6 @@
 ## 2024-05-14 - Keyboard Accessibility in Interactive Elements
 **Learning:** Relying solely on `group-hover:opacity-100` to show interactive elements hides them from keyboard users who cannot hover. Additionally, icon-only buttons need `aria-label` and `title` attributes to be perceivable by screen reader users and to display tooltips.
 **Action:** When adding hover states that reveal actionable elements, ensure there is a corresponding `focus-within:opacity-100` state. Always use accessible names (`aria-label`, `title`) and clear `focus-visible` styling on icon-only buttons.
+## 2026-08-17 - Keyboard Accessibility in Task Items
+**Learning:** When making custom task lists accessible, using `tabindex="0"` and handling both `@keydown.enter` and `@keydown.space.prevent` on the main interaction target (like the task title) is essential for full keyboard support. Furthermore, when using tailwind's `group-hover` to reveal secondary actions (like checkboxes or delete buttons), pairing it with `group-focus-within` ensures these actions become visible to keyboard users as well.
+**Action:** Always test interactive lists by navigating with the Tab key. Ensure primary actions are triggerable via keyboard and secondary hover-revealed actions have equivalent focus-within states.
