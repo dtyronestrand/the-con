@@ -1,12 +1,16 @@
 <template>
-    <label>
+    <label class="relative inline-flex items-center">
         <input
             type="checkbox"
             :checked="isChecked"
             :id="props.fieldId"
             @input="updateDone"
+            aria-label="Toggle task completion"
+            class="peer sr-only"
         />
-        <span></span>
+        <span
+            class="peer-focus-visible:ring-2 peer-focus-visible:ring-(--indigo) peer-focus-visible:ring-offset-1 peer-focus-visible:ring-offset-black"
+        ></span>
     </label>
 </template>
 
@@ -29,9 +33,6 @@ function updateDone() {
 
 <style scoped>
 :root {
-    label {
-        position: relative;
-    }
     span {
         width: 15px;
         height: 15px;
@@ -39,21 +40,19 @@ function updateDone() {
         display: inline-block;
         border-radius: 50%;
         transition: all linear 0.3s;
+        position: relative;
     }
     span:after {
         content: '';
         position: absolute;
         top: -1px;
-        left: 6px;
+        left: 4px;
         border-bottom: 2px solid #ffffff;
         border-right: 2px solid #ffffff;
         height: 9px;
         width: 4px;
         transform: rotate(45deg);
         visibility: hidden;
-    }
-    input {
-        display: none;
     }
     input:checked ~ span {
         background: #cccccc;
