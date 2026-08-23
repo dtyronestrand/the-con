@@ -114,50 +114,53 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="max-w-sm rounded-lg bg-black p-4 px-[2rem] shadow-md">
+    <div class="max-w-sm bg-surface-raised p-4 px-[2rem] shadow-md">
         <div class="mb-4 flex items-center justify-between">
-            <h3 class="text-lg font-bold text-white">
+            <h3 class="text-lg font-semibold text-on-surface">
                 {{ locationName }}
             </h3>
             <button
                 @click="getUserLocation"
-                class="text-xs text-blue-500 underline hover:text-blue-700"
+                class="text-xs text-tertiary underline hover:text-tertiary-strong"
             >
                 Refresh
             </button>
         </div>
 
-        <div v-if="loading" class="animate-pulse text-(--periwinkle)">
+        <div v-if="loading" class="animate-pulse text-panel-secondary">
             Locating you...
         </div>
 
-        <div v-else-if="error" class="mb-4 text-sm text-red-500">
+        <div v-else-if="error" class="mb-4 text-sm text-error">
             {{ error }}
             <button
                 @click="showManualInput = true"
-                class="mt-2 block text-xs text-blue-500 underline hover:text-blue-700"
+                class="mt-2 block text-xs text-tertiary underline hover:text-tertiary-strong"
             >
                 Enter location manually
             </button>
         </div>
 
-        <div v-if="showManualInput" class="mb-4 rounded bg-gray-50 p-3">
+        <div
+            v-if="showManualInput"
+            class="mb-4 rounded bg-surface-overlay p-3"
+        >
             <input
                 v-model="manualLocation"
                 @keyup.enter="searchLocation"
                 placeholder="Enter any city, address, or location"
-                class="mb-2 w-full rounded border p-2 text-sm"
+                class="mb-2 w-full rounded border border-border bg-surface-raised p-2 text-sm text-on-surface"
             />
             <div class="flex gap-2">
                 <button
                     @click="searchLocation"
-                    class="rounded bg-blue-500 px-3 py-1 text-xs text-white hover:bg-blue-600"
+                    class="rounded bg-tertiary px-3 py-1 text-xs text-ink hover:bg-tertiary-strong"
                 >
                     Search
                 </button>
                 <button
                     @click="showManualInput = false"
-                    class="rounded bg-gray-300 px-3 py-1 text-xs text-gray-700 hover:bg-gray-400"
+                    class="rounded bg-panel-secondary px-3 py-1 text-xs text-ink hover:bg-panel-secondary-strong"
                 >
                     Cancel
                 </button>
@@ -169,23 +172,23 @@ onMounted(() => {
                 id="forecast"
                 v-for="period in weather"
                 :key="period.number"
-                class="flex items-center space-x-4 border-b-3 border-(--blue) pb-2 last:border-0"
+                class="flex items-center space-x-4 border-b-3 border-panel-secondary-strong pb-2 last:border-0"
             >
                 <button
                     popovertarget="detailedForecast"
                     @click="selectedPeriod = period"
-                    class="flex w-full items-center space-x-4 text-left hover:bg-blue-500/30"
+                    class="flex w-full items-center space-x-4 text-left hover:bg-tertiary/20"
                 >
                     <img
                         :src="period.icon"
                         :alt="period.shortForecast"
-                        class="h-12 w-12 rounded-full bg-gray-100"
+                        class="h-12 w-12 rounded-full bg-surface-raised"
                     />
                     <div>
-                        <p class="font-semibold text-white">
+                        <p class="font-semibold text-on-surface">
                             {{ period.name }}
                         </p>
-                        <p class="text-sm text-white">
+                        <p class="font-mono text-sm text-panel-secondary tabular-nums">
                             {{ period.temperature }}°{{
                                 period.temperatureUnit
                             }}
@@ -198,7 +201,7 @@ onMounted(() => {
                 anchor="forecast"
                 id="detailedForecast"
                 popover
-                class="weather-dialog max-w-md rounded-lg bg-(--moonbeam) p-4 text-black"
+                class="weather-dialog max-w-md rounded-lg bg-surface-overlay p-4 text-on-surface"
             >
                 <p v-if="selectedPeriod">
                     {{ selectedPeriod.detailedForecast }}
@@ -207,7 +210,7 @@ onMounted(() => {
                 <button
                     popovertarget="detailedForecast"
                     popovertargetaction="hide"
-                    class="mt-2 rounded bg-blue-500 px-3 py-1 text-xs text-white hover:bg-blue-600"
+                    class="mt-2 rounded bg-tertiary px-3 py-1 text-xs text-ink hover:bg-tertiary-strong"
                 >
                     Close
                 </button>

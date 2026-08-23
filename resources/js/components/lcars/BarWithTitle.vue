@@ -1,11 +1,11 @@
 <template>
     <div
         :class="props.classList"
-        class="relative m-0 h-6 w-full text-black"
-        :style="`background-color: ${props.background || 'var(--bahama-blue)'}`"
+        class="relative m-0 h-6 w-full text-ink"
+        :style="`background-color: ${props.background || 'var(--panel-secondary)'}`"
     >
         <span
-            class="m-0 ml-[0.83333333333333335rem] inline-block h-full bg-black pr-[0.1666666666666667rem] pb-[0.1666666666666667rem] pl-[0.1666666666666667rem] font-bold text-white uppercase"
+            class="m-0 ml-[0.83333333333333335rem] inline-block h-full bg-ink pr-[0.1666666666666667rem] pb-[0.1666666666666667rem] pl-[0.1666666666666667rem] font-display text-on-surface uppercase tracking-tight"
         >
             <slot />
         </span>

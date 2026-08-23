@@ -1,7 +1,7 @@
 <template>
     <div
         :class="{ done: props.task.done }"
-        class="group col-span-2 flex cursor-pointer flex-row justify-between border-b border-(--indigo) text-white"
+        class="group col-span-2 flex cursor-pointer flex-row justify-between border-b border-panel-primary text-on-surface"
     >
         <p @click="openModal(props.task)" role="button">
             {{ props.task.name }}

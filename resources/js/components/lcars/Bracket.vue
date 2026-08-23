@@ -8,12 +8,14 @@ interface Props {
     background?: string;
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    background: 'var(--panel-secondary)',
+});
 </script>
 
 <style scoped>
 div {
-    background-color: v-bind(background);
+    background-color: v-bind('props.background');
 }
 .left {
     width: 1.5rem;
@@ -28,8 +30,8 @@ div {
     border-width: 0.75rem 0.25rem 0.75rem 0;
 }
 .hollow {
-    background-color: #000;
+    background-color: var(--ink);
     border-style: solid;
-    border-color: v-bind(background);
+    border-color: v-bind('props.background');
 }
 </style>

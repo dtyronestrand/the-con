@@ -2,10 +2,10 @@
     <div
         @click="emit('buttonPressed')"
         :class="classes"
-        class="relative m-0 box-border flex w-15 grow flex-row justify-end border-t-2 border-black text-right font-bold text-black md:w-30"
+        class="relative m-0 box-border flex w-15 grow flex-row justify-end border-t-2 border-ink text-right font-display text-on-surface uppercase tracking-tight md:w-30"
         :style="{
-            backgroundColor: resolvedBackground,
-            borderColor: resolvedBackground,
+            backgroundColor: props.background,
+            borderColor: props.background,
             height: elementHeight,
             minHeight: elementHeight,
         }"
@@ -27,6 +27,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
     button: true,
+    background: 'var(--panel-secondary)',
 });
 const emit = defineEmits(['buttonPressed']);
 const classes = computed(() => {
@@ -40,19 +41,6 @@ const classes = computed(() => {
 
 const elementHeight = computed(() => {
     return props.height ? `${4 * props.height}rem` : '4.5rem';
-});
-
-const resolvedBackground = computed(() => {
-    if (!props.background) return undefined;
-    if (props.background.startsWith('var(')) {
-        const varName = props.background.match(/var\(([^)]+)\)/)?.[1];
-        if (varName) {
-            return getComputedStyle(document.documentElement)
-                .getPropertyValue(varName)
-                .trim();
-        }
-    }
-    return props.background;
 });
 </script>
 

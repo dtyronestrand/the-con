@@ -1,7 +1,7 @@
 <template>
     <div class="flex h-full flex-col">
         <div class="mb-4 flex items-center justify-between">
-            <h2 class="text-lg font-semibold dark:text-white">Quick Notes</h2>
+            <h2 class="text-lg font-semibold text-white">Quick Notes</h2>
             <button
                 @click="addNote"
                 class="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"

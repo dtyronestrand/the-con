@@ -7,14 +7,14 @@
         >
             <div
                 v-if="category.services.length && category.services.length > 0"
-                class="service-container grow border-2 bg-slate-800"
+                class="service-container grow border-2 bg-surface-raised"
                 style="
                     min-height: 12.5rem;
                     min-width: 25rem;
-                    border-color: var(--indigo);
+                    border-color: var(--panel-primary);
                 "
             >
-                <BarWithTitle classList="top" :background="'var(--indigo)'"
+                <BarWithTitle classList="top" :background="'var(--panel-primary)'"
                     >{{ category.name }}
                 </BarWithTitle>
                 <div class="mx-4 mt-2 flex flex-row flex-wrap gap-4">
@@ -23,20 +23,17 @@
                         :key="service.id"
                         class="group relative"
                     >
-                        <Button
-                            classList="round"
-                            :background="getServiceColor(service.id)"
-                            :button="true"
+                        <Button classList="round" :button="true"
                             ><a
                                 target="_blank"
                                 :href="service.url"
-                                class="mx-auto text-xl text-black"
+                                class="mx-auto text-xl"
                                 >{{ service.name }}</a
                             ></Button
                         >
                         <button
                             @click.prevent="editService(service)"
-                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-700 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-neutral text-on-surface opacity-0 transition-opacity group-hover:opacity-100"
                             title="Edit service"
                         >
                             ✎
@@ -53,21 +50,23 @@
         >
             <Bracket
                 :classList="['left', 'hollow']"
-                background="var(--indigo)"
+                background="var(--panel-primary)"
             />
             <form
                 @submit.prevent="submit"
-                class="border border-black bg-black p-8"
+                class="border border-border bg-surface-overlay p-8"
             >
                 <button
                     type="button"
                     @click="closeModal"
-                    class="float-right mb-4 text-white"
+                    class="float-right mb-4 text-on-surface"
                 >
                     ✕
                 </button>
                 <div class="mb-4">
-                    <label for="service-category" class="mb-2 block text-white"
+                    <label
+                        for="service-category"
+                        class="mb-2 block text-on-surface"
                         >Category:</label
                     >
                     <div class="flex flex-row gap-4">
@@ -75,14 +74,14 @@
                             v-if="props.categories.length && !newCategory"
                             v-model="form.category_id"
                             id="service-category"
-                            class="w-full rounded border border-gray-300 p-2 text-white"
+                            class="w-full border border-border bg-surface-raised p-2 text-on-surface"
                         >
                             <option value="" disabled selected>
                                 Select a category
                             </option>
 
                             <option
-                                class="text-black"
+                                class="text-ink"
                                 v-for="cat in props.categories"
                                 :value="cat.id"
                                 :key="cat.id"
@@ -91,7 +90,7 @@
                             </option>
                         </select>
                         <button
-                            class="text-3xl text-white"
+                            class="text-3xl text-on-surface"
                             type="button"
                             @click="newCategory = !newCategory"
                         >
@@ -104,12 +103,12 @@
                         name="new_category"
                         type="text"
                         id="new-category"
-                        class="mt-4 w-full rounded border border-gray-300 p-2 text-white"
+                        class="mt-4 w-full border border-border bg-surface-raised p-2 text-on-surface"
                         placeholder="New Category Name"
                     />
                 </div>
                 <div class="mb-4">
-                    <label for="service-name" class="mb-2 block text-white"
+                    <label for="service-name" class="mb-2 block text-on-surface"
                         >Service Name:</label
                     >
                     <input
@@ -117,12 +116,12 @@
                         name="name"
                         type="text"
                         id="service-name"
-                        class="w-full rounded border border-gray-300 p-2 text-white"
+                        class="w-full border border-border bg-surface-raised p-2 text-on-surface"
                         required
                     />
                 </div>
                 <div class="mb-8">
-                    <label for="service-url" class="mb-2 block text-white"
+                    <label for="service-url" class="mb-2 block text-on-surface"
                         >Service URL:</label
                     >
                     <input
@@ -130,14 +129,14 @@
                         type="url"
                         name="url"
                         id="service-url"
-                        class="w-full rounded border border-gray-300 p-2 text-white"
+                        class="w-full border border-border bg-surface-raised p-2 text-on-surface"
                         required
                     />
                 </div>
                 <div class="flex gap-4">
                     <button
                         type="submit"
-                        class="rounded bg-(--blue) px-4 py-2 text-white"
+                        class="bg-tertiary px-4 py-2 text-ink hover:bg-tertiary-strong"
                     >
                         {{ editingService ? 'Update' : 'Add' }} Service
                     </button>
@@ -145,7 +144,7 @@
                         v-if="editingService"
                         type="button"
                         @click="deleteService"
-                        class="rounded bg-red-600 px-4 py-2 text-white"
+                        class="bg-error px-4 py-2 text-on-surface"
                     >
                         Delete
                     </button>
@@ -153,7 +152,7 @@
             </form>
             <Bracket
                 :classList="['right', 'hollow']"
-                background="var(--indigo)"
+                background="var(--panel-primary)"
             />
         </div>
         <div
@@ -172,14 +171,6 @@ import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Bracket from '@/components/lcars/Bracket.vue';
 import Button from '@/components/lcars/Button.vue';
 import type { Category, Service } from '@/types';
-const colors = [
-    'var(--indigo)',
-    'var(--blue)',
-    'var(--anakiwa)',
-    'var(--periwinkle)',
-    'var(--cosmic)',
-    'var(--moonbeam)',
-];
 const props = defineProps<{
     categories: Category[];
     showModal?: boolean;
@@ -204,10 +195,6 @@ const form = useForm({
     icon: '',
     category_id: null as number | null,
 });
-const getServiceColor = (serviceId: number) => {
-    return colors[serviceId % colors.length];
-};
-
 const closeModal = () => {
     localShowModal.value = false;
     editingService.value = null;
@@ -265,19 +252,15 @@ const submit = () => {
 
 <style scoped>
 .backdrop {
-    background-color: rgba(from var(--anakiwa) r g b / 0.3);
+    background-color: rgba(from var(--panel-secondary-subtle) r g b / 0.3);
 }
 
 #add-service {
     border-radius: 1.5rem;
 }
-input {
-    background-color: rgba(from var(--indigo) R G B/0.4);
-    color: white;
-}
 .service-category {
     max-width: 40vw;
-    border: 1px solid var(--indigo);
+    border: 1px solid var(--panel-primary);
 }
 
 .service-container {
