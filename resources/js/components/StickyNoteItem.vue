@@ -3,7 +3,7 @@
         class="group relative flex flex-col overflow-hidden rounded-md p-3 shadow-md"
         :style="{
             backgroundColor: form.color,
-            color: form.color === 'var(--indigo)' ? 'white' : 'black',
+            color: form.color === 'var(--panel-primary)' ? 'white' : 'black',
             width: form.width + 'px',
             height: form.height + 'px',
             resize: 'both',
@@ -19,6 +19,10 @@
                     :key="c"
                     @click="form.color = c"
                     class="h-4 w-4 rounded-full border border-black/10 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 focus-visible:outline-none"
+                    :class="{
+                        'ring-2 ring-on-surface ring-offset-1':
+                            form.color === c,
+                    }"
                     :style="{ backgroundColor: c }"
                     :aria-label="`Set color to ${c}`"
                     :title="`Set color to ${c}`"
@@ -63,10 +67,10 @@ const form = useForm({
 });
 
 const colors = [
-    'var(--indigo)',
-    'var(--anakiwa)',
-    'var(--blue)',
-    'var(--periwinkle)',
+    'var(--panel-primary)',
+    'var(--panel-secondary-subtle)',
+    'var(--panel-secondary-strong)',
+    'var(--panel-secondary)',
 ];
 
 const saveNote = debounce(() => {

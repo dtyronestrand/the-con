@@ -5,7 +5,7 @@
         :disabled="props.disabled"
         type="text"
         @blur="handleBlur"
-        class="m-0 h-[1rem] p-0 text-justify text-white"
+        class="m-0 h-[1rem] p-0 text-justify text-on-surface"
     />
 </template>
 
@@ -58,15 +58,15 @@ const handleBlur = () => {
 
 <style scoped>
 input:focus {
-    border-color: var(--indigo);
-    box-shadow: 0 0 0 3px hsla(var(--indigo) H S L, 0.8);
-    outline-color: var(--indigo);
+    border-color: var(--tertiary);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--tertiary) 40%, transparent);
+    outline-color: var(--tertiary);
 }
 .decorated {
-    border-left: 0.2rem solid var(--indigo);
+    border-left: 0.2rem solid var(--panel-primary);
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    border-right: 0.2rem solid var(--indigo);
-    caret-color: #fff;
+    border-right: 0.2rem solid var(--panel-primary);
+    caret-color: var(--on-surface);
 }
 </style>

@@ -2,36 +2,41 @@
     <div
         class="login flex h-[100dvh] flex-col items-center justify-center gap-8 py-32"
     >
-        <h1 class="text-5xl font-bold text-(--blue)">Login</h1>
-        <div class="flex h-100 w-100 flex-row gap-4 rounded-[1.5rem] bg-black">
-            <Bracket :classList="['left', 'hollow']" background="var(--blue)" />
+        <h1 class="font-display text-5xl text-on-surface uppercase">Login</h1>
+        <div
+            class="flex h-100 w-100 flex-row gap-4 rounded-[1.5rem] bg-surface-raised"
+        >
+            <Bracket
+                :classList="['left', 'hollow']"
+                background="var(--panel-secondary-strong)"
+            />
             <form
                 @submit.prevent="handleSubmit"
                 class="flex w-full flex-col items-center justify-center gap-4"
             >
-                <label for="email" class="self-start text-white">Email:</label>
+                <label for="email" class="self-start text-on-surface"
+                    >Email:</label
+                >
                 <input
                     v-model="form.email"
                     type="email"
                     placeholder="Email"
-                    class="w-full rounded border border-gray-300 p-2 text-white"
+                    class="w-full border border-border bg-surface p-2 text-on-surface"
                 />
-                <label for="password" class="self-start text-white"
+                <label for="password" class="self-start text-on-surface"
                     >Password:</label
                 >
                 <input
                     v-model="form.password"
                     type="password"
                     placeholder="Password"
-                    class="w-full rounded border border-gray-300 p-2 text-white"
+                    class="w-full border border-border bg-surface p-2 text-on-surface"
                 />
-                <Button type="submit" background="var(--blue)" classList="round"
-                    >Login</Button
-                >
+                <Button type="submit" classList="round">Login</Button>
             </form>
             <Bracket
                 :classList="['right', 'hollow']"
-                background="var(--blue)"
+                background="var(--panel-secondary-strong)"
             />
         </div>
     </div>

@@ -1,10 +1,8 @@
 <template>
     <div
         :class="classList"
-        class="elbow h- relative m-0 min-h-18 w-19 min-w-19 border-t-2 border-black after:w-[1rem] md:w-38 md:min-w-38 after:md:w-[2rem]"
-        :style="
-            props.background ? `background-color: ${props.background}` : 'blue'
-        "
+        class="elbow h- relative m-0 min-h-18 w-19 min-w-19 border-t-2 border-ink after:w-[1rem] md:w-38 md:min-w-38 after:md:w-[2rem]"
+        :style="`background-color: ${props.background || 'var(--panel-secondary)'}`"
     ></div>
 </template>
 
@@ -22,7 +20,7 @@ const props = defineProps<Props>();
     content: '';
     position: absolute;
     height: 3rem;
-    background: oklch(0% 0 0);
+    background: var(--ink);
 }
 .left-bottom {
     border-top-left-radius: 3.75rem;

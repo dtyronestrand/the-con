@@ -3,36 +3,38 @@
         class="flex-container nativephp-safe-area pr-[var(--inset-right)] pl-[var(--inset-left)]"
     >
         <div class="top-bar flex flex-row">
-            <Elbow classList="left-bottom " background="var(--anakiwa)" />
-            <BarWithTitle classList="top text-4xl" :background="'var(--indigo)'"
+            <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
+            <BarWithTitle classList="top text-4xl" :background="'var(--panel-primary)'"
                 >The Con</BarWithTitle
-            ><Bar classList="top" :background="'var(--blue)'" /><BarEnd
+            ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
                 classList="right decorated top"
-                :background="'var(--indigo)'"
+                :background="'var(--panel-primary)'"
             />
         </div>
         <div class="top-content flex flex-row">
             <div class="flex flex-col">
                 <Element
-                    background="var(--indigo)"
+                    background="var(--panel-primary)"
                     :button="false"
                     :height="2"
                 ></Element>
                 <Element
-                    background="var(--blue)"
+                    background="var(--tertiary)"
+                    style="color: var(--ink)"
                     :button="true"
                     @buttonPressed="topView = 'weather'"
                     >Weather</Element
                 >
                 <Element
-                    background="var(--anakiwa)"
+                    background="var(--tertiary)"
+                    style="color: var(--ink)"
                     :button="true"
                     @buttonPressed="topView = 'todo'"
                     >To Do</Element
                 >
 
-                <Element background="var(--blue)" :button="false"></Element>
-                <Element background="var(--anakiwa)" :button="false"></Element>
+                <Element background="var(--panel-secondary-strong)" :button="false"></Element>
+                <Element background="var(--panel-secondary-subtle)" :button="false"></Element>
             </div>
             <div class="flex h-full w-full flex-col">
                 <Planner
@@ -52,30 +54,31 @@
             </div>
         </div>
         <div class="bottom-bar flex flex-row">
-            <Elbow classList="left-top" background="var(--periwinkle)" />
-            <Bar :background="'var(--anakiwa)'" /><BarEnd
+            <Elbow classList="left-top" background="var(--panel-secondary)" />
+            <Bar :background="'var(--panel-secondary-subtle)'" /><BarEnd
                 classList="right decorated"
-                :background="'var(--anakiwa)'"
+                :background="'var(--panel-secondary-subtle)'"
             />
         </div>
         <div class="section-topper flex flex-row">
-            <Elbow classList="left-bottom " background="var(--anakiwa)" />
-            <Bar classList="top" :background="'var(--indigo)'"></Bar
-            ><Bar classList="top" :background="'var(--blue)'" /><BarEnd
+            <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
+            <Bar classList="top" :background="'var(--panel-primary)'"></Bar
+            ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
                 classList="right decorated top"
-                :background="'var(--indigo)'"
+                :background="'var(--panel-primary)'"
             />
         </div>
         <div class="bottom-content flex flex-row">
             <div class="flex flex-col">
                 <Element
-                    background="var(--indigo)"
+                    background="var(--tertiary)"
+                    style="color: var(--ink)"
                     :button="true"
                     @buttonPressed="showModal = true"
                     >Add Service</Element
                 >
                 <Element
-                    background="var(--red-alert)"
+                    background="var(--error)"
                     :button="true"
                     @buttonPressed="factoryReset"
                     >Factory Reset</Element
@@ -83,23 +86,23 @@
 
                 <Element
                     @click="logout"
-                    background="var(--periwinkle)"
+                    background="var(--panel-secondary)"
                     :button="true"
                     >Logout</Element
                 >
                 <Element
-                    background="var(--blue)"
+                    background="var(--panel-secondary-strong)"
                     :button="false"
                     :height="2"
                 ></Element>
 
                 <Element
-                    background="var(--periwinkle)"
+                    background="var(--panel-secondary)"
                     :button="false"
                     :height="2"
                 ></Element>
             </div>
-            <div class="px-12 text-white">
+            <div class="px-12 text-on-surface">
                 <ServiceContainer
                     :categories="page.props.categories"
                     :showModal="showModal"
@@ -109,10 +112,10 @@
             </div>
         </div>
         <div class="closer flex flex-row">
-            <Elbow classList="left-top" background="var(--periwinkle)" />
-            <Bar :background="'var(--anakiwa)'" /><BarEnd
+            <Elbow classList="left-top" background="var(--panel-secondary)" />
+            <Bar :background="'var(--panel-secondary-subtle)'" /><BarEnd
                 classList="right decorated"
-                :background="'var(--anakiwa)'"
+                :background="'var(--panel-secondary-subtle)'"
             />
         </div>
     </div>

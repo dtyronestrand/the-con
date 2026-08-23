@@ -1,8 +1,8 @@
 <template>
     <div
         :class="props.classList"
-        class="after:abolute relative m-0 h-6 w-6 max-w-6 min-w-6 text-white after:block after:bg-black after:content-['']"
-        :style="`background-color: ${props.background || 'var(--bahama-blue)'}`"
+        class="relative m-0 h-6 w-6 max-w-6 min-w-6 text-on-surface after:absolute after:block after:bg-ink after:content-['']"
+        :style="`background-color: ${props.background || 'var(--panel-secondary)'}`"
     ></div>
 </template>
 
@@ -34,12 +34,12 @@ div {
     right: 0.25rem;
     width: 0.25rem;
     height: 100%;
-    background-color: #000;
+    background-color: var(--ink);
 }
 .right.decorated:after {
     left: 0.25rem;
     width: 0.25rem;
     height: 100%;
-    background-color: #000;
+    background-color: var(--ink);
 }
 </style>

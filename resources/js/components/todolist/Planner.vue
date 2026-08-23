@@ -10,7 +10,6 @@
                             selectedDate - 1,
                         )
                 "
-                background="var(--anakiwa)"
                 classList="left-round text-black text-4xl text-center size-8"
                 >-</Button
             >
@@ -23,7 +22,6 @@
                             selectedDate + 1,
                         )
                 "
-                background="var(--periwinkle)"
                 classList="right-round justify-end text-black text-4xl text-center size-8"
                 >+</Button
             >
@@ -31,7 +29,7 @@
         <div v-if="!isGoogleConnected" class="mr-8">
             <a
                 href="/auth/google"
-                class="rounded bg-(--indigo) px-4 py-2 text-white transition-colors hover:bg-(--periwinkle) hover:text-black"
+                class="rounded bg-tertiary px-4 py-2 text-ink transition-colors hover:bg-tertiary-strong"
             >
                 Connect Google Calendar
             </a>
@@ -46,7 +44,7 @@
             :class="`day-${index}`"
             class="col-span-1"
         >
-            <BarWithTitle :classList="'text-2xl'" background="var(--indigo)">
+            <BarWithTitle :classList="'text-2xl'" background="var(--panel-primary)">
                 <p>
                     {{ day.format('dddd')
                     }}<span class="pl-4">{{ day.format('D') }}</span>
@@ -88,7 +86,7 @@
             </span>
         </div>
         <div class="">
-            <BarWithTitle classList="text-2xl" background="var(--indigo)"
+            <BarWithTitle classList="text-2xl" background="var(--panel-primary)"
                 >Someday</BarWithTitle
             >
             <div v-for="task in somedayTasks" :key="task.id">

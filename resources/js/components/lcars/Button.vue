@@ -3,10 +3,10 @@
         type="button"
         @click="emit('click')"
         :class="classes"
-        class="relative m-0 my-4 box-border flex h-12 w-30 flex-row items-center justify-center border pr-3 pl-3 font-bold text-white"
+        class="relative m-0 my-4 box-border flex h-12 w-30 flex-row items-center justify-center border pr-3 pl-3 font-display text-ink uppercase tracking-tight"
         :style="{
-            backgroundColor: resolvedBackground,
-            borderColor: resolvedBackground,
+            backgroundColor: props.background,
+            borderColor: props.background,
         }"
     >
         <slot />
@@ -20,7 +20,9 @@ interface Props {
     classList?: string;
     target?: string;
 }
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    background: 'var(--tertiary)',
+});
 
 const emit = defineEmits<{
     (e: 'click'): void;
@@ -31,19 +33,6 @@ const classes = computed(() => {
     baseClasses += ' cursor-pointer hover:brightness-90 active:brightness-75';
 
     return baseClasses;
-});
-
-const resolvedBackground = computed(() => {
-    if (!props.background) return 'white';
-    if (props.background.startsWith('var(')) {
-        const varName = props.background.match(/var\(([^)]+)\)/)?.[1];
-        if (varName) {
-            return getComputedStyle(document.documentElement)
-                .getPropertyValue(varName)
-                .trim();
-        }
-    }
-    return props.background;
 });
 </script>
 

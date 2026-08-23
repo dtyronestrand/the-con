@@ -2,20 +2,48 @@
 
 @import 'tw-animate-css';
 
+@import '@fontsource/michroma/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-600.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
     --font-sans:
-        Instrument Sans, ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        'IBM Plex Sans', system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: Michroma, 'Eurostile', 'Arial Narrow', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 
-    --radius-lg: var(--radius);
-    --radius-md: calc(var(--radius) - 2px);
-    --radius-sm: calc(var(--radius) - 4px);
+    --radius-none: 0px;
+    --radius-end: 12px;
+    --radius-elbow: 24px;
+    --radius-full: 9999px;
+
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+
+    --color-panel-primary: var(--panel-primary);
+    --color-panel-primary-strong: var(--panel-primary-strong);
+    --color-panel-secondary: var(--panel-secondary);
+    --color-panel-secondary-subtle: var(--panel-secondary-subtle);
+    --color-panel-secondary-strong: var(--panel-secondary-strong);
+    --color-tertiary: var(--tertiary);
+    --color-tertiary-strong: var(--tertiary-strong);
+    --color-tertiary-subtle: var(--tertiary-subtle);
+    --color-neutral: var(--neutral);
+    --color-surface: var(--surface);
+    --color-surface-raised: var(--surface-raised);
+    --color-surface-overlay: var(--surface-overlay);
+    --color-on-surface: var(--on-surface);
+    --color-error: var(--error);
+    --color-ink: var(--ink);
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -80,67 +108,61 @@
     }
 }
 
-@layer utilities {
-
-    body,
-    html {
-        --font-sans:
-            'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-            'Noto Color Emoji';
-    }
-}
-
 :root {
-    --background: oklch(0 0 0);
-    --gradient-start: var(--moonbeam);
-    --gradient-end: var(--gray);
-    --anakiwa: oklch(88% 0.1 260);
-    --moonbeam: oklch(95% 0.03 260);
-    --red-alert: oklch(54.69% 0.202 22.94);
-    --indigo: oklch(40% 0.2 265);
-    --cosmic: oklch(25% 0.15 270);
-    --periwinkle: oklch(75% 0.18 260);
-    --blue: oklch(55% 0.25 260);
-    --gray: oklch(44.81% 0.039 284.71);
-}
+    /* LCARS console palette — see DESIGN.md */
+    --panel-primary: #1034b1;
+    --panel-primary-strong: #0e0967;
+    --panel-secondary: #67abff;
+    --panel-secondary-subtle: #b1d9ff;
+    --panel-secondary-strong: #0056c5;
+    --tertiary: #22d3ee;
+    --tertiary-strong: #0891b2;
+    --tertiary-subtle: #a5f3fc;
+    --neutral: #52526a;
+    --surface: #020207;
+    --surface-raised: #060813;
+    --surface-overlay: #101321;
+    --on-surface: #e8ebf2;
+    --border: #2b2c3d;
+    --error: #a50e19;
+    --ink: #000000;
 
-.dark {
-    --background: hsl(0 0% 3.9%);
-    --gradient-start: rgb(148 163 184);
-    --gradient-end: rgb(55 65 81);
-    --foreground: hsl(0 0% 98%);
-    --card: hsl(0 0% 3.9%);
-    --card-foreground: hsl(0 0% 98%);
-    --popover: hsl(0 0% 3.9%);
-    --popover-foreground: hsl(0 0% 98%);
-    --primary: hsl(0 0% 98%);
-    --primary-foreground: hsl(0 0% 9%);
-    --secondary: hsl(0 0% 14.9%);
-    --secondary-foreground: hsl(0 0% 98%);
-    --muted: hsl(0 0% 16.08%);
-    --muted-foreground: hsl(0 0% 63.9%);
-    --accent: hsl(0 0% 14.9%);
-    --accent-foreground: hsl(0 0% 98%);
-    --destructive: hsl(0 84% 60%);
-    --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(0 0% 14.9%);
-    --input: hsl(0 0% 14.9%);
-    --ring: hsl(0 0% 83.1%);
-    --chart-1: hsl(220 70% 50%);
-    --chart-2: hsl(160 60% 45%);
-    --chart-3: hsl(30 80% 55%);
-    --chart-4: hsl(280 65% 60%);
-    --chart-5: hsl(340 75% 55%);
-    --sidebar-background: hsl(0 0% 7%);
-    --sidebar-foreground: hsl(0 0% 95.9%);
-    --sidebar-primary: hsl(360, 100%, 100%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(0 0% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(0 0% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-    --sidebar: hsl(240 5.9% 10%);
+    /* shadcn/ui semantic tokens, mapped onto the LCARS palette. `primary`
+       here is shadcn's CTA-button role, distinct from DESIGN.md's
+       structural `panel-primary` — the sole interactive accent is
+       signal cyan (`tertiary`). */
+    --background: var(--surface);
+    --foreground: var(--on-surface);
+    --card: var(--surface-raised);
+    --card-foreground: var(--on-surface);
+    --popover: var(--surface-overlay);
+    --popover-foreground: var(--on-surface);
+    --primary: var(--tertiary);
+    --primary-foreground: var(--ink);
+    --secondary: var(--surface-overlay);
+    --secondary-foreground: var(--on-surface);
+    --muted: var(--surface-raised);
+    --muted-foreground: var(--neutral);
+    --accent: var(--surface-overlay);
+    --accent-foreground: var(--on-surface);
+    --destructive: var(--error);
+    --destructive-foreground: var(--on-surface);
+    --input: var(--surface-raised);
+    --ring: var(--tertiary);
+    --chart-1: var(--tertiary);
+    --chart-2: var(--panel-secondary);
+    --chart-3: var(--panel-secondary-strong);
+    --chart-4: var(--neutral);
+    --chart-5: var(--error);
+    --sidebar-background: var(--surface-raised);
+    --sidebar-foreground: var(--on-surface);
+    --sidebar-primary: var(--tertiary);
+    --sidebar-primary-foreground: var(--ink);
+    --sidebar-accent: var(--surface-overlay);
+    --sidebar-accent-foreground: var(--on-surface);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--tertiary);
+    --sidebar: var(--surface-raised);
 }
 
 @layer base {
@@ -150,7 +172,7 @@
 
     body {
         @apply text-foreground;
-        background: oklch(0% 0 0);
+        background: var(--surface);
         scroll-behavior: smooth;
         overscroll-behavior: auto;
         overflow-x: hidden;

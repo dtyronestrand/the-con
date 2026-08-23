@@ -5,7 +5,7 @@
         @click="closeModal"
     >
         <div
-            class="mx-4 h-auto w-full max-w-md rounded-lg rounded-xl border border-(--blue) bg-black p-6 text-white"
+            class="mx-4 h-auto w-full max-w-md rounded-lg rounded-xl border border-panel-secondary-strong bg-surface-overlay p-6 text-on-surface"
             @click.stop
         >
             <form @submit.prevent="saveForm" class="space-y-4">
@@ -21,7 +21,7 @@
                         <p>Subtasks</p>
                         <button
                             @click.prevent="addSubtask"
-                            class="btn btn-sm btn-success"
+                            class="px-2 text-lg text-tertiary"
                         >
                             +
                         </button>
@@ -46,7 +46,7 @@
                         />
                         <button
                             @click.prevent="removeSubtask(index)"
-                            class="btn btn-sm btn-error"
+                            class="px-2 text-lg text-error"
                         >
                             -
                         </button>
@@ -66,18 +66,19 @@
                 <div class="flex gap-2">
                     <Button
                         type="submit"
-                        background="var(--indigo)"
+                        background="var(--tertiary)"
+                        style="color: var(--ink)"
                         classList="left-round "
                         >Save</Button
                     >
                     <Button
                         @click="closeModal"
                         type="button"
-                        background="var(--red-alert)"
+                        background="var(--panel-secondary)"
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 @click="deleteTask" />
+                    <Trash2 class="cursor-pointer text-error" @click="deleteTask" />
                 </div>
             </form>
         </div>
@@ -139,15 +140,15 @@ const closeModal = () => {
 
 <style scoped>
 input:focus {
-    border-color: var(--indigo);
-    box-shadow: 0 0 0 3px hsla(var(--indigo) H S L, 0.8);
-    outline-color: var(--indigo);
+    border-color: var(--tertiary);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--tertiary) 40%, transparent);
+    outline-color: var(--tertiary);
 }
 .decorated {
-    border-left: 0.2rem solid var(--indigo);
+    border-left: 0.2rem solid var(--panel-primary);
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    border-right: 0.2rem solid var(--indigo);
-    caret-color: #fff;
+    border-right: 0.2rem solid var(--panel-primary);
+    caret-color: var(--on-surface);
 }
 </style>

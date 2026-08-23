@@ -1,8 +1,8 @@
 <template>
     <div
         :class="props.classList"
-        class="relative m-0 h-6 w-full text-black"
-        :style="`background-color: ${props.background || 'var(--bahama-blue)'}`"
+        class="relative m-0 h-6 w-full text-ink"
+        :style="`background-color: ${props.background || 'var(--panel-secondary)'}`"
     ></div>
 </template>
 
