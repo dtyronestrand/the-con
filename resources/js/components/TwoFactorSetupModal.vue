@@ -173,7 +173,9 @@ watch(
                                     <div
                                         v-html="qrCodeSvg"
                                         class="flex aspect-square size-full items-center justify-center"
-                                        style="filter: invert(1) brightness(1.5)"
+                                        style="
+                                            filter: invert(1) brightness(1.5);
+                                        "
                                     />
                                 </div>
                             </div>
