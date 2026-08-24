@@ -1,10 +1,16 @@
 <template>
     <div class="flex-container h-full">
         <div class="top-bar flex flex-row">
-            <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
+            <Elbow
+                classList="left-bottom "
+                background="var(--panel-secondary-subtle)"
+            />
             <BarWithTitle classList="top" :background="'var(--panel-primary)'"
                 >The Con</BarWithTitle
-            ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
+            ><Bar
+                classList="top"
+                :background="'var(--panel-secondary-strong)'"
+            /><BarEnd
                 classList="right decorated top"
                 :background="'var(--panel-primary)'"
             />
@@ -20,11 +26,23 @@
                     background="var(--panel-secondary)"
                     :button="false"
                 ></Element>
-                <Element background="var(--panel-secondary-strong)" :button="false"></Element>
-                <Element background="var(--panel-secondary-subtle)" :button="false"></Element>
+                <Element
+                    background="var(--panel-secondary-strong)"
+                    :button="false"
+                ></Element>
+                <Element
+                    background="var(--panel-secondary-subtle)"
+                    :button="false"
+                ></Element>
 
-                <Element background="var(--panel-secondary-strong)" :button="false"></Element>
-                <Element background="var(--panel-secondary-subtle)" :button="false"></Element>
+                <Element
+                    background="var(--panel-secondary-strong)"
+                    :button="false"
+                ></Element>
+                <Element
+                    background="var(--panel-secondary-subtle)"
+                    :button="false"
+                ></Element>
             </div>
             <div class="flex w-full flex-row justify-evenly">
                 <WeatherWidget />
@@ -42,9 +60,15 @@
             />
         </div>
         <div class="section-topper flex flex-row">
-            <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
+            <Elbow
+                classList="left-bottom "
+                background="var(--panel-secondary-subtle)"
+            />
             <Bar classList="top" :background="'var(--panel-primary)'"></Bar
-            ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
+            ><Bar
+                classList="top"
+                :background="'var(--panel-secondary-strong)'"
+            /><BarEnd
                 classList="right decorated top"
                 :background="'var(--panel-primary)'"
             />
@@ -58,7 +82,10 @@
                     @buttonPressed="showModal = true"
                     >Add Service</Element
                 >
-                <Element background="var(--panel-secondary-strong)" :button="false"></Element>
+                <Element
+                    background="var(--panel-secondary-strong)"
+                    :button="false"
+                ></Element>
                 <Element
                     background="var(--panel-secondary)"
                     :button="false"
@@ -69,7 +96,10 @@
                     :button="false"
                     :height="2"
                 ></Element>
-                <Element background="var(--panel-secondary-subtle)" :button="false"></Element>
+                <Element
+                    background="var(--panel-secondary-subtle)"
+                    :button="false"
+                ></Element>
                 <Element
                     background="var(--panel-secondary)"
                     :button="false"

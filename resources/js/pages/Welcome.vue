@@ -3,10 +3,18 @@
         class="flex-container nativephp-safe-area pr-[var(--inset-right)] pl-[var(--inset-left)]"
     >
         <div class="top-bar flex flex-row">
-            <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
-            <BarWithTitle classList="top text-4xl" :background="'var(--panel-primary)'"
+            <Elbow
+                classList="left-bottom "
+                background="var(--panel-secondary-subtle)"
+            />
+            <BarWithTitle
+                classList="top text-4xl"
+                :background="'var(--panel-primary)'"
                 >The Con</BarWithTitle
-            ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
+            ><Bar
+                classList="top"
+                :background="'var(--panel-secondary-strong)'"
+            /><BarEnd
                 classList="right decorated top"
                 :background="'var(--panel-primary)'"
             />
@@ -33,8 +41,14 @@
                     >To Do</Element
                 >
 
-                <Element background="var(--panel-secondary-strong)" :button="false"></Element>
-                <Element background="var(--panel-secondary-subtle)" :button="false"></Element>
+                <Element
+                    background="var(--panel-secondary-strong)"
+                    :button="false"
+                ></Element>
+                <Element
+                    background="var(--panel-secondary-subtle)"
+                    :button="false"
+                ></Element>
             </div>
             <div class="flex h-full w-full flex-col">
                 <Planner
@@ -61,9 +75,15 @@
             />
         </div>
         <div class="section-topper flex flex-row">
-            <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
+            <Elbow
+                classList="left-bottom "
+                background="var(--panel-secondary-subtle)"
+            />
             <Bar classList="top" :background="'var(--panel-primary)'"></Bar
-            ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
+            ><Bar
+                classList="top"
+                :background="'var(--panel-secondary-strong)'"
+            /><BarEnd
                 classList="right decorated top"
                 :background="'var(--panel-primary)'"
             />
