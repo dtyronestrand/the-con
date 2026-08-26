@@ -109,6 +109,19 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
         $task = Task::findOrFail($id);
+
+        if ($task->note_id && $note = $task->note) {
+            $note->demoted_tasks = [
+                ...($note->demoted_tasks ?? []),
+                [
+                    'text' => $task->name,
+                    'due_date' => optional($task->due_date)->toDateString(),
+                    'demoted_at' => now()->toISOString(),
+                ],
+            ];
+            $note->save();
+        }
+
         $task->delete();
 
         return back()->with('success', 'Task deleted successfully.');

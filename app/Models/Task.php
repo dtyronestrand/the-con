@@ -12,6 +12,7 @@ class Task extends Model
         'name',
         'user_id',
         'calendar_id',
+        'note_id',
         'notes',
         'done',
         'due_date',
@@ -33,7 +34,8 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
-
-
-
+    public function note(): BelongsTo
+    {
+        return $this->belongsTo(Note::class);
+    }
 }

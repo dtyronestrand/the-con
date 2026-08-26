@@ -2,8 +2,6 @@
     <div class="flex flex-row flex-wrap gap-4">
         <div
             v-for="category in props.categories"
-        <div
-            v-for="category in props.categories"
             :key="category.id"
             class="service-category"
         >
@@ -53,25 +51,19 @@
             <Bracket
                 :classList="['left', 'hollow']"
                 background="var(--panel-primary)"
-                background="var(--panel-primary)"
             />
             <form
                 @submit.prevent="submit"
-                class="border border-border bg-surface-overlay p-8"
                 class="border border-border bg-surface-overlay p-8"
             >
                 <button
                     type="button"
                     @click="closeModal"
                     class="float-right mb-4 text-on-surface"
-                    class="float-right mb-4 text-on-surface"
                 >
                     ✕
                 </button>
                 <div class="mb-4">
-                    <label
-                        for="service-category"
-                        class="mb-2 block text-on-surface"
                     <label
                         for="service-category"
                         class="mb-2 block text-on-surface"
@@ -83,14 +75,12 @@
                             v-model="form.category_id"
                             id="service-category"
                             class="w-full border border-border bg-surface-raised p-2 text-on-surface"
-                            class="w-full border border-border bg-surface-raised p-2 text-on-surface"
                         >
                             <option value="" disabled selected>
                                 Select a category
                             </option>
 
                             <option
-                                class="text-ink"
                                 class="text-ink"
                                 v-for="cat in props.categories"
                                 :value="cat.id"
@@ -100,7 +90,6 @@
                             </option>
                         </select>
                         <button
-                            class="text-3xl text-on-surface"
                             class="text-3xl text-on-surface"
                             type="button"
                             @click="newCategory = !newCategory"
@@ -115,12 +104,10 @@
                         type="text"
                         id="new-category"
                         class="mt-4 w-full border border-border bg-surface-raised p-2 text-on-surface"
-                        class="mt-4 w-full border border-border bg-surface-raised p-2 text-on-surface"
                         placeholder="New Category Name"
                     />
                 </div>
                 <div class="mb-4">
-                    <label for="service-name" class="mb-2 block text-on-surface"
                     <label for="service-name" class="mb-2 block text-on-surface"
                         >Service Name:</label
                     >
@@ -130,12 +117,10 @@
                         type="text"
                         id="service-name"
                         class="w-full border border-border bg-surface-raised p-2 text-on-surface"
-                        class="w-full border border-border bg-surface-raised p-2 text-on-surface"
                         required
                     />
                 </div>
                 <div class="mb-8">
-                    <label for="service-url" class="mb-2 block text-on-surface"
                     <label for="service-url" class="mb-2 block text-on-surface"
                         >Service URL:</label
                     >
@@ -145,14 +130,12 @@
                         name="url"
                         id="service-url"
                         class="w-full border border-border bg-surface-raised p-2 text-on-surface"
-                        class="w-full border border-border bg-surface-raised p-2 text-on-surface"
                         required
                     />
                 </div>
                 <div class="flex gap-4">
                     <button
                         type="submit"
-                        class="bg-tertiary px-4 py-2 text-ink hover:bg-tertiary-strong"
                         class="bg-tertiary px-4 py-2 text-ink hover:bg-tertiary-strong"
                     >
                         {{ editingService ? 'Update' : 'Add' }} Service
@@ -162,7 +145,6 @@
                         type="button"
                         @click="deleteService"
                         class="bg-error px-4 py-2 text-on-surface"
-                        class="bg-error px-4 py-2 text-on-surface"
                     >
                         Delete
                     </button>
@@ -170,7 +152,6 @@
             </form>
             <Bracket
                 :classList="['right', 'hollow']"
-                background="var(--panel-primary)"
                 background="var(--panel-primary)"
             />
         </div>
@@ -186,23 +167,18 @@
 import { useForm } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 
-import { useForm } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
-
 import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Bracket from '@/components/lcars/Bracket.vue';
 import Button from '@/components/lcars/Button.vue';
 import type { Category, Service } from '@/types';
-import type { Category, Service } from '@/types';
+
 const props = defineProps<{
     categories: Category[];
     showModal?: boolean;
     service?: Service;
-    service?: Service;
 }>();
 const newCategory = ref(false);
 const localShowModal = ref(props.showModal ?? false);
-const editingService = ref<Service | null>(null);
 const editingService = ref<Service | null>(null);
 const emit = defineEmits(['closeModal', 'serviceAdded']);
 // Watch for changes to the edit prop
@@ -215,13 +191,10 @@ watch(
 
 const form = useForm({
     new_category: null as string | null,
-    new_category: null as string | null,
     name: '',
     url: '',
     icon: '',
-    category_id: null as number | null,
-});
-    category_id: null as number | null,
+    category_id: null as string | null,
 });
 const closeModal = () => {
     localShowModal.value = false;
@@ -231,7 +204,6 @@ const closeModal = () => {
 };
 
 const editService = (service: Service) => {
-const editService = (service: Service) => {
     editingService.value = service;
     form.name = service.name;
     form.url = service.url;
@@ -240,7 +212,6 @@ const editService = (service: Service) => {
 };
 
 const deleteService = () => {
-    if (editingService.value && confirm('Delete this service?')) {
     if (editingService.value && confirm('Delete this service?')) {
         form.delete(`/services/${editingService.value.id}`, {
             onSuccess: () => {
@@ -254,7 +225,6 @@ const deleteService = () => {
 
 const submit = () => {
     if (newCategory.value) {
-        form.category_id = null;
         form.category_id = null;
     } else {
         form.new_category = null;
@@ -284,7 +254,6 @@ const submit = () => {
 <style scoped>
 .backdrop {
     background-color: rgba(from var(--panel-secondary-subtle) r g b / 0.3);
-    background-color: rgba(from var(--panel-secondary-subtle) r g b / 0.3);
 }
 
 #add-service {
@@ -295,13 +264,7 @@ const submit = () => {
     border: 1px solid var(--panel-primary);
 }
 
-.service-category {
-    max-width: 40vw;
-    border: 1px solid var(--panel-primary);
-}
-
 .service-container {
-    max-width: 30vw;
     max-width: 30vw;
 }
 </style>

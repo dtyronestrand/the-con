@@ -28,6 +28,12 @@ Route::get('dashboard', function () {
 Route::post('/tasks/store', [\App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');
 Route::put('/tasks/{id}', [\App\Http\Controllers\TaskController::class, 'update'])->name('tasks.update');
 Route::delete('/tasks/{id}', [\App\Http\Controllers\TaskController::class, 'destroy'])->name('tasks.destroy');
+Route::post('/notes/store', [\App\Http\Controllers\NoteController::class, 'store'])->name('notes.store');
+Route::post('/notes/quick-capture', [\App\Http\Controllers\NoteController::class, 'quickCapture'])->name('notes.quick-capture');
+Route::put('/notes/{note}', [\App\Http\Controllers\NoteController::class, 'update'])->name('notes.update');
+Route::delete('/notes/{note}', [\App\Http\Controllers\NoteController::class, 'destroy'])->name('notes.destroy');
+Route::post('/notes/{note}/tasks', [\App\Http\Controllers\NoteController::class, 'addTask'])->name('notes.tasks.store');
+Route::post('/notes/{note}/promote', [\App\Http\Controllers\NoteController::class, 'promoteTask'])->name('notes.promote');
 Route::get('/auth/outlook', [CalendarController::class, 'redirectToProvider'])->name('auth.outlook');
 Route::get('/auth/outlook/callback', [CalendarController::class, 'handleProviderCallback'])->name('auth.outlook.callback');
 Route::get('/auth/google', [\App\Http\Controllers\GoogleCalendarController::class, 'redirectToProvider'])->name('auth.google');

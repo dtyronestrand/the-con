@@ -10,7 +10,7 @@ export interface BreadcrumbItem {
     href: string;
 }
 export interface Category {
-    id: number;
+    id: string;
     name: string;
     services: Service[];
 }
@@ -22,19 +22,41 @@ export interface NavItem {
     isActive?: boolean;
 }
 export interface Service {
-    id: number;
+    id: string;
     name: string;
     url: string;
-    category_id: number;
+    category_id: string;
 }
 export interface Task {
     name: string;
     notes?: string;
     sub_tasks?: Task[];
-    id: number;
+    id: string;
     done: boolean;
     due_date: string | null;
     attachments?: string[];
+    note_id?: string | null;
+    created_at?: string;
+    updated_at?: string;
+}
+export interface DemotedTask {
+    text: string;
+    due_date: string | null;
+    demoted_at: string;
+}
+export interface Note {
+    id: string;
+    user_id: string;
+    title: string | null;
+    content: string | null;
+    color: string;
+    tags: string[];
+    pinned: boolean;
+    archived: boolean;
+    demoted_tasks: DemotedTask[];
+    tasks: Task[];
+    created_at: string;
+    updated_at: string;
 }
 export interface Event {
     id: number;
