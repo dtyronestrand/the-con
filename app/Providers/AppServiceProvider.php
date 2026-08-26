@@ -13,6 +13,10 @@ use SocialiteProviders\Graph\GraphExtendSocialite;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
+use App\Models\Category;
+use App\Models\SavedLocation;
+use App\Models\Service;
+use App\Observers\SyncObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -58,6 +62,12 @@ class AppServiceProvider extends ServiceProvider
             SocialiteWasCalled::class,
             GraphExtendSocialite::class.'@handle'
         );
+
+        // Queue local changes for push to the remote sync server. AppSetting is
+        // deliberately excluded — it holds the local api_token and is pull-only.
+        Category::observe(SyncObserver::class);
+        Service::observe(SyncObserver::class);
+        SavedLocation::observe(SyncObserver::class);
     }
 
 

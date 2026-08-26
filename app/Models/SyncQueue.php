@@ -5,13 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 class SyncQueue extends Model
 {
+    protected $table = 'sync_queue';
 
     protected $fillable = [
-        'model_type',
-        'model_id',
+        'model_name',
+        'model_uuid',
+        'payload',
         'action',
-        'status',
-        'error_message',
+        'synced_at',
+    ];
+
+    protected $casts = [
+        'payload' => 'array',
+        'synced_at' => 'datetime',
     ];
 
 

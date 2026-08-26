@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use Inertia\Inertia;
 use App\Models\Category;
+use App\Services\RemoteAuthService;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ServiceController extends Controller
 {
- public function store(Request $request)
+ public function store(Request $request, RemoteAuthService $auth)
  {
     $validated = $request->validate([
         'new_category' => 'nullable|string|max:255',
@@ -29,20 +32,30 @@ class ServiceController extends Controller
   $localService = Service::create($validated);
 
   try {
-    $token = \App\Models\AppSetting::where('key', 'api_token')->first()->value('value');
-    $apiUrl = rtrim(config('app.api_url', 'http://10.0.0.91'), '/');
+    $token = $auth->getValidToken();
 
-    $response = \Illuminate\Support\Facades\Http::withToken($token)
-        ->post($apiUrl . '/api/services/sync', $request->all());
+    if ($token) {
+        $apiUrl = rtrim(config('app.api_url'), '/');
+        // Send our own uuid so the server adopts it as this record's identity —
+        // there's nothing to write back locally, since uuid (not id) is what's shared.
+        $payload = array_merge($request->all(), ['uuid' => $localService->uuid]);
 
-    if($response->successful()){
-        $serverData = $response->json('service');
-        $localService->update([
-            'id' => $serverData['id']]);
+        $response = Http::withToken($token)->post($apiUrl . '/api/services/sync', $payload);
+
+        if ($response->status() === 401) {
+            $token = $auth->refreshAfterUnauthorized();
+            if ($token) {
+                $response = Http::withToken($token)->post($apiUrl . '/api/services/sync', $payload);
+            }
+        }
+
+        if ($response->failed()) {
+            Log::warning('Remote service sync returned an error: ' . $response->status());
+        }
     }
     } catch (\Exception $e) {
         // Log the error but don't fail the local creation
-        \Illuminate\Support\Facades\Log::error('Failed to sync new service: ' . $e->getMessage());
+        Log::error('Failed to sync new service: ' . $e->getMessage());
   }
     return redirect()->back()->with('success', 'Service created successfully.');
  }

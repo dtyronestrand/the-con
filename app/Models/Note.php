@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Concerns\HasUuid;
 use App\Models\Concerns\Syncable;
 
-class StickyNote extends Model
+class Note extends Model
 {
     use HasUuid, Syncable;
 

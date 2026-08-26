@@ -3,58 +3,40 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
-use App\Models\AppSetting;
-use App\Models\Category;
-use App\Models\Service;
+use App\Services\RemoteAuthService;
+use App\Services\SyncChangeApplier;
 
 class SyncController extends Controller
 {
-    public function sync()
+    public function sync(RemoteAuthService $auth, SyncChangeApplier $applier)
     {
-        // 1. Get the saved Token
-        $tokenSetting = AppSetting::where('key', 'api_token')->first();
+        // 1. Get a valid token (refreshing first if needed)
+        $token = $auth->getValidToken();
 
-        if (!$tokenSetting) {
+        if (!$token) {
             return back()->withErrors(['msg' => 'No API token found. Please login first.']);
         }
 
         // 2. Call the Server
-        $apiUrl = rtrim(env('API_URL'));
-        $url = $apiUrl . '/api/services/pull'; 
+        $apiUrl = rtrim(config('app.api_url'), '/');
+        $url = $apiUrl . '/api/services/pull';
 
-        $response = Http::withToken($tokenSetting->value)
-                        ->timeout(10)
-                        ->get($url);
+        $response = Http::withToken($token)->timeout(10)->get($url);
+
+        if ($response->status() === 401) {
+            $token = $auth->refreshAfterUnauthorized();
+            if (!$token) {
+                return back()->withErrors(['msg' => 'Session expired. Please reconnect.']);
+            }
+            $response = Http::withToken($token)->timeout(10)->get($url);
+        }
 
         if ($response->failed()) {
             return back()->withErrors(['msg' => 'Sync failed: ' . $response->status()]);
         }
 
         // 3. Process the Data
-        $categories = $response->json();
-
-        foreach ($categories as $catData) {
-            // Save the Category
-            Category::updateOrCreate(
-                ['id' => $catData['id']], // Match by ID
-                ['name' => $catData['name']]
-            );
-
-            // Save the Services belonging to this Category
-            if (isset($catData['services'])) {
-                foreach ($catData['services'] as $serviceData) {
-                    Service::updateOrCreate(
-                        ['id' => $serviceData['id']], // Match by ID
-                        [
-                            'name' => $serviceData['name'],
-                            'url'  => $serviceData['url'],
-                            'icon' => $serviceData['icon'],
-                            'category_id' => $catData['id'], // Ensure connection
-                        ]
-                    );
-                }
-            }
-        }
+        $applier->apply($response->json('changes', []));
 
         return back()->with('status', 'Services synced successfully!');
     }

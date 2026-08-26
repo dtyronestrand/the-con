@@ -5,7 +5,7 @@
         <div class="top-bar flex flex-row">
             <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
             <BarWithTitle classList="top text-4xl" :background="'var(--panel-primary)'"
-                >The Con</BarWithTitle
+                >The Conn</BarWithTitle
             ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
                 classList="right decorated top"
                 :background="'var(--panel-primary)'"
@@ -48,7 +48,7 @@
                 >
                     <WeatherWidget class="col-span-1" />
                     <div class="col-span-1 md:col-span-1 lg:col-span-2">
-                        <StickyNoteWidget :notes="page.props.stickyNotes" />
+                        <NoteWidget :notes="page.props.notes" />
                     </div>
                 </div>
             </div>
@@ -132,7 +132,7 @@ import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
 import Elbow from '@/components/lcars/Elbow.vue';
 import Element from '@/components/lcars/Element.vue';
 import ServiceContainer from '@/components/ServiceContainer.vue';
-import StickyNoteWidget from '@/components/StickyNoteWidget.vue';
+import NoteWidget from '@/components/NoteWidget.vue';
 import Planner from '@/components/todolist/Planner.vue';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 import type { AppPageProps, Category, Event, Task } from '@/types';
@@ -143,7 +143,7 @@ const page = usePage<
         isConnected: boolean;
         isGoogleConnected: boolean;
         events: Event[];
-        stickyNotes: any[];
+        notes: any[];
     }
 >();
 onMounted(() => {

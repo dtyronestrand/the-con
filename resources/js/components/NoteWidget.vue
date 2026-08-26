@@ -11,13 +11,13 @@
         </div>
 
         <div class="flex flex-wrap items-start gap-4">
-            <StickyNoteItem v-for="note in notes" :key="note.id" :note="note" />
+            <NoteItem v-for="note in notes" :key="note.id" :note="note" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import StickyNoteItem from '@/components/StickyNoteItem.vue';
+import NoteItem from '@/components/NoteItem.vue';
 import { router } from '@inertiajs/vue3';
 
 defineProps<{
@@ -25,7 +25,7 @@ defineProps<{
 }>();
 
 const addNote = () => {
-    router.post('/sticky-notes/', {
+    router.post('/notes/', {
         preserveScroll: true,
     });
 };

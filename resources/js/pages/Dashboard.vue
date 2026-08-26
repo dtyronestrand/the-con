@@ -3,7 +3,7 @@
         <div class="top-bar flex flex-row">
             <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
             <BarWithTitle classList="top" :background="'var(--panel-primary)'"
-                >The Con</BarWithTitle
+                >The Conn</BarWithTitle
             ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
                 classList="right decorated top"
                 :background="'var(--panel-primary)'"

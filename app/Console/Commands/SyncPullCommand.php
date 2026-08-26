@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\DB;
-use App\Models\AppSetting;
+use App\Services\RemoteAuthService;
+use App\Services\SyncChangeApplier;
 
 class SyncPullCommand extends Command
 {
@@ -26,29 +26,35 @@ class SyncPullCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(RemoteAuthService $auth, SyncChangeApplier $applier)
     {
-        $tokenSetting = AppSetting::where('key', 'api_token')->first();
-        
-        if (!$tokenSetting) {
+        $token = $auth->getValidToken();
+
+        if (!$token) {
             $this->error('API token not configured');
             return 1;
         }
-        
-        $lastSync = cache()->get('last_pull_timestamp', now()->subDay()->toDateTimeString());
 
-        $response = Http::withToken($tokenSetting->value)
-            ->timeout(10)
-            ->get(env('API_URL') . '/api/services/pull', [
-                'since' => $lastSync,
-            ]);
+        $lastSync = cache()->get('last_pull_timestamp', now()->subDay()->toDateTimeString());
+        $url = rtrim(config('app.api_url'), '/') . '/api/services/pull';
+
+        $response = Http::withToken($token)->timeout(10)->get($url, ['since' => $lastSync]);
+
+        if ($response->status() === 401) {
+            $token = $auth->refreshAfterUnauthorized();
+            if (!$token) {
+                $this->error('Token refresh failed. Please reconnect.');
+                return 1;
+            }
+            $response = Http::withToken($token)->timeout(10)->get($url, ['since' => $lastSync]);
+        }
 
         if ($response->failed()) {
             $this->error('Sync failed: ' . $response->status());
             $this->error('Response: ' . $response->body());
             return 1;
         }
-        
+
         $changes = $response->json('changes', []);
         
         if (empty($changes)) {
@@ -57,32 +63,10 @@ class SyncPullCommand extends Command
             return 0;
         }
 
-        DB::transaction(function () use ($changes) {
-            foreach ($changes as $table => $rows) {
-                foreach ($rows as $row) {
-                    $modelClass = $this->getModelClassFromTable($table);
-                    $record = $modelClass::withTrashed()->findOrNew($row['id']);
-                    
-                    // Prevent local observers from firing and creating an infinite loop
-                    $record->forceFill($row);
-                    $record->is_syncing = true; 
-                    
-                    if (isset($row['deleted_at']) && $row['deleted_at']) {
-                        $record->save(); // Save first to ensure it exists
-                        $record->delete(); // Then soft delete
-                    } else {
-                        $record->save();
-                    }
-                }
-            }
-        });
-        
+        $applier->apply($changes);
+
         cache()->put('last_pull_timestamp', now()->toDateTimeString());
         $this->info('Sync completed successfully');
         return 0;
-    }
-    private function getModelClassFromTable($table) {
-        // Map table names to Models, or use a convention
-        return 'App\\Models\\' . str($table)->singular()->studly();
     }
 }

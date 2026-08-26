@@ -8,6 +8,15 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 import {nativephpMobile,nativephpHotFile} from './vendor/nativephp/mobile/resources/js/vite-plugin.js';
 
 export default defineConfig({
+    server: {
+        watch: {
+            // The app writes to the SQLite DB (sessions/cache/queue all use the
+            // database driver) on nearly every request. Without this, every write
+            // is picked up as a project file change and triggers a full-reload
+            // loop in the browser.
+            ignored: ['**/database.sqlite*', '**/storage/**'],
+        },
+    },
     plugins: [
         laravel({
             input: ['resources/js/app.ts'],

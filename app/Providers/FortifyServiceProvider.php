@@ -9,14 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
-use App\Models\AppSetting;
 use App\Models\User;
+use App\Services\RemoteAuthService;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -47,18 +46,7 @@ class FortifyServiceProvider extends ServiceProvider
             // 1. Try REMOTE Login (API)
             // We do this first to ensure we have the latest data and token.
             try {
-                $baseUrl = env('API_URL');
-                
-                // Short timeout (2s) so offline users don't wait long
-                $response = Http::timeout(2)->post("{$baseUrl}/api/login", [
-                    'email' => $email,
-                    'password' => $password,
-                ]);
-
-                if ($response->successful()) {
-                    $data = $response->json();
-                    $token = $data['token'];
-
+                if (app(RemoteAuthService::class)->login($email, $password)) {
                     // A. Sync Remote Success to Local Database
                     // This creates the user locally if they don't exist,
                     // or updates their password if they changed it on the web.
@@ -70,21 +58,7 @@ class FortifyServiceProvider extends ServiceProvider
                             'email_verified_at' => now(),
                         ]
                     );
-                    $etting = AppSetting::where('key', 'api_token')->first();
-                    if ($etting) {
-                        $etting->value = $token;
-                        $etting->uuid = (string) Str::uuid();
-                        $etting->save();
-                    } else {
-                    // B. Save the API Token
-                    AppSetting::updateOrCreate(
-                        ['key' => 'api_token'],
-                        [
-                            'value' => $token,
-                            'uuid' => (string) Str::uuid()
-                        ]
-                    );
-                    }
+
                     Log::info("Login: Remote auth successful. Token saved.");
                     return $user;
                 }

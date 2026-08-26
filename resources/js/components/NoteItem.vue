@@ -74,14 +74,14 @@ const colors = [
 ];
 
 const saveNote = debounce(() => {
-    form.put(`/sticky-notes/${props.note.id}`, {
+    form.put(`/notes/${props.note.id}`, {
         preserveScroll: true,
     });
 }, 500);
 
 const deleteNote = () => {
     saveNote.cancel(); // Cancel any pending
-    form.delete(`/sticky-notes/${props.note.id}`, {
+    form.delete(`/notes/${props.note.id}`, {
         preserveScroll: true,
     });
 };

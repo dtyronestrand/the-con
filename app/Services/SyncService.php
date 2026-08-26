@@ -8,33 +8,20 @@ use App\Models\SavedLocation;
 use App\Models\Category;
 use App\Models\Service;
 use App\Models\AppSetting;
-use Carbon\Carbon;
 
 class SyncService
 {
     protected $baseUrl;
-    protected $token;
 
-    public function __construct()
+    public function __construct(protected RemoteAuthService $auth)
     {
-        $this->baseUrl = env('API_URL');
-    }
-
-    /**
-     * Set the auth token (retrieved from login).
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
+        $this->baseUrl = rtrim(config('app.api_url'), '/');
     }
 
     public function sync()
     {
-    
-         if(!$this->token) {
-            $this->token = AppSetting::where('key', 'api_token')->value('value');
-         }
-        if (!$this->token) {
+        $token = $this->auth->getValidToken();
+        if (!$token) {
             Log::error('No API token available for sync.');
             return false;
         }
@@ -42,7 +29,7 @@ class SyncService
         // 1. Gather Local Changes (Records updated since last sync)
         // For simplicity, we track the last successful sync time in AppSettings.
         $lastSyncTime = AppSetting::where('key', 'last_sync_timestamp')->value('value');
-        
+
         $payload = [
             'last_synced_at' => $lastSyncTime,
             'changes' => $this->gatherLocalChanges($lastSyncTime),
@@ -50,8 +37,16 @@ class SyncService
 
         // 2. Send to Server
         try {
-            $response = Http::withToken($this->token)
-                ->post("{$this->baseUrl}/api/sync", $payload);
+            $response = $this->postSync($token, $payload);
+
+            if ($response->status() === 401) {
+                $token = $this->auth->refreshAfterUnauthorized();
+                if (!$token) {
+                    Log::error('Sync Request Failed: token refresh unsuccessful.');
+                    return false;
+                }
+                $response = $this->postSync($token, $payload);
+            }
 
             if ($response->failed()) {
                 Log::error('Sync Request Failed: ' . $response->body());
@@ -75,6 +70,11 @@ class SyncService
             Log::error('Sync Exception: ' . $e->getMessage());
             return false;
         }
+    }
+
+    protected function postSync(string $token, array $payload)
+    {
+        return Http::withToken($token)->post("{$this->baseUrl}/api/sync", $payload);
     }
 
     protected function gatherLocalChanges($lastSyncTime)

@@ -3,10 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 use App\Services\SyncService;
-use App\Models\AppSetting;
-use Illuminate\Support\Str;
+use App\Services\RemoteAuthService;
 
 class SyncData extends Command
 {
@@ -27,32 +25,25 @@ class SyncData extends Command
     /**
      * Execute the console command.
      */
-    public function handle(SyncService $syncer)
+    public function handle(SyncService $syncer, RemoteAuthService $auth)
     {
         $email = $this->argument('email');
         $password = $this->argument('password');
-        if ($email && $password){
-        $baseUrl = env('API_URL');
-         $this->info("Attempting to log in to {$baseUrl} with email: {$email}");
-                 $response = Http::post("{$baseUrl}/api/login", [
-            'email' => $email,
-            'password' => $password,
-        ]);
-          if ($response->failed()) {
-            $this->error('Login failed: ' . $response->status());
-            $this->error('Response: ' . $response->body());
-            return;
-        }
-     $token = $response->json('token');
-     AppSetting::updateOrCreate(
-            ['key' => 'api_token'],
-            ['value' => $token, 'uuid' => (string) Str::uuid()]
-        );
-          $this->info('Login successful, token received.');
-              $syncer->setToken($token);
-        }else {
+
+        if ($email && $password) {
+            $this->info("Attempting to log in with email: {$email}");
+
+            if (! $auth->login($email, $password)) {
+                $this->error('Login failed. Check logs for details.');
+
+                return 1;
+            }
+
+            $this->info('Login successful, token received.');
+        } else {
             $this->info('No credentials provided, attempting to use existing token...');
         }
+
         $success = $syncer->sync();
         if ($success) {
             $this->info('Sync completed successfully!');

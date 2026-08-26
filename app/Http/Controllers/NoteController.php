@@ -3,32 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\StickyNote;
+use App\Models\Note;
 
-class StickyNoteController extends Controller
+class NoteController extends Controller
 {
 public function store(Request $request)
 {
-    $request->user()->stickNotes()->create(['content' => '','color' => '#fef08a']);
+    $request->user()->notes()->create(['content' => '','color' => '#fef08a']);
     return back();
 }
 
-public function update(Request $request, StickyNote $stickyNote)
+public function update(Request $request, Note $note)
 {
-    if ($stickyNote->user_id !== $request->user()->id) 
+    if ($note->user_id !== $request->user()->id)
         abort(403);
-    
 
-    $stickyNote->update($request->only('content', 'color', 'width', 'height'));
+
+    $note->update($request->only('content', 'color', 'width', 'height'));
 
     return back();
 }
-public function destroy(Request $request, StickyNote $stickyNote)
+public function destroy(Request $request, Note $note)
 {
-    if ($stickyNote->user_id !== $request->user()->id) 
+    if ($note->user_id !== $request->user()->id)
         abort(403);
-    
-    $stickyNote->delete();
+
+    $note->delete();
 
     return back();
 }

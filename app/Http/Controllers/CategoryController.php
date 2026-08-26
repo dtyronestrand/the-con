@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\StickyNote;
+use App\Models\Note;
 use App\Services\SyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,11 +15,11 @@ class CategoryController extends Controller
     {
         $syncer->sync();
         $categories = Category::with('services')->get();
-        $stickyNotes = StickyNote::where('user_id', Auth::id())->get();
+        $notes = Note::where('user_id', Auth::id())->get();
 
         return Inertia::render('Welcome', [
             'categories' => $categories,
-            'stickyNotes' => $stickyNotes,
+            'notes' => $notes,
             'isGoogleConnected' => session()->has('google_token'),
         ]);
     }

@@ -8,6 +8,13 @@ use App\Jobs\PushToRemote;
 
 trait Syncable
 {
+    /**
+     * Transient loop-prevention flag — never persisted, so it must stay a real
+     * PHP property rather than going through Eloquent's attribute system
+     * (which would try to save it as a DB column and fail).
+     */
+    public bool $is_syncing = false;
+
     public static function bootSyncable()
     {
         static::creating(function (Model $model) {

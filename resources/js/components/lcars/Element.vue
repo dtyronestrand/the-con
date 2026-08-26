@@ -2,7 +2,7 @@
     <div
         @click="emit('buttonPressed')"
         :class="classes"
-        class="relative m-0 box-border flex w-15 grow flex-row justify-end border-t-2 border-ink text-right font-display text-on-surface uppercase tracking-tight md:w-30"
+        class="relative m-0 box-border flex w-15 grow flex-row text-sm justify-end border-t-2 border-ink text-right font-display text-on-surface uppercase tracking-tight md:w-30"
         :style="{
             backgroundColor: props.background,
             borderColor: props.background,
@@ -10,7 +10,7 @@
             minHeight: elementHeight,
         }"
     >
-        <span class="text-md mx-auto text-center md:text-xl">
+        <span class="mx-auto text-center text-sm md:text-base">
             <slot />
         </span>
     </div>

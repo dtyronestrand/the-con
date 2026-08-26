@@ -27,7 +27,7 @@
                             ><a
                                 target="_blank"
                                 :href="service.url"
-                                class="mx-auto text-xl"
+                                class="mx-auto text-sm"
                                 >{{ service.name }}</a
                             ></Button
                         >
