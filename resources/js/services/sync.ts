@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class SyncService {
     private lastSync: string | null = localStorage.getItem('last_sync');
-    private apiUrl = import.meta.env.VITE_API_URL || 'http://10.0.0.91';
+    private apiUrl = import.meta.env.VITE_API_URL || '';
     private syncInterval: number | null = null;
 
     async pull() {
