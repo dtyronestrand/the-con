@@ -1,0 +1,42 @@
+
+   INFO  Server running on [http://127.0.0.1:8000].
+
+  Press Ctrl+C to stop the server
+
+  2026-08-05 03:58:45 /register .................................. ~ 500.73ms
+  2026-08-05 03:58:46 /build/assets/app-B8xzwMuV.css ............... ~ 0.09ms
+  2026-08-05 03:58:46 /build/assets/Register-vkCSJJ6E.css .......... ~ 0.54ms
+  2026-08-05 03:58:46 /build/assets/Register-B1zoMqEj.js ........... ~ 0.09ms
+  2026-08-05 03:58:46 /build/assets/InputError.vue_vue_type_script_setup_true_lang-DYTw1rVx.js  ~ 0.44ms
+  2026-08-05 03:58:46 /build/assets/TextLink.vue_vue_type_script_setup_true_lang-Br87epRZ.js  ~ 0.67ms
+  2026-08-05 03:58:46 /build/assets/index-DEZ2kMFi.js .............. ~ 0.83ms
+  2026-08-05 03:58:46 /build/assets/Input.vue_vue_type_script_setup_true_lang-B45eC_rs.js  ~ 1.26ms
+  2026-08-05 03:58:46 /build/assets/app-Ba30OBBW.js ................ ~ 1.40ms
+  2026-08-05 03:58:46 /build/assets/Label.vue_vue_type_script_setup_true_lang-BSn7WthE.js  ~ 0.09ms
+  2026-08-05 03:58:46 /build/assets/Spinner.vue_vue_type_script_setup_true_lang-ChBa_9c6.js  ~ 0.19ms
+  2026-08-05 03:58:46 /build/assets/AuthLayout.vue_vue_type_script_setup_true_lang-0WmZxa2v.js  ~ 0.29ms
+  2026-08-05 03:58:46 /build/assets/_plugin-vue_export-helper-DlAUqK2U.js  ~ 0.38ms
+  2026-08-05 03:58:46 /build/assets/index-DfQ6uKdZ.js .............. ~ 0.46ms
+  2026-08-05 03:58:46 /build/assets/useForwardExpose-BZmU82-J.js ... ~ 0.06ms
+  2026-08-05 03:58:46 /build/assets/createLucideIcon-DU1Uhrom.js ... ~ 0.21ms
+  2026-08-05 03:58:47 /build/assets/Register-vkCSJJ6E.css .......... ~ 0.25ms
+  2026-08-05 03:58:50 /register .................................. ~ 500.45ms
+  2026-08-05 03:58:50 / ............................................ ~ 0.05ms
+  2026-08-05 03:58:51 /build/assets/Welcome-D2g-eBoy.js ............ ~ 0.07ms
+  2026-08-05 03:58:51 /build/assets/WeatherWidget-B_uWXO7Y.css ..... ~ 0.09ms
+  2026-08-05 03:58:51 /build/assets/Button-BnFiWWPF.css ............ ~ 0.29ms
+  2026-08-05 03:58:51 /build/assets/Welcome-D2lQhViB.css ........... ~ 0.76ms
+  2026-08-05 03:58:51 /build/assets/WeatherWidget-D3mQTO5-.js ...... ~ 1.12ms
+  2026-08-05 03:58:51 /build/assets/Button-CKQJGYbr.js ............. ~ 1.33ms
+  2026-08-05 03:58:51 /trigger-sync .............................. ~ 500.60ms
+  2026-08-05 03:58:51 /_boost/browser-logs ......................... ~ 0.06ms
+  2026-08-05 03:58:51 /_boost/browser-logs ......................... ~ 0.16ms
+  2026-08-05 03:58:52 /_boost/browser-logs ......................... ~ 0.21ms
+  2026-08-05 03:58:53 /tasks/store ................................. ~ 0.05ms
+  2026-08-05 03:58:53 / ............................................ ~ 0.05ms
+  2026-08-05 03:58:53 /_boost/browser-logs ......................... ~ 0.15ms
+  2026-08-05 03:58:56 /build/assets/quill-cINhyLF_.js .............. ~ 0.21ms
+  2026-08-05 03:59:00 /tasks/1 ..................................... ~ 0.16ms
+  2026-08-05 03:59:00 / ............................................ ~ 0.12ms
+  2026-08-05 03:59:00 / ............................................ ~ 0.05ms
+  2026-08-05 03:59:00 /_boost/browser-logs ......................... ~ 0.05ms
