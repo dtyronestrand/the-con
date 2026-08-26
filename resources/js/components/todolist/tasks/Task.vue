@@ -3,7 +3,14 @@
         :class="{ done: props.task.done }"
         class="group col-span-2 flex cursor-pointer flex-row justify-between border-b border-panel-primary text-on-surface"
     >
-        <p @click="openModal(props.task)" role="button">
+        <p
+            @click="openModal(props.task)"
+            @keydown.enter="openModal(props.task)"
+            @keydown.space.prevent="openModal(props.task)"
+            role="button"
+            tabindex="0"
+            class="-ml-1 rounded px-1 focus-visible:ring-2 focus-visible:outline-none"
+        >
             {{ props.task.name }}
         </p>
         <Checkmark
