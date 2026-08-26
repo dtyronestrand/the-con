@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Event;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 use SocialiteProviders\Graph\GraphExtendSocialite;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
