@@ -3,6 +3,7 @@
         <input
             type="checkbox"
             :checked="isChecked"
+            aria-label="Toggle task completion"
             :id="props.fieldId"
             @input="updateDone"
         />
@@ -53,7 +54,14 @@ function updateDone() {
         visibility: hidden;
     }
     input {
-        display: none;
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+    }
+    input:focus-visible ~ span {
+        outline: 2px solid #ffffff;
+        outline-offset: 2px;
     }
     input:checked ~ span {
         background: #cccccc;
