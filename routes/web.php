@@ -41,7 +41,4 @@ Route::post('/trigger-sync', function () {
 
     return response()->json(['success' => $exitCode === 0, 'message' => 'Sync attempt finished']);
 });
-Route::post('/notes', [\App\Http\Controllers\NoteController::class, 'store'])->name('notes.store');
-Route::put('/notes/{note}', [\App\Http\Controllers\NoteController::class, 'update'])->name('notes.update');
-Route::delete('/notes/{note}', [\App\Http\Controllers\NoteController::class, 'destroy'])->name('notes.destroy');
 require __DIR__.'/settings.php';

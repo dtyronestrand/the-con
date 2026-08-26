@@ -6,6 +6,8 @@
         :style="{
             backgroundColor: props.background,
             borderColor: props.background,
+            backgroundColor: props.background,
+            borderColor: props.background,
             height: elementHeight,
             minHeight: elementHeight,
         }"
@@ -27,6 +29,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
     button: true,
+    background: 'var(--panel-secondary)',
     background: 'var(--panel-secondary)',
 });
 const emit = defineEmits(['buttonPressed']);

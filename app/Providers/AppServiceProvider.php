@@ -50,6 +50,10 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
         
+        if (app()->isProduction()) {
+            URL::forceScheme('https');
+        }
+        
         $this->configureDefaults();
         
         if (isset($_SERVER['NATIVEPHP_RUNNING'])) {

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Note;
+use Inertia\Inertia;
 use App\Services\SyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
+
 
 class CategoryController extends Controller
 {
@@ -15,12 +15,9 @@ class CategoryController extends Controller
     {
         $syncer->sync();
         $categories = Category::with('services')->get();
-        $notes = Note::where('user_id', Auth::id())->get();
 
         return Inertia::render('Welcome', [
             'categories' => $categories,
-            'notes' => $notes,
-            'isGoogleConnected' => session()->has('google_token'),
         ]);
     }
 
