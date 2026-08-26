@@ -53,7 +53,17 @@ function updateDone() {
         visibility: hidden;
     }
     input {
-        display: none;
+        opacity: 0;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+    }
+    input:focus-visible ~ span {
+        outline: 2px solid var(--indigo);
+        outline-offset: 2px;
     }
     input:checked ~ span {
         background: #cccccc;
