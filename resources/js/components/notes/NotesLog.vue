@@ -1,6 +1,6 @@
 <template>
     <div class="flex h-full min-h-0 w-full">
-        <div class="flex w-28 shrink-0 flex-col font-display text-sm text-on-surface uppercase">
+        <div class="flex w-28 shrink-0 flex-col ml-8 font-display text-sm text-on-surface uppercase">
             <button
                 type="button"
                 class="cursor-pointer border-t-2 border-ink bg-panel-primary-strong py-4 hover:brightness-110"
