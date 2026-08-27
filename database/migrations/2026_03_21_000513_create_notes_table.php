@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sticky_notes', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('uuid')->unique();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        Schema::create('notes', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->text('content')->nullable();
             $table->string('color')->default('#FFFF88');
             $table->string('width')->default('200px');
             $table->string('height')->default('200px');
+             $table->string('title')->nullable();
+            $table->json('tags')->nullable()->default('[]');
+            $table->boolean('pinned')->default(false);
+            $table->boolean('archived')->default(false);
+            $table->json('demoted_tasks')->nullable()->default('[]');
             $table->timestamps();
         });
     }

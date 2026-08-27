@@ -5,12 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Concerns\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Models\Concerns\Syncable;
+use Illuminate\Support\Str;
 
 class Note extends Model
 {
-    use HasUuid, Syncable;
+    use HasUuids, Syncable;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
+       public static function booted()
+    {
+        static::creating(function ($model) {
+            $model->id = Str::uuid();
+        });
+    }
 
     protected $fillable = [
         'user_id',

@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('services', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('uuid')->unique()->nullable();
+            $table->uuid('id')->primary();
             $table->timestamps();
             $table->string('name');
             $table->string('url')->nullable();
             $table->string('icon')->nullable();
+            $table->foreignUuid('category_id')->nullable()->constrained()->onDelete('cascade');
         });
     }
 
