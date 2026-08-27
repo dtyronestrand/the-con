@@ -21,7 +21,7 @@ class SyncObserver
     {
         SyncQueue::create([
             'model_name' => get_class($model),
-            'model_uuid' => $model->uuid,
+            'model_uuid' => $model->id,
             'payload' => $model->toArray(),
             'action' => $action,
         ]);

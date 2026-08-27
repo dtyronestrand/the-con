@@ -3,7 +3,6 @@
 namespace App\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use App\Jobs\PushToRemote;
 
 trait Syncable
@@ -17,11 +16,6 @@ trait Syncable
 
     public static function bootSyncable()
     {
-        static::creating(function (Model $model) {
-            if(empty($model->uuid)) {
-                $model->uuid = (string) Str::uuid();
-            }
-        });
         if (app()->environment('native')){
             static::saved(function (Model $model) 
             {

@@ -19,7 +19,6 @@ class Service extends Model
         });
     }
  protected $fillable = [
-    'uuid',
     'name',
     'url',
     'icon',

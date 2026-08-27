@@ -91,8 +91,9 @@ class SyncService
         return [
             'categories' => $query(Category::class),
             'services' => $query(Service::class)->map(function($service) {
-                // Ensure we send the category_uuid, not just the local ID
-                $service->category_uuid = $service->category?->uuid;
+                // category_id is a local foreign key; send the category's
+                // (uuid) id instead so the remote side can resolve it.
+                $service->category_uuid = $service->category?->id;
                 return $service;
             }),
             'saved_locations' => $query(SavedLocation::class),
@@ -113,8 +114,7 @@ class SyncService
         if (!empty($changes['services'])) {
             foreach ($changes['services'] as $record) {
                 if (isset($record['category_uuid'])) {
-                    $cat = Category::where('uuid', $record['category_uuid'])->first();
-                    $record['category_id'] = $cat ? $cat->id : null;
+                    $record['category_id'] = Category::find($record['category_uuid'])?->id;
                 }
                 $this->upsertLocal(Service::class, $record);
             }
@@ -138,15 +138,12 @@ class SyncService
         $uuid = $data['uuid'] ?? null;
         if (!$uuid) return;
 
-        $existing = $modelClass::where('uuid', $uuid)->first();
+        // `uuid` is the wire field name; locally it's the model's own `id`.
+        $data['id'] = $uuid;
 
-        if (!$existing) {
-            $modelClass::create($data);
-        } else {
-            // Last Write Wins (Simple version)
-            // Ideally, we check timestamps here too, but usually, 
-            // if the server sent it, it's the "truth".
-            $existing->update($data);
-        }
+        // Last Write Wins (Simple version)
+        // Ideally, we check timestamps here too, but usually,
+        // if the server sent it, it's the "truth".
+        $modelClass::firstOrNew(['id' => $uuid])->forceFill($data)->save();
     }
 }

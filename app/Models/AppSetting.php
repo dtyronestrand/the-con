@@ -3,11 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Concerns\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Support\Str;
 
 class AppSetting extends Model
 {
-   use HasUuid;
-    protected $guarded = [];
+    use HasUuids;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    public static function booted()
+    {
+        static::creating(function ($model) {
+            $model->id = Str::uuid();
+        });
+    }
+
+    protected $guarded = [];
 }

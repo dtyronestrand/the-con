@@ -36,9 +36,9 @@ class ServiceController extends Controller
 
     if ($token) {
         $apiUrl = rtrim(config('app.api_url'), '/');
-        // Send our own uuid so the server adopts it as this record's identity —
-        // there's nothing to write back locally, since uuid (not id) is what's shared.
-        $payload = array_merge($request->all(), ['uuid' => $localService->uuid]);
+        // Send our own id (a uuid) so the server adopts it as this record's identity —
+        // there's nothing to write back locally, since id is what's shared.
+        $payload = array_merge($request->all(), ['uuid' => $localService->id]);
 
         $response = Http::withToken($token)->post($apiUrl . '/api/services/sync', $payload);
 

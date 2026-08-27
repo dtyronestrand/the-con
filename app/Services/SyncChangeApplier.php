@@ -12,8 +12,8 @@ class SyncChangeApplier
     /**
      * Apply a `{table_name: [rows]}` changes payload, as returned by
      * GET /api/services/pull, to the local database. Rows are matched by
-     * `uuid`, not `id` — local and remote autoincrement IDs are independent
-     * once there are two databases, so `id` can't be trusted as identity.
+     * the wire field `uuid`, which is the model's own `id` — `id` is a uuid
+     * primary key now, shared as-is between local and remote.
      */
     public function apply(array $changes): void
     {
@@ -41,21 +41,21 @@ class SyncChangeApplier
         // Foreign keys are just as local-DB-specific as the primary key, so they
         // travel as a `<relation>_uuid` and get resolved to a local id here.
         if ($modelClass === Service::class && isset($row['category_uuid'])) {
-            $row['category_id'] = Category::where('uuid', $row['category_uuid'])->value('id');
+            $row['category_id'] = Category::where('id', $row['category_uuid'])->value('id');
         }
 
         if (!empty($row['deleted_at'])) {
-            $modelClass::where('uuid', $row['uuid'])->delete();
+            $modelClass::where('id', $row['uuid'])->delete();
 
             return;
         }
 
-        // The remote server's own `id` is meaningless locally now that `uuid`
-        // is the identity column — applying it would clobber (or collide with)
-        // the local autoincrement primary key.
-        unset($row['id']);
+        // `uuid` is the wire field name; locally it's the model's own `id`,
+        // and it must be kept (not stripped) so the record lands under the
+        // same id both locally and remotely.
+        $row['id'] = $row['uuid'];
 
-        $record = $modelClass::firstOrNew(['uuid' => $row['uuid']]);
+        $record = $modelClass::firstOrNew(['id' => $row['uuid']]);
         $record->forceFill($row);
 
         // saveQuietly() suppresses the saved/created events, so applying a
