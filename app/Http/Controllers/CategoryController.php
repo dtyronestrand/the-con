@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use Inertia\Inertia;
 use App\Services\SyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -20,6 +19,7 @@ class CategoryController extends Controller
         return Inertia::render('Welcome', [
             'categories' => $categories,
             'notes' => $notes,
+            'needsReconnect' => $syncer->needsReconnect(),
         ]);
     }
 

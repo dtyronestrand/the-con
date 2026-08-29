@@ -2,25 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use App\Models\Concerns\Syncable;
-use Illuminate\Support\Str;
 
 class Note extends Model
 {
-    use HasUuids, Syncable;
+    use HasUuids;
 
     protected $keyType = 'string';
+
     public $incrementing = false;
-       public static function booted()
-    {
-        static::creating(function ($model) {
-            $model->id = Str::uuid();
-        });
-    }
 
     protected $fillable = [
         'user_id',
@@ -55,5 +49,10 @@ class Note extends Model
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class)->orderBy('created_at');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'note_tag', 'note_id', 'tag_id');
     }
 }

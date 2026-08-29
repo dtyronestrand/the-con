@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('color')->default('#FFFF88');
             $table->string('width')->default('200px');
             $table->string('height')->default('200px');
-             $table->string('title')->nullable();
-            $table->json('tags')->nullable()->default('[]');
+            $table->string('title')->nullable();
             $table->boolean('pinned')->default(false);
             $table->boolean('archived')->default(false);
             $table->json('demoted_tasks')->nullable()->default('[]');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

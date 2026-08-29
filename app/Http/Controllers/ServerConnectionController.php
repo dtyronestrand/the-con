@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\RemoteAuthService;
+use Illuminate\Http\Request;
 
 class ServerConnectionController extends Controller
 {
     public function connect(Request $request, RemoteAuthService $auth)
     {
-        if ($auth->login($request->email, $request->password)) {
+        $validated = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if ($auth->login($validated['email'], $validated['password'])) {
             return redirect()->back()->with('status', 'Successfully connected to server!');
         }
 

@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 use App\Services\RemoteAuthService;
 use App\Services\SyncChangeApplier;
+use Illuminate\Console\Command;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Http;
 
 class SyncPullCommand extends Command
 {
@@ -30,36 +31,51 @@ class SyncPullCommand extends Command
     {
         $token = $auth->getValidToken();
 
-        if (!$token) {
+        if (! $token) {
             $this->error('API token not configured');
+
             return 1;
         }
 
-        $lastSync = cache()->get('last_pull_timestamp', now()->subDay()->toDateTimeString());
-        $url = rtrim(config('app.api_url'), '/') . '/api/services/pull';
+        // No default fallback here: an absent `since` tells the server this
+        // is a first sync, returning every current record. Defaulting to
+        // e.g. "yesterday" would make a freshly-reinstalled device's first
+        // scheduled pull silently miss any remote data older than that.
+        $lastSync = cache()->get('last_pull_timestamp');
+        $url = rtrim(config('app.api_url'), '/').'/api/services/pull';
+        $query = array_filter(['since' => $lastSync]);
 
-        $response = Http::withToken($token)->timeout(10)->get($url, ['since' => $lastSync]);
+        try {
+            $response = Http::withToken($token)->timeout(10)->get($url, $query);
 
-        if ($response->status() === 401) {
-            $token = $auth->refreshAfterUnauthorized();
-            if (!$token) {
-                $this->error('Token refresh failed. Please reconnect.');
+            if ($response->status() === 401) {
+                $token = $auth->refreshAfterUnauthorized();
+                if (! $token) {
+                    $this->error('Token refresh failed. Please reconnect.');
+
+                    return 1;
+                }
+                $response = Http::withToken($token)->timeout(10)->get($url, $query);
+            }
+
+            if ($response->failed()) {
+                $this->error('Sync failed: '.$response->status());
+                $this->error('Response: '.$response->body());
+
                 return 1;
             }
-            $response = Http::withToken($token)->timeout(10)->get($url, ['since' => $lastSync]);
-        }
+        } catch (ConnectionException $e) {
+            $this->warn('Server unreachable, will retry on the next scheduled pull.');
 
-        if ($response->failed()) {
-            $this->error('Sync failed: ' . $response->status());
-            $this->error('Response: ' . $response->body());
-            return 1;
+            return 0;
         }
 
         $changes = $response->json('changes', []);
-        
+
         if (empty($changes)) {
             $this->info('No changes to sync');
             cache()->put('last_pull_timestamp', now()->toDateTimeString());
+
             return 0;
         }
 
@@ -67,6 +83,7 @@ class SyncPullCommand extends Command
 
         cache()->put('last_pull_timestamp', now()->toDateTimeString());
         $this->info('Sync completed successfully');
+
         return 0;
     }
 }

@@ -20,7 +20,11 @@ class SyncObserver
     protected function queue(Model $model, string $action): void
     {
         SyncQueue::create([
-            'model_name' => get_class($model),
+            // The client and server are separate Laravel apps; a table name
+            // is a stable identifier to send over the wire, whereas the
+            // model's FQCN only happens to match today because both apps use
+            // the same namespace.
+            'model_name' => $model->getTable(),
             'model_uuid' => $model->id,
             'payload' => $model->toArray(),
             'action' => $action,

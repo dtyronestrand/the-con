@@ -2,148 +2,81 @@
 
 namespace App\Services;
 
+use App\Jobs\PushToRemote;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Models\SavedLocation;
-use App\Models\Category;
-use App\Models\Service;
-use App\Models\AppSetting;
 
 class SyncService
 {
-    protected $baseUrl;
+    public function __construct(
+        protected RemoteAuthService $auth,
+        protected SyncChangeApplier $applier,
+    ) {}
 
-    public function __construct(protected RemoteAuthService $auth)
+    /**
+     * Pull remote changes into the local database, then flush any locally
+     * queued changes back to the remote server. Runs the push synchronously
+     * (rather than via the queue) so callers get an immediate, complete sync.
+     */
+    public function sync(): bool
     {
-        $this->baseUrl = rtrim(config('app.api_url'), '/');
+        $pulled = $this->pull();
+
+        PushToRemote::dispatchSync();
+
+        return $pulled;
     }
 
-    public function sync()
+    /**
+     * True when there's no usable API token — either the app was never
+     * connected to a server, or a 401 during the sync above caused the last
+     * token to be dropped. Call this *after* sync(). Distinct from a failed
+     * sync caused by the server simply being unreachable, which is the
+     * expected, silent case for an offline-first app.
+     */
+    public function needsReconnect(): bool
+    {
+        return $this->auth->getValidToken() === null;
+    }
+
+    protected function pull(): bool
     {
         $token = $this->auth->getValidToken();
-        if (!$token) {
-            Log::error('No API token available for sync.');
+
+        if (! $token) {
             return false;
         }
 
-        // 1. Gather Local Changes (Records updated since last sync)
-        // For simplicity, we track the last successful sync time in AppSettings.
-        $lastSyncTime = AppSetting::where('key', 'last_sync_timestamp')->value('value');
+        $url = rtrim(config('app.api_url'), '/').'/api/services/pull';
+        $lastSync = cache()->get('last_pull_timestamp');
 
-        $payload = [
-            'last_synced_at' => $lastSyncTime,
-            'changes' => $this->gatherLocalChanges($lastSyncTime),
-        ];
-
-        // 2. Send to Server
         try {
-            $response = $this->postSync($token, $payload);
+            $response = Http::withToken($token)->timeout(10)->get($url, array_filter(['since' => $lastSync]));
 
             if ($response->status() === 401) {
                 $token = $this->auth->refreshAfterUnauthorized();
-                if (!$token) {
-                    Log::error('Sync Request Failed: token refresh unsuccessful.');
+
+                if (! $token) {
                     return false;
                 }
-                $response = $this->postSync($token, $payload);
+
+                $response = Http::withToken($token)->timeout(10)->get($url, array_filter(['since' => $lastSync]));
             }
 
             if ($response->failed()) {
-                Log::error('Sync Request Failed: ' . $response->body());
+                Log::warning('SyncService: pull failed with status '.$response->status());
+
                 return false;
             }
-
-            $serverData = $response->json();
-
-            // 3. Process Server Changes (Pull)
-            $this->processServerChanges($serverData['changes'] ?? []);
-
-            // 4. Update Last Sync Timestamp
-            AppSetting::updateOrCreate(
-                ['key' => 'last_sync_timestamp'],
-                ['value' => $serverData['timestamp']]
-            );
-
-            return true;
-
-        } catch (\Exception $e) {
-            Log::error('Sync Exception: ' . $e->getMessage());
+        } catch (ConnectionException $e) {
+            // Server unreachable — normal for an offline-first app, not an error.
             return false;
         }
-    }
 
-    protected function postSync(string $token, array $payload)
-    {
-        return Http::withToken($token)->post("{$this->baseUrl}/api/sync", $payload);
-    }
+        $this->applier->apply($response->json('changes', []));
+        cache()->put('last_pull_timestamp', now()->toDateTimeString());
 
-    protected function gatherLocalChanges($lastSyncTime)
-    {
-        // If never synced, send everything.
-        // If synced before, send only records updated AFTER that time.
-        
-        $query = function($model) use ($lastSyncTime) {
-            return $lastSyncTime 
-                ? $model::where('updated_at', '>', $lastSyncTime)->get()
-                : $model::all();
-        };
-
-        return [
-            'categories' => $query(Category::class),
-            'services' => $query(Service::class)->map(function($service) {
-                // category_id is a local foreign key; send the category's
-                // (uuid) id instead so the remote side can resolve it.
-                $service->category_uuid = $service->category?->id;
-                return $service;
-            }),
-            'saved_locations' => $query(SavedLocation::class),
-        
-        ];
-    }
-
-    protected function processServerChanges($changes)
-    {
-        // Similar to the server-side controller, but applying to SQLite
-        
-        if (!empty($changes['categories'])) {
-            foreach ($changes['categories'] as $record) {
-                $this->upsertLocal(Category::class, $record);
-            }
-        }
-
-        if (!empty($changes['services'])) {
-            foreach ($changes['services'] as $record) {
-                if (isset($record['category_uuid'])) {
-                    $record['category_id'] = Category::find($record['category_uuid'])?->id;
-                }
-                $this->upsertLocal(Service::class, $record);
-            }
-        }
-
-        if (!empty($changes['saved_locations'])) {
-            foreach ($changes['saved_locations'] as $record) {
-                $this->upsertLocal(SavedLocation::class, $record);
-            }
-        }
-
-        if (!empty($changes['app_settings'])) {
-            foreach ($changes['app_settings'] as $record) {
-                $this->upsertLocal(AppSetting::class, $record);
-            }
-        }
-    }
-
-    protected function upsertLocal($modelClass, $data)
-    {
-        $uuid = $data['uuid'] ?? null;
-        if (!$uuid) return;
-
-        // `uuid` is the wire field name; locally it's the model's own `id`.
-        $data['id'] = $uuid;
-
-        // Last Write Wins (Simple version)
-        // Ideally, we check timestamps here too, but usually,
-        // if the server sent it, it's the "truth".
-        $modelClass::firstOrNew(['id' => $uuid])->forceFill($data)->save();
+        return true;
     }
 }

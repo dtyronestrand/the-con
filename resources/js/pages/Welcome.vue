@@ -2,11 +2,61 @@
     <div
         class="flex-container nativephp-safe-area pr-[var(--inset-right)] pl-[var(--inset-left)]"
     >
+        <div
+            v-if="page.props.needsReconnect"
+            class="border-l-4 p-4"
+            style="
+                background: var(--panel-secondary-subtle);
+                border-color: var(--error);
+            "
+        >
+            <p class="mb-3 text-sm" style="color: var(--ink)">
+                Not connected to the sync server — your changes are only saved
+                on this device until you reconnect.
+            </p>
+            <Form
+                v-bind="ServerConnectionController.connect.form()"
+                :options="{ preserveScroll: true }"
+                reset-on-success
+                class="flex flex-wrap items-start gap-3"
+                v-slot="{ errors, processing }"
+            >
+                <div class="grid gap-1">
+                    <Input
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                        autocomplete="username"
+                        class="w-56"
+                    />
+                    <InputError :message="errors.email" />
+                </div>
+                <div class="grid gap-1">
+                    <Input
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        autocomplete="current-password"
+                        class="w-56"
+                    />
+                    <InputError :message="errors.password" />
+                </div>
+                <Button :disabled="processing">Reconnect</Button>
+            </Form>
+        </div>
         <div class="top-bar flex flex-row">
-            <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
-            <BarWithTitle classList="top text-4xl" :background="'var(--panel-primary)'"
+            <Elbow
+                classList="left-bottom "
+                background="var(--panel-secondary-subtle)"
+            />
+            <BarWithTitle
+                classList="top text-4xl"
+                :background="'var(--panel-primary)'"
                 >The Conn</BarWithTitle
-            ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
+            ><Bar
+                classList="top"
+                :background="'var(--panel-secondary-strong)'"
+            /><BarEnd
                 classList="right decorated top"
                 :background="'var(--panel-primary)'"
             />
@@ -40,10 +90,22 @@
                     >Notes</Element
                 >
 
-                <Element background="var(--panel-secondary-strong)" :button="false"></Element>
-                <Element background="var(--panel-secondary-subtle)" :button="false"></Element>
-                <Element background="var(--panel-secondary-strong)" :button="false"></Element>
-                <Element background="var(--panel-secondary-subtle)" :button="false"></Element>
+                <Element
+                    background="var(--panel-secondary-strong)"
+                    :button="false"
+                ></Element>
+                <Element
+                    background="var(--panel-secondary-subtle)"
+                    :button="false"
+                ></Element>
+                <Element
+                    background="var(--panel-secondary-strong)"
+                    :button="false"
+                ></Element>
+                <Element
+                    background="var(--panel-secondary-subtle)"
+                    :button="false"
+                ></Element>
             </div>
             <div class="flex h-full w-full flex-col">
                 <Planner
@@ -56,7 +118,10 @@
                     :notes="page.props.notes"
                     @open-todo="topView = 'todo'"
                 />
-                <div v-else class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div
+                    v-else
+                    class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+                >
                     <WeatherWidget class="col-span-1" />
                 </div>
             </div>
@@ -69,9 +134,15 @@
             />
         </div>
         <div class="section-topper flex flex-row">
-            <Elbow classList="left-bottom " background="var(--panel-secondary-subtle)" />
+            <Elbow
+                classList="left-bottom "
+                background="var(--panel-secondary-subtle)"
+            />
             <Bar classList="top" :background="'var(--panel-primary)'"></Bar
-            ><Bar classList="top" :background="'var(--panel-secondary-strong)'" /><BarEnd
+            ><Bar
+                classList="top"
+                :background="'var(--panel-secondary-strong)'"
+            /><BarEnd
                 classList="right decorated top"
                 :background="'var(--panel-primary)'"
             />
@@ -130,10 +201,12 @@
 </template>
 
 <script setup lang="ts">
-import { router, usePage } from '@inertiajs/vue3';
+import { Form, router, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
+import ServerConnectionController from '@/actions/App/Http/Controllers/ServerConnectionController';
+import InputError from '@/components/InputError.vue';
 import Bar from '@/components/lcars/Bar.vue';
 import BarEnd from '@/components/lcars/BarEnd.vue';
 import BarWithTitle from '@/components/lcars/BarWithTitle.vue';
@@ -142,6 +215,8 @@ import Element from '@/components/lcars/Element.vue';
 import NotesLog from '@/components/notes/NotesLog.vue';
 import ServiceContainer from '@/components/ServiceContainer.vue';
 import Planner from '@/components/todolist/Planner.vue';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import WeatherWidget from '@/components/WeatherWidget.vue';
 import type { AppPageProps, Category, Event, Note, Task } from '@/types';
 
@@ -150,6 +225,7 @@ const page = usePage<
         categories: Category[];
         isConnected: boolean;
         isGoogleConnected: boolean;
+        needsReconnect: boolean;
         events: Event[];
         notes: Note[];
     }

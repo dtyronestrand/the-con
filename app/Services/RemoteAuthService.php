@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\AppSetting;
-use Carbon\Carbon;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -20,10 +20,16 @@ class RemoteAuthService
     {
         // Short timeout so a dead/unreachable remote server doesn't stall
         // callers that fall back to local behavior when offline (e.g. Fortify login).
-        $response = Http::timeout(5)->post("{$this->baseUrl}/api/login", [
-            'email' => $email,
-            'password' => $password,
-        ]);
+        try {
+            $response = Http::timeout(5)->post("{$this->baseUrl}/api/login", [
+                'email' => $email,
+                'password' => $password,
+            ]);
+        } catch (ConnectionException $e) {
+            Log::error('Remote login failed: could not reach the server: '.$e->getMessage());
+
+            return false;
+        }
 
         if ($response->failed()) {
             Log::error('Remote login failed: '.$response->body());
@@ -36,72 +42,32 @@ class RemoteAuthService
         return true;
     }
 
-    /**
-     * Returns a token known to be valid, refreshing first if it's missing or expired.
-     * Returns null if there's no way to get a valid token (no refresh token, or refresh failed).
-     */
     public function getValidToken(): ?string
     {
-        $token = AppSetting::where('key', 'api_token')->value('value');
-        $expiresAt = AppSetting::where('key', 'api_token_expires_at')->value('value');
-
-        $expired = ! $token || ! $expiresAt || Carbon::parse($expiresAt)->isPast();
-
-        if (! $expired) {
-            return $token;
-        }
-
-        return $this->refresh() ? AppSetting::where('key', 'api_token')->value('value') : null;
+        return AppSetting::where('key', 'api_token')->value('value');
     }
 
     /**
-     * Call after a request comes back 401 despite getValidToken() returning a token
-     * (the server may have revoked it early). Refreshes once and returns the new token,
-     * or null if the refresh token is no longer valid either.
+     * Sanctum tokens issued by the API don't expire (see the API's
+     * config/sanctum.php), so a 401 means the token was revoked server-side —
+     * there's no refresh token to fall back on, and no stored password to
+     * silently re-authenticate with. The best we can do is drop the stale
+     * token so the app knows to prompt the user to log in again.
      */
     public function refreshAfterUnauthorized(): ?string
     {
-        return $this->refresh() ? AppSetting::where('key', 'api_token')->value('value') : null;
-    }
+        $this->clearTokens();
 
-    protected function refresh(): bool
-    {
-        $refreshToken = AppSetting::where('key', 'api_refresh_token')->value('value');
-
-        if (! $refreshToken) {
-            return false;
-        }
-
-        $response = Http::post("{$this->baseUrl}/api/token/refresh", [
-            'refresh_token' => $refreshToken,
-        ]);
-
-        if ($response->failed()) {
-            Log::error('Remote token refresh failed: '.$response->body());
-            $this->clearTokens();
-
-            return false;
-        }
-
-        $this->storeTokens($response->json());
-
-        return true;
+        return null;
     }
 
     protected function storeTokens(array $data): void
     {
         AppSetting::updateOrCreate(['key' => 'api_token'], ['value' => $data['access_token'] ?? null]);
-        AppSetting::updateOrCreate(['key' => 'api_refresh_token'], ['value' => $data['refresh_token'] ?? null]);
-
-        $expiresAt = isset($data['expires_in'])
-            ? now()->addSeconds((int) $data['expires_in'])
-            : now()->addDay();
-
-        AppSetting::updateOrCreate(['key' => 'api_token_expires_at'], ['value' => $expiresAt->toDateTimeString()]);
     }
 
     protected function clearTokens(): void
     {
-        AppSetting::whereIn('key', ['api_token', 'api_refresh_token', 'api_token_expires_at'])->delete();
+        AppSetting::whereIn('key', ['api_token'])->delete();
     }
 }
