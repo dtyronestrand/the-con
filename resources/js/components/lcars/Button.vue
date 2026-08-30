@@ -3,7 +3,7 @@
         type="button"
         @click="emit('click')"
         :class="classes"
-        class="relative m-0 my-4 box-border flex h-12 w-30 flex-row items-center justify-center border pr-3 pl-3 font-display text-ink uppercase tracking-tight"
+        class="relative m-0 my-4 box-border flex h-12 w-30 flex-row items-center justify-center border pr-3 pl-3 font-display tracking-tight text-ink uppercase"
         :style="{
             backgroundColor: props.background,
             borderColor: props.background,
