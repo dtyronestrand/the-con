@@ -39,7 +39,7 @@
                             placeholder="Subtask Name"
                         />
                         <input
-                            class="mr-2 opacity-0 group-hover:opacity-100"
+                            class="mr-2 opacity-0 group-focus-within:opacity-100 group-hover:opacity-100"
                             :checked="subtask.done"
                             @change="subtask.done = !subtask.done"
                             type="checkbox"
@@ -78,7 +78,14 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 class="cursor-pointer text-error" @click="deleteTask" />
+                    <button
+                        type="button"
+                        @click="deleteTask"
+                        aria-label="Delete task"
+                        class="rounded p-1 focus-visible:ring-2 focus-visible:ring-error focus-visible:outline-none"
+                    >
+                        <Trash2 class="cursor-pointer text-error" />
+                    </button>
                 </div>
             </form>
         </div>

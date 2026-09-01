@@ -141,10 +141,7 @@ onMounted(() => {
             </button>
         </div>
 
-        <div
-            v-if="showManualInput"
-            class="mb-4 rounded bg-surface-overlay p-3"
-        >
+        <div v-if="showManualInput" class="mb-4 rounded bg-surface-overlay p-3">
             <input
                 v-model="manualLocation"
                 @keyup.enter="searchLocation"
@@ -188,7 +185,9 @@ onMounted(() => {
                         <p class="font-semibold text-on-surface">
                             {{ period.name }}
                         </p>
-                        <p class="font-mono text-sm text-panel-secondary tabular-nums">
+                        <p
+                            class="font-mono text-sm text-panel-secondary tabular-nums"
+                        >
                             {{ period.temperature }}°{{
                                 period.temperatureUnit
                             }}

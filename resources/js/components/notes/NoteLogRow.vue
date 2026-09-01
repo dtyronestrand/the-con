@@ -5,7 +5,9 @@
             v-if="mode === 'view'"
             class="group flex gap-4 px-1 py-[15px] hover:bg-surface-raised"
         >
-            <div class="w-[100px] shrink-0 pt-[3px] font-mono text-xs text-neutral">
+            <div
+                class="w-[100px] shrink-0 pt-[3px] font-mono text-xs text-neutral"
+            >
                 {{ dateLine1 }}<br />{{ dateLine2 }}
             </div>
             <div class="w-1 shrink-0" :style="{ background: note.color }"></div>
@@ -16,9 +18,10 @@
                         class="font-mono text-xs text-tertiary"
                         >★ PINNED</span
                     >
-                    <span class="font-sans text-lg font-semibold text-on-surface">{{
-                        note.title || 'Untitled'
-                    }}</span>
+                    <span
+                        class="font-sans text-lg font-semibold text-on-surface"
+                        >{{ note.title || 'Untitled' }}</span
+                    >
                 </div>
 
                 <div
@@ -89,17 +92,23 @@
                         >{{ note.tasks.length }} task<span
                             v-if="note.tasks.length !== 1"
                             >s</span
-                        ><span v-if="openCount">, {{ openCount }} open</span></span
+                        ><span v-if="openCount"
+                            >, {{ openCount }} open</span
+                        ></span
                     >
                 </div>
             </div>
             <div
                 class="flex items-start gap-3.5 pt-1 font-sans text-[11px] font-medium tracking-wide text-on-surface/60 uppercase opacity-0 transition-opacity group-hover:opacity-100"
             >
-                <span class="cursor-pointer hover:text-tertiary" @click="togglePin"
+                <span
+                    class="cursor-pointer hover:text-tertiary"
+                    @click="togglePin"
                     >Pin</span
                 >
-                <span class="cursor-pointer hover:text-on-surface" @click="enterEdit"
+                <span
+                    class="cursor-pointer hover:text-on-surface"
+                    @click="enterEdit"
                     >Edit</span
                 >
                 <span
@@ -125,10 +134,13 @@
                     v-if="openTasks.length"
                     class="max-w-[68ch] font-sans text-sm leading-normal text-on-surface/90"
                 >
-                    {{ openTaskNames }} still open and will disappear from To&nbsp;Do
-                    as well. This can't be undone.
+                    {{ openTaskNames }} still open and will disappear from
+                    To&nbsp;Do as well. This can't be undone.
                 </div>
-                <div v-else class="font-sans text-sm leading-normal text-on-surface/90">
+                <div
+                    v-else
+                    class="font-sans text-sm leading-normal text-on-surface/90"
+                >
                     This can't be undone.
                 </div>
             </div>
@@ -157,7 +169,9 @@
             v-else
             class="my-1.5 flex gap-4 border-l-4 border-tertiary bg-surface-overlay px-4.5 py-4"
         >
-            <div class="w-[96px] shrink-0 pt-1.5 font-mono text-xs text-neutral">
+            <div
+                class="w-[96px] shrink-0 pt-1.5 font-mono text-xs text-neutral"
+            >
                 {{ dateLine1 }}<br />{{ dateLine2 }}
             </div>
             <div class="flex min-w-0 flex-1 flex-col gap-3">
@@ -210,7 +224,8 @@
                                 class="font-sans text-[11px] font-medium tracking-wide uppercase opacity-70"
                                 >Task #{{ task.id
                                 }}<span v-if="task.done">
-                                    · done {{ formatShort(task.updated_at) }}</span
+                                    · done
+                                    {{ formatShort(task.updated_at) }}</span
                                 ></span
                             >
                         </div>
@@ -251,8 +266,8 @@
                                     @change="
                                         setDue(
                                             task,
-                                            ($event.target as HTMLInputElement).value ||
-                                                null,
+                                            ($event.target as HTMLInputElement)
+                                                .value || null,
                                         )
                                     "
                                 />
@@ -411,10 +426,9 @@
                         @click="mode = 'deleting'"
                         >Delete</span
                     >
-                    <span
-                        class="ml-auto font-mono text-xs text-neutral"
-                        >{{ autosaveLabel }}</span
-                    >
+                    <span class="ml-auto font-mono text-xs text-neutral">{{
+                        autosaveLabel
+                    }}</span>
                     <span
                         class="cursor-pointer rounded-full bg-tertiary px-4.5 py-2 font-sans text-[11px] font-semibold tracking-wide text-ink uppercase hover:bg-tertiary-strong"
                         @click="mode = 'view'"
@@ -437,7 +451,7 @@ import { computed, nextTick, reactive, ref, watch } from 'vue';
 import type { AppPageProps, Note, Task } from '@/types';
 
 const props = defineProps<{ note: Note }>();
-const emit = defineEmits<{ (e: 'open-todo'): void }>();
+// const emit = defineEmits<{ (e: 'open-todo'): void }>();
 
 const page = usePage<AppPageProps>();
 
@@ -478,7 +492,12 @@ const deleteHeadline = computed(() =>
 const openTaskNames = computed(() => {
     const names = openTasks.value.map((t) => `“${t.name}”`);
     if (names.length <= 1) return names.join('') + (names.length ? ' is' : '');
-    return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] + ' are';
+    return (
+        names.slice(0, -1).join(', ') +
+        ' and ' +
+        names[names.length - 1] +
+        ' are'
+    );
 });
 
 const autosaveLabel = computed(() =>
@@ -491,7 +510,11 @@ function formatShort(d?: string | null) {
     return d ? dayjs(d).format('DD MMM') : '';
 }
 function isOverdue(task: Task) {
-    return !task.done && !!task.due_date && dayjs(task.due_date).isBefore(dayjs(), 'day');
+    return (
+        !task.done &&
+        !!task.due_date &&
+        dayjs(task.due_date).isBefore(dayjs(), 'day')
+    );
 }
 function todayIso() {
     return dayjs().format('YYYY-MM-DD');
@@ -517,7 +540,10 @@ const saveNote = debounce(() => {
             tags: draft.tags,
             color: draft.color,
         },
-        { preserveScroll: true, onSuccess: () => (lastSavedAt.value = new Date()) },
+        {
+            preserveScroll: true,
+            onSuccess: () => (lastSavedAt.value = new Date()),
+        },
     );
 }, 500);
 
