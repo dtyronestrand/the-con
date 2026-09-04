@@ -4,9 +4,10 @@
             type="checkbox"
             :checked="isChecked"
             :id="props.fieldId"
+            class="peer sr-only"
             @input="updateDone"
         />
-        <span></span>
+        <span class="peer-focus-visible:ring-2 peer-focus-visible:ring-current"></span>
     </label>
 </template>
 
@@ -51,9 +52,6 @@ function updateDone() {
         width: 4px;
         transform: rotate(45deg);
         visibility: hidden;
-    }
-    input {
-        display: none;
     }
     input:checked ~ span {
         background: #cccccc;

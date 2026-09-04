@@ -437,7 +437,6 @@ import { computed, nextTick, reactive, ref, watch } from 'vue';
 import type { AppPageProps, Note, Task } from '@/types';
 
 const props = defineProps<{ note: Note }>();
-const emit = defineEmits<{ (e: 'open-todo'): void }>();
 
 const page = usePage<AppPageProps>();
 
