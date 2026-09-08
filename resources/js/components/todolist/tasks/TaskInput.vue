@@ -5,6 +5,7 @@
         :disabled="props.disabled"
         type="text"
         @blur="handleBlur"
+        @keydown.enter="handleBlur"
         class="m-0 h-[1rem] p-0 text-justify text-on-surface"
     />
 </template>
