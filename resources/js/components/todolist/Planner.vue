@@ -44,7 +44,10 @@
             :class="`day-${index}`"
             class="col-span-1"
         >
-            <BarWithTitle :classList="'text-2xl'" background="var(--panel-primary)">
+            <BarWithTitle
+                :classList="'text-2xl'"
+                background="var(--panel-primary)"
+            >
                 <p>
                     {{ day.format('dddd')
                     }}<span class="pl-4">{{ day.format('D') }}</span>
