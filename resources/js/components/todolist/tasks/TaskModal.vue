@@ -78,7 +78,10 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 class="cursor-pointer text-error" @click="deleteTask" />
+                    <Trash2
+                        class="cursor-pointer text-error"
+                        @click="deleteTask"
+                    />
                 </div>
             </form>
         </div>

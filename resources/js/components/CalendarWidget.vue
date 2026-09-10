@@ -29,9 +29,7 @@ const formatDate = (isoString: string) => {
 
 <template>
     <div class="max-w-md bg-surface-raised p-6 shadow">
-        <h2 class="mb-4 text-xl font-semibold text-on-surface">
-            Your Agenda
-        </h2>
+        <h2 class="mb-4 text-xl font-semibold text-on-surface">Your Agenda</h2>
 
         <div v-if="!isConnected" class="py-8 text-center">
             <p class="mb-4 text-on-surface">
