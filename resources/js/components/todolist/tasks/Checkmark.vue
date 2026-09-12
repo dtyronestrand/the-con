@@ -52,8 +52,21 @@ function updateDone() {
         transform: rotate(45deg);
         visibility: hidden;
     }
+    /* Hide input visually but keep accessible to keyboards/screen readers */
     input {
-        display: none;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+    input:focus-visible ~ span {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
     }
     input:checked ~ span {
         background: #cccccc;
