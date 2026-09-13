@@ -9,7 +9,7 @@
         <Checkmark
             :checked="checkedValue"
             type="checkbox"
-            class="opacity-0 group-hover:opacity-100"
+            class="opacity-0 group-focus-within:opacity-100 group-hover:opacity-100"
             @updateChecked="handleTaskStatus"
         />
     </div>
