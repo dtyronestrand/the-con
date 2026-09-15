@@ -5,7 +5,8 @@
     >
         <p
             @click="openModal(props.task)"
-            @keydown.enter="openModal(props.task)"
+            @keydown.enter.prevent="openModal(props.task)"
+            @keydown.space.prevent="openModal(props.task)"
             role="button"
             tabindex="0"
             class="rounded focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
