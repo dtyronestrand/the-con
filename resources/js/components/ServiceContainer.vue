@@ -14,7 +14,9 @@
                     border-color: var(--panel-primary);
                 "
             >
-                <BarWithTitle classList="top" :background="'var(--panel-primary)'"
+                <BarWithTitle
+                    classList="top"
+                    :background="'var(--panel-primary)'"
                     >{{ category.name }}
                 </BarWithTitle>
                 <div class="mx-4 mt-2 flex flex-row flex-wrap gap-4">
@@ -33,8 +35,9 @@
                         >
                         <button
                             @click.prevent="editService(service)"
-                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-neutral text-on-surface opacity-0 transition-opacity group-hover:opacity-100"
+                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-neutral text-on-surface opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
                             title="Edit service"
+                            aria-label="Edit service"
                         >
                             ✎
                         </button>
@@ -59,7 +62,8 @@
                 <button
                     type="button"
                     @click="closeModal"
-                    class="float-right mb-4 text-on-surface"
+                    class="float-right mb-4 text-on-surface focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+                    aria-label="Close modal"
                 >
                     ✕
                 </button>
@@ -90,9 +94,10 @@
                             </option>
                         </select>
                         <button
-                            class="text-3xl text-on-surface"
+                            class="text-3xl text-on-surface focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
                             type="button"
                             @click="newCategory = !newCategory"
+                            aria-label="Toggle new category input"
                         >
                             +
                         </button>
