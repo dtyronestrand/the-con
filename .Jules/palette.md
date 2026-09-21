@@ -1,3 +1,6 @@
 ## 2024-05-14 - Keyboard Accessibility in Interactive Elements
 **Learning:** Relying solely on `group-hover:opacity-100` to show interactive elements hides them from keyboard users who cannot hover. Additionally, icon-only buttons need `aria-label` and `title` attributes to be perceivable by screen reader users and to display tooltips.
 **Action:** When adding hover states that reveal actionable elements, ensure there is a corresponding `focus-within:opacity-100` state. Always use accessible names (`aria-label`, `title`) and clear `focus-visible` styling on icon-only buttons.
+## 2023-10-24 - Keyboard Accessibility for Task Components
+**Learning:** Custom checkboxes in this app (`Checkmark.vue`) used `display: none` which completely breaks keyboard navigation for screen readers and power users. Interactive text elements acting as buttons (`<p role="button">` in `Task.vue`) lacked keyboard event bindings (`Enter`/`Space`) and focus indicators. Additionally, hover-revealed elements (`group-hover:opacity-100`) were invisible to keyboard navigation.
+**Action:** Always use Tailwind's `sr-only` and `peer` classes instead of `display: none` for custom inputs. Add `tabindex="0"`, `@keydown.enter`, `@keydown.space`, and `focus-visible` states to all custom interactive elements. Pair `group-hover` with `group-focus-within` for interactive reveals.
