@@ -78,7 +78,14 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 class="cursor-pointer text-error" @click="deleteTask" />
+                    <button
+                        type="button"
+                        aria-label="Delete task"
+                        @click="deleteTask"
+                        class="rounded focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+                    >
+                        <Trash2 class="cursor-pointer text-error" />
+                    </button>
                 </div>
             </form>
         </div>
