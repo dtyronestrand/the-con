@@ -1,6 +1,8 @@
 <template>
     <div class="flex h-full min-h-0 w-full">
-        <div class="flex w-28 shrink-0 flex-col ml-8 font-display text-sm text-on-surface uppercase">
+        <div
+            class="ml-8 flex w-28 shrink-0 flex-col font-display text-sm text-on-surface uppercase"
+        >
             <button
                 type="button"
                 class="cursor-pointer border-t-2 border-ink bg-panel-primary-strong py-4 hover:brightness-110"
@@ -25,7 +27,9 @@
             >
                 Pins
             </button>
-            <div class="flex-1 border-t-2 border-ink bg-panel-secondary-subtle"></div>
+            <div
+                class="flex-1 border-t-2 border-ink bg-panel-secondary-subtle"
+            ></div>
             <button
                 type="button"
                 class="cursor-pointer border-t-2 border-ink bg-panel-primary-strong py-4 hover:brightness-110"
@@ -50,7 +54,8 @@
                             : 'text-on-surface/60 hover:bg-surface-overlay hover:text-on-surface'
                     "
                     @click="activeTag = activeTag === tag ? null : tag"
-                    >#{{ tag }}<span class="opacity-60"> {{ count }}</span></span
+                    >#{{ tag
+                    }}<span class="opacity-60"> {{ count }}</span></span
                 >
                 <input
                     v-model="search"
@@ -95,10 +100,12 @@
                         >Log it</span
                     >
                 </div>
-                <div class="flex items-center gap-4 px-5 pt-2 font-mono text-xs text-neutral">
+                <div
+                    class="flex items-center gap-4 px-5 pt-2 font-mono text-xs text-neutral"
+                >
                     <span
-                        >[ ] makes a task · dates like "friday" become due dates · #tag
-                        files it</span
+                        >[ ] makes a task · dates like "friday" become due dates
+                        · #tag files it</span
                     >
                 </div>
             </div>
@@ -140,12 +147,15 @@ const filteredNotes = computed(() => {
         list = list.filter((n) => n.archived);
     } else {
         list = list.filter((n) => !n.archived);
-        if (filter.value === 'open') list = list.filter((n) => n.tasks.some((t) => !t.done));
+        if (filter.value === 'open')
+            list = list.filter((n) => n.tasks.some((t) => !t.done));
         if (filter.value === 'pins') list = list.filter((n) => n.pinned);
     }
 
     if (activeTag.value) {
-        list = list.filter((n) => (n.tags ?? []).includes(activeTag.value as string));
+        list = list.filter((n) =>
+            (n.tags ?? []).includes(activeTag.value as string),
+        );
     }
 
     if (search.value.trim()) {
