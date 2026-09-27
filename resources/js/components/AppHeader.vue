@@ -53,9 +53,7 @@ const auth = computed(() => page.props.auth);
 const { urlIsActive } = useActiveUrl();
 
 function activeItemStyles(url: NonNullable<InertiaLinkProps['href']>) {
-    return urlIsActive(url)
-        ? 'bg-neutral-800 text-neutral-100'
-        : '';
+    return urlIsActive(url) ? 'bg-neutral-800 text-neutral-100' : '';
 }
 
 const mainNavItems: NavItem[] = [

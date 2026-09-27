@@ -5,7 +5,7 @@
         :style="`background-color: ${props.background || 'var(--panel-secondary)'}`"
     >
         <span
-            class="m-0 ml-[0.83333333333333335rem] inline-block h-full bg-ink pr-[0.1666666666666667rem] pb-[0.1666666666666667rem] pl-[0.1666666666666667rem] font-display text-on-surface uppercase tracking-tight"
+            class="m-0 ml-[0.83333333333333335rem] inline-block h-full bg-ink pr-[0.1666666666666667rem] pb-[0.1666666666666667rem] pl-[0.1666666666666667rem] font-display tracking-tight text-on-surface uppercase"
         >
             <slot />
         </span>

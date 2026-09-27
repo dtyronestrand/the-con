@@ -14,7 +14,9 @@
                     border-color: var(--panel-primary);
                 "
             >
-                <BarWithTitle classList="top" :background="'var(--panel-primary)'"
+                <BarWithTitle
+                    classList="top"
+                    :background="'var(--panel-primary)'"
                     >{{ category.name }}
                 </BarWithTitle>
                 <div class="mx-4 mt-2 flex flex-row flex-wrap gap-4">
