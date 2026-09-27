@@ -21,7 +21,9 @@
                         <p>Subtasks</p>
                         <button
                             @click.prevent="addSubtask"
-                            class="px-2 text-lg text-tertiary"
+                            aria-label="Add subtask"
+                            title="Add subtask"
+                            class="px-2 text-lg text-tertiary focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
                         >
                             +
                         </button>
@@ -39,14 +41,16 @@
                             placeholder="Subtask Name"
                         />
                         <input
-                            class="mr-2 opacity-0 group-hover:opacity-100"
+                            class="mr-2 opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 focus-visible:opacity-100"
                             :checked="subtask.done"
                             @change="subtask.done = !subtask.done"
                             type="checkbox"
                         />
                         <button
                             @click.prevent="removeSubtask(index)"
-                            class="px-2 text-lg text-error"
+                            aria-label="Remove subtask"
+                            title="Remove subtask"
+                            class="px-2 text-lg text-error focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
                         >
                             -
                         </button>
@@ -78,7 +82,15 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 class="cursor-pointer text-error" @click="deleteTask" />
+                    <button
+                        type="button"
+                        aria-label="Delete task"
+                        title="Delete task"
+                        @click="deleteTask"
+                        class="cursor-pointer text-error focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+                    >
+                        <Trash2 />
+                    </button>
                 </div>
             </form>
         </div>
