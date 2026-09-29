@@ -1,3 +1,6 @@
 ## 2024-05-14 - Keyboard Accessibility in Interactive Elements
 **Learning:** Relying solely on `group-hover:opacity-100` to show interactive elements hides them from keyboard users who cannot hover. Additionally, icon-only buttons need `aria-label` and `title` attributes to be perceivable by screen reader users and to display tooltips.
 **Action:** When adding hover states that reveal actionable elements, ensure there is a corresponding `focus-within:opacity-100` state. Always use accessible names (`aria-label`, `title`) and clear `focus-visible` styling on icon-only buttons.
+## 2024-05-15 - Interactive Checkmarks and Focus States
+**Learning:** Native checkboxes hidden with `display: none` completely break keyboard accessibility, as they can no longer receive focus or be detected by screen readers. Furthermore, interactive elements that only appear on hover (like the task checkmark) must also appear on focus to be usable by keyboard navigators.
+**Action:** Always visually hide native inputs using Tailwind`s `sr-only` class instead of `display: none` to retain accessibility. Pair `group-hover` visibility classes with `group-focus-within` to ensure keyboard users can reveal and interact with the elements. Use `peer` and `peer-focus-visible` classes to style a sibling element (like a custom checkmark span) when the native hidden input is focused.
