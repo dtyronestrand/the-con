@@ -1,0 +1,79 @@
+
+   INFO  Server running on [http://127.0.0.1:8000].
+
+  Press Ctrl+C to stop the server
+
+  2026-10-03 03:44:35 /api/login ................................... ~ 1.18ms
+  2026-10-03 03:44:35 /api/login ................................... ~ 0.06ms
+  2026-10-03 03:44:35 /api/login ................................... ~ 0.19ms
+  2026-10-03 03:44:36 /api/login ................................... ~ 0.06ms
+  2026-10-03 03:44:39 /api/login ................................... ~ 0.24ms
+  2026-10-03 03:45:37 /api/login ................................... ~ 0.21ms
+  2026-10-03 03:45:37 /api/login ................................... ~ 0.10ms
+  2026-10-03 03:45:37 /api/login ................................... ~ 0.06ms
+  2026-10-03 03:45:37 /api/login ................................... ~ 0.05ms
+  2026-10-03 03:45:39 /api/login ................................... ~ 0.34ms
+  2026-10-03 03:46:45 /register .................................... ~ 0.22ms
+  2026-10-03 03:46:45 /build/assets/app-jaNav-w0.css ............... ~ 0.13ms
+  2026-10-03 03:46:45 /build/assets/Register-vkCSJJ6E.css .......... ~ 0.63ms
+  2026-10-03 03:46:45 /build/assets/Register-DjigLtc7.js ........... ~ 0.14ms
+  2026-10-03 03:46:45 /build/assets/index-B2AF-X5R.js .............. ~ 0.56ms
+  2026-10-03 03:46:45 /build/assets/app-02nG4FGV.js ................ ~ 1.12ms
+  2026-10-03 03:46:45 /build/assets/TextLink.vue_vue_type_script_setup_true_lang-n1w78n8s.js  ~ 1.59ms
+  2026-10-03 03:46:45 /build/assets/index-Dom9CRx_.js .............. ~ 1.69ms
+  2026-10-03 03:46:45 /build/assets/Input.vue_vue_type_script_setup_true_lang-D94Wwa3Y.js  ~ 2.14ms
+  2026-10-03 03:46:45 /build/assets/Label.vue_vue_type_script_setup_true_lang-CC6DoW0S.js  ~ 0.09ms
+  2026-10-03 03:46:45 /build/assets/Spinner.vue_vue_type_script_setup_true_lang-qrh69cdG.js  ~ 0.18ms
+  2026-10-03 03:46:45 /build/assets/AuthLayout.vue_vue_type_script_setup_true_lang-BNn60RC0.js  ~ 0.27ms
+  2026-10-03 03:46:45 /build/assets/index-oMWOCVDq.js .............. ~ 0.37ms
+  2026-10-03 03:46:45 /build/assets/_plugin-vue_export-helper-DlAUqK2U.js  ~ 0.86ms
+  2026-10-03 03:46:45 /build/assets/useForwardExpose-iP9IOQx6.js ... ~ 0.06ms
+  2026-10-03 03:46:45 /build/assets/createLucideIcon-BmGtEUWI.js ... ~ 0.21ms
+  2026-10-03 03:46:46 /build/assets/Register-vkCSJJ6E.css .......... ~ 0.15ms
+  2026-10-03 03:46:46 /build/assets/ibm-plex-sans-latin-400-normal-CDDApCn2.woff2  ~ 0.11ms
+  2026-10-03 03:46:47 /register .................................... ~ 0.17ms
+  2026-10-03 03:46:47 / ............................................ ~ 0.06ms
+  2026-10-03 03:46:47 /build/assets/Welcome-BFNwqgLV.js ............ ~ 0.07ms
+  2026-10-03 03:46:47 /build/assets/Button-BS0IoSOm.css ............ ~ 0.16ms
+  2026-10-03 03:46:47 /build/assets/WeatherWidget-CqNJIkCX.css ..... ~ 0.56ms
+  2026-10-03 03:46:47 /build/assets/Welcome-DEzIWqmy.css ........... ~ 0.77ms
+  2026-10-03 03:46:47 /build/assets/WeatherWidget-B-DpWESm.js ...... ~ 1.26ms
+  2026-10-03 03:46:47 /build/assets/Button-CNk3CvmU.js ............. ~ 1.49ms
+  2026-10-03 03:46:47 /trigger-sync ................................ ~ 0.19ms
+  2026-10-03 03:46:47 /_boost/browser-logs ......................... ~ 0.11ms
+  2026-10-03 03:46:47 /build/assets/michroma-latin-400-normal-4gS0VCia.woff2  ~ 0.99ms
+  2026-10-03 03:46:47 /_boost/browser-logs ......................... ~ 0.05ms
+  2026-10-03 03:47:40 /register .................................... ~ 0.21ms
+  2026-10-03 03:47:40 /build/assets/app-jaNav-w0.css ............... ~ 0.08ms
+  2026-10-03 03:47:40 /build/assets/Register-vkCSJJ6E.css .......... ~ 0.55ms
+  2026-10-03 03:47:40 /build/assets/Register-DjigLtc7.js ........... ~ 0.11ms
+  2026-10-03 03:47:40 /build/assets/index-B2AF-X5R.js .............. ~ 0.45ms
+  2026-10-03 03:47:40 /build/assets/TextLink.vue_vue_type_script_setup_true_lang-n1w78n8s.js  ~ 0.86ms
+  2026-10-03 03:47:40 /build/assets/app-02nG4FGV.js ................ ~ 1.06ms
+  2026-10-03 03:47:40 /build/assets/index-Dom9CRx_.js .............. ~ 1.51ms
+  2026-10-03 03:47:40 /build/assets/Input.vue_vue_type_script_setup_true_lang-D94Wwa3Y.js  ~ 1.98ms
+  2026-10-03 03:47:40 /build/assets/Label.vue_vue_type_script_setup_true_lang-CC6DoW0S.js  ~ 0.09ms
+  2026-10-03 03:47:40 /build/assets/Spinner.vue_vue_type_script_setup_true_lang-qrh69cdG.js  ~ 0.18ms
+  2026-10-03 03:47:40 /build/assets/AuthLayout.vue_vue_type_script_setup_true_lang-BNn60RC0.js  ~ 0.26ms
+  2026-10-03 03:47:40 /build/assets/index-oMWOCVDq.js .............. ~ 0.44ms
+  2026-10-03 03:47:40 /build/assets/_plugin-vue_export-helper-DlAUqK2U.js  ~ 0.94ms
+  2026-10-03 03:47:40 /build/assets/useForwardExpose-iP9IOQx6.js ... ~ 0.06ms
+  2026-10-03 03:47:40 /build/assets/createLucideIcon-BmGtEUWI.js ... ~ 0.21ms
+  2026-10-03 03:47:40 /build/assets/Register-vkCSJJ6E.css .......... ~ 0.05ms
+  2026-10-03 03:47:40 /build/assets/ibm-plex-sans-latin-400-normal-CDDApCn2.woff2  ~ 0.04ms
+  2026-10-03 03:47:41 /register .................................. ~ 500.72ms
+  2026-10-03 03:47:41 / ............................................ ~ 0.06ms
+  2026-10-03 03:47:41 /build/assets/Welcome-BFNwqgLV.js ............ ~ 0.06ms
+  2026-10-03 03:47:41 /build/assets/Button-BS0IoSOm.css ............ ~ 0.10ms
+  2026-10-03 03:47:41 /build/assets/WeatherWidget-CqNJIkCX.css ..... ~ 0.47ms
+  2026-10-03 03:47:41 /build/assets/Welcome-DEzIWqmy.css ........... ~ 0.67ms
+  2026-10-03 03:47:41 /build/assets/WeatherWidget-B-DpWESm.js ...... ~ 1.34ms
+  2026-10-03 03:47:41 /build/assets/Button-CNk3CvmU.js ............. ~ 1.96ms
+  2026-10-03 03:47:41 /trigger-sync ................................ ~ 0.05ms
+  2026-10-03 03:47:41 /build/assets/michroma-latin-400-normal-4gS0VCia.woff2  ~ 0.05ms
+  2026-10-03 03:47:41 /_boost/browser-logs ......................... ~ 0.20ms
+  2026-10-03 03:47:43 /_boost/browser-logs ......................... ~ 0.14ms
+  2026-10-03 03:47:43 /tasks/store ............................... ~ 500.67ms
+  2026-10-03 03:47:43 / ............................................ ~ 0.06ms
+  2026-10-03 03:47:43 /_boost/browser-logs ......................... ~ 0.05ms
+  2026-10-03 03:47:44 /build/assets/quill-CFRM1Act.js .............. ~ 0.20ms
