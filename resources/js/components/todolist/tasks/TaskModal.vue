@@ -21,7 +21,8 @@
                         <p>Subtasks</p>
                         <button
                             @click.prevent="addSubtask"
-                            class="px-2 text-lg text-tertiary"
+                            aria-label="Add subtask"
+                            class="rounded px-2 text-lg text-tertiary focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-1 focus-visible:outline-none"
                         >
                             +
                         </button>
@@ -39,14 +40,16 @@
                             placeholder="Subtask Name"
                         />
                         <input
-                            class="mr-2 opacity-0 group-hover:opacity-100"
+                            class="mr-2 opacity-0 group-focus-within:opacity-100 group-hover:opacity-100"
                             :checked="subtask.done"
                             @change="subtask.done = !subtask.done"
                             type="checkbox"
+                            aria-label="Mark subtask complete"
                         />
                         <button
                             @click.prevent="removeSubtask(index)"
-                            class="px-2 text-lg text-error"
+                            aria-label="Remove subtask"
+                            class="rounded px-2 text-lg text-error focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-1 focus-visible:outline-none"
                         >
                             -
                         </button>
@@ -78,7 +81,14 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 class="cursor-pointer text-error" @click="deleteTask" />
+                    <button
+                        type="button"
+                        @click="deleteTask"
+                        aria-label="Delete task"
+                        class="cursor-pointer rounded p-1 text-error focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+                    >
+                        <Trash2 />
+                    </button>
                 </div>
             </form>
         </div>
