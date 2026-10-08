@@ -14,7 +14,9 @@
                     border-color: var(--panel-primary);
                 "
             >
-                <BarWithTitle classList="top" :background="'var(--panel-primary)'"
+                <BarWithTitle
+                    classList="top"
+                    :background="'var(--panel-primary)'"
                     >{{ category.name }}
                 </BarWithTitle>
                 <div class="mx-4 mt-2 flex flex-row flex-wrap gap-4">
@@ -33,7 +35,8 @@
                         >
                         <button
                             @click.prevent="editService(service)"
-                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-neutral text-on-surface opacity-0 transition-opacity group-hover:opacity-100"
+                            aria-label="Edit service"
+                            class="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-neutral text-on-surface opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-hidden"
                             title="Edit service"
                         >
                             ✎
@@ -59,7 +62,8 @@
                 <button
                     type="button"
                     @click="closeModal"
-                    class="float-right mb-4 text-on-surface"
+                    aria-label="Close dialog"
+                    class="float-right mb-4 rounded-xs text-on-surface focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-hidden"
                 >
                     ✕
                 </button>
@@ -90,8 +94,9 @@
                             </option>
                         </select>
                         <button
-                            class="text-3xl text-on-surface"
+                            class="rounded-xs text-3xl text-on-surface focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-hidden"
                             type="button"
+                            aria-label="Add new category"
                             @click="newCategory = !newCategory"
                         >
                             +
