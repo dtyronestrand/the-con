@@ -21,7 +21,8 @@
                         <p>Subtasks</p>
                         <button
                             @click.prevent="addSubtask"
-                            class="px-2 text-lg text-tertiary"
+                            class="rounded-sm px-2 text-lg text-tertiary focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+                            aria-label="Add subtask"
                         >
                             +
                         </button>
@@ -46,7 +47,8 @@
                         />
                         <button
                             @click.prevent="removeSubtask(index)"
-                            class="px-2 text-lg text-error"
+                            class="rounded-sm px-2 text-lg text-error focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+                            aria-label="Remove subtask"
                         >
                             -
                         </button>
@@ -78,7 +80,14 @@
                         classList="right-round"
                         >Cancel</Button
                     >
-                    <Trash2 class="cursor-pointer text-error" @click="deleteTask" />
+                    <button
+                        type="button"
+                        aria-label="Delete task"
+                        class="rounded-sm focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none"
+                        @click="deleteTask"
+                    >
+                        <Trash2 class="cursor-pointer text-error" />
+                    </button>
                 </div>
             </form>
         </div>
